@@ -1,12 +1,32 @@
 import { defineStore } from "pinia";
 import { useStorage } from "@vueuse/core";
 
+export interface Progress {
+  type: string;
+  progress: number;
+  date: number;
+  isFinished: boolean;
+}
+
+export interface Book {
+  title: string;
+  authors: string[];
+  id: number;
+  publisher: string;
+  pages: number;
+  progress: Progress;
+  history: Progress[];
+  isFinished: boolean;
+}
+// interface Filter {'all' | 'finished' | 'unfinished'}
+
 export const useBooksState = defineStore({
   id: "books",
   state: () => ({
     /** @type {{
           title: string,
           authors: string[],
+          id: number,
           publisher: string,
           pages: number,
           progress: { type: string, progress: number, date: number, isFinished: boolean },
@@ -15,31 +35,31 @@ export const useBooksState = defineStore({
         }} */
     books: useStorage("books", []),
     /** @type {'all' | 'finished' | 'unfinished'} */
-    filter: "all",
+    filter: "all" as 'all' | 'finished' | 'unfinished',
     // type will be automatically inferred to number
     nextId: useStorage("books_nextid", 0),
   }),
   getters: {
     getBookById: (state) => {
-      return (bookId) => {
+      return (bookId: string) => {
         const parsed = parseInt(bookId, 10);
         if (isNaN(parsed)) {
-          return {};
+          return null;
         }
-        return state.books.find((book) => book.id === parsed);
+        return state.books.find((book: Book) => book.id === parsed);
       };
     },
     finishedbooks(state) {
       // autocompletion! ✨
-      return state.books.filter((book) => book.isFinished);
+      return state.books.filter((book: Book) => book.isFinished);
     },
     unfinishedbooks(state) {
-      return state.books.filter((book) => !book.isFinished);
+      return state.books.filter((book: Book) => !book.isFinished);
     },
     /**
      * @returns {{ text: string, id: number, isFinished: boolean }[]}
      */
-    filteredbooks() {
+    filteredbooks(): Book[] {
       if (this.filter === "finished") {
         // call other getters with autocompletion ✨
         return this.finishedbooks;
@@ -51,39 +71,44 @@ export const useBooksState = defineStore({
   },
   actions: {
     // any amount of arguments, return a promise or not
-    addBook(book) {
-      const bk = Object.assign({}, book);
+    addBook(book: Book) {
+      const bk: Book = Object.assign({}, book);
       bk.id = this.nextId;
       bk.isFinished = false;
       // you can directly mutate the state
-      this.books.push(bk);
+      (this.books as Book[]).push(bk);
       console.log(`added book: ${JSON.stringify(bk)}`);
       this.nextId++;
     },
-    updateBook(newbook) {
-      const index = this.books.find((obj) => obj.id === newbook.id);
-      this.books.splice(index, 1, newbook);
+    updateBook(newbook: Book) {
+      const index: number = (this.books as Book[]).findIndex((obj: Book) => obj.id === newbook.id);
+      if(index<0){
+        return;
+      }
+      (this.books as Book[]).splice(index, 1, newbook);
     },
-    deleteBook(itemID) {
-      this.books = this.books.filter((object) => {
+    deleteBook(itemID: number) {
+      this.books = this.books.filter((object: Book) => {
         return object.id !== itemID;
       });
     },
     toggleCompleted(idToFind: number) {
-      const book = this.books.find((obj) => obj.id === idToFind);
-      if (book) {
+      const book = (this.books as Book[]).find((obj: Book) => obj.id === idToFind);
+      if (!book) {
+        return;
+      }
         book.isFinished = !book.isFinished;
-      }
     },
-    updateProgress(idToFind: number, progress) {
-      const book = this.books.find((obj) => obj.id === idToFind);
-      if (book) {
-        progress.date = new Date().getTime();
-        const pg = Object.assign({}, progress);
-        book.history.push(pg);
-        book.progress = progress;
-        book.isFinished = progress.isFinished;
+    updateProgress(idToFind: number, progress: Progress) {
+      const book = (this.books as Book[]).find((obj: Book) => obj.id === idToFind);
+      if (!book) {
+        return;
       }
+      const pg = Object.assign({}, progress);
+      pg.date = new Date().getTime();
+      book.history.push(pg);
+      book.progress = progress;
+      book.isFinished = progress.isFinished;
     },
   },
 });

@@ -1,18 +1,21 @@
 <script setup lang="ts">
-const props = defineProps({
+import BookForm from "@/components/BookForm.vue";
+import { useBooksState } from "@/stores/books";
+// import { storeToRefs } from "pinia";
+
+  const props = defineProps({
   id: String,
 });
-import BookForm from "@/components/BookForm.vue";
 
-import { useBooksState } from "@/stores/books";
-import { storeToRefs } from "pinia";
 const booksstore = useBooksState();
 // const { books } = storeToRefs(booksstore);
 console.log(`picked id: ${props.id}`);
-console.log(`picked book: ${JSON.stringify(booksstore.getBookById(props.id))}`);
+// console.log(`picked book: ${JSON.stringify(booksstore.getBookById(props.id))}`);
 
 const initbooks = () => {
   booksstore.addBook({
+    id: 0,
+    isFinished: false,
     title: "The Book 1",
     authors: ["john"],
     publisher: "AB Books",
@@ -21,23 +24,27 @@ const initbooks = () => {
       type: "page",
       progress: 24,
       date: new Date(2022, 4, 18).getTime(),
+      isFinished: false,
     },
     history: [
-      { type: "%", progress: 13, date: new Date(2022, 4, 3).getTime() },
+      { type: "%", progress: 13, date: new Date(2022, 4, 3).getTime(), isFinished: false },
     ],
   });
   booksstore.addBook({
+    id: 0,
+    isFinished: false,
     title: "The Book 2",
     authors: ["john", "brown"],
     publisher: "AB Books",
-    pages: null,
+    pages: 0,
     progress: {
       type: "%",
       progress: 42,
       date: new Date(2022, 4, 18).getTime(),
+      isFinished: false,
     },
     history: [
-      { type: "%", progress: 13, date: new Date(2022, 4, 3).getTime() },
+      { type: "%", progress: 13, date: new Date(2022, 4, 3).getTime(), isFinished: false },
     ],
   });
 };

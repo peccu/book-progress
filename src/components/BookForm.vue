@@ -1,28 +1,36 @@
 <script setup lang="ts">
-const props = defineProps({
+import router from "@/router";
+import { useBooksState, type Book } from "@/stores/books";
+
+  const props = defineProps({
   id: String,
 });
-import router from "@/router";
-import { useBooksState } from "@/stores/books";
+
 const booksstore = useBooksState();
 console.log(`BF: picked id: ${props.id}`);
+  if (typeof props.id !== "undefined") {
 console.log(
   `BF: picked book: ${JSON.stringify(booksstore.getBookById(props.id))}`
 );
+  }
 console.log(`typeof id: ${typeof props.id}`);
 
-const book = {
+const book: Book = {
+  id: 0,
+  isFinished: false,
   title: "",
   authors: [],
   publisher: "",
-  pages: null,
-  progress: null,
+  pages: 0,
+  progress: { type: "", progress: 0, date: 0, isFinished: false },
   history: [],
 };
 
 if (typeof props.id !== "undefined") {
   const bookref = booksstore.getBookById(props.id);
-  Object.keys(bookref).map((key) => (book[key] = bookref[key]));
+  if (bookref){
+    Object.keys(bookref).map((key) => ((book as {[index: string]:any})[key] = bookref[key]));
+  }
 }
 const keys = ["authors", "publisher", "pages"];
 const saveBook = () => {

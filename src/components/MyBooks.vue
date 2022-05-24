@@ -4,11 +4,11 @@ import BookDetail from "@/components/BookDetail.vue";
 import UpdateProgress from "@/components/UpdateProgress.vue";
 import { RouterLink } from "vue-router";
 
-import { useBooksState } from "@/stores/books";
+import { useBooksState, type Book } from "@/stores/books";
 import { storeToRefs } from "pinia";
 const booksstore = useBooksState();
 const { books } = storeToRefs(booksstore);
-const deleteBook = (id) => {
+const deleteBook = (id: number) => {
   var result = confirm("Want to delete?");
   if (!result) {
     return;
@@ -18,7 +18,7 @@ const deleteBook = (id) => {
 </script>
 
 <template>
-  <div v-for="book in books" :key="book.id">
+  <div v-for="(book,i) in (books as Book[])" :key="book && book.id">
     <details>
       <summary>
         {{ book.id }}: <span class="title">{{ book.title }}</span>

@@ -1,21 +1,27 @@
 <script setup lang="ts">
+import { useBooksState, type Progress, type Book } from "@/stores/books";
+
 const props = defineProps({
   id: Number,
   progress: Object,
 });
 
-import { useBooksState } from "@/stores/books";
 const booksstore = useBooksState();
-let progress = { type: "", progress: 0, date: null };
+let progress: Progress = { type: "", progress: 0, date: 0, isFinished: false };
 
 if (typeof props.id !== "undefined" && props.progress !== null) {
-  const bookref = booksstore.getBookById(props.id);
-  Object.keys(bookref.progress).map(
-    (key) => (progress[key] = bookref.progress[key])
+  const bookref = booksstore.getBookById(props.id.toString());
+  if(bookref){
+  Object.keys((bookref as Book).progress).map(
+    (key: string) => ((progress as {[index: string]:any})[key] = ((bookref as Book).progress as {[index: string]:any})[key])
   );
+  }
 }
 const updateProgress = () => {
   console.log(`id: ${props.id}, progress: ${JSON.stringify(progress)}`);
+  if(!props.id){
+    return
+  }
   booksstore.updateProgress(props.id, progress);
 };
 </script>
