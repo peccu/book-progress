@@ -117,7 +117,10 @@ export const useBooksState = defineStore({
       book.isFinished = progress.isFinished;
     },
     overwriteBooks(books: Book[]) {
-      (this.books as Book[]) = books;
+      // (this.books as Book[]).splice(0, this.books.length, books);
+      (this.books as Book[]).splice(0);
+      (this.books as Book[]).push(...books);
+      // (this.books as Book[]) = books;
     },
   },
 });
