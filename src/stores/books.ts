@@ -35,7 +35,7 @@ export const useBooksState = defineStore({
         }} */
     books: useStorage("books", []),
     /** @type {'all' | 'finished' | 'unfinished'} */
-    filter: "all" as 'all' | 'finished' | 'unfinished',
+    filter: "all" as "all" | "finished" | "unfinished",
     // type will be automatically inferred to number
     nextId: useStorage("books_nextid", 0),
   }),
@@ -81,8 +81,10 @@ export const useBooksState = defineStore({
       this.nextId++;
     },
     updateBook(newbook: Book) {
-      const index: number = (this.books as Book[]).findIndex((obj: Book) => obj.id === newbook.id);
-      if(index<0){
+      const index: number = (this.books as Book[]).findIndex(
+        (obj: Book) => obj.id === newbook.id
+      );
+      if (index < 0) {
         return;
       }
       (this.books as Book[]).splice(index, 1, newbook);
@@ -93,14 +95,18 @@ export const useBooksState = defineStore({
       });
     },
     toggleCompleted(idToFind: number) {
-      const book = (this.books as Book[]).find((obj: Book) => obj.id === idToFind);
+      const book = (this.books as Book[]).find(
+        (obj: Book) => obj.id === idToFind
+      );
       if (!book) {
         return;
       }
-        book.isFinished = !book.isFinished;
+      book.isFinished = !book.isFinished;
     },
     updateProgress(idToFind: number, progress: Progress) {
-      const book = (this.books as Book[]).find((obj: Book) => obj.id === idToFind);
+      const book = (this.books as Book[]).find(
+        (obj: Book) => obj.id === idToFind
+      );
       if (!book) {
         return;
       }
@@ -109,6 +115,9 @@ export const useBooksState = defineStore({
       book.history.push(pg);
       book.progress = progress;
       book.isFinished = progress.isFinished;
+    },
+    overwriteBooks(books: Book[]) {
+      (this.books as Book[]) = books;
     },
   },
 });

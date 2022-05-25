@@ -11,16 +11,20 @@ let progress: Progress = { type: "", progress: 0, date: 0, isFinished: false };
 
 if (typeof props.id !== "undefined" && props.progress !== null) {
   const bookref = booksstore.getBookById(props.id.toString());
-  if(bookref){
-  Object.keys((bookref as Book).progress).map(
-    (key: string) => ((progress as {[index: string]:any})[key] = ((bookref as Book).progress as {[index: string]:any})[key])
-  );
+  if (bookref) {
+    Object.keys((bookref as Book).progress).map(
+      (key: string) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ((progress as { [index: string]: any })[key] =
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          ((bookref as Book).progress as { [index: string]: any })[key])
+    );
   }
 }
 const updateProgress = () => {
   console.log(`id: ${props.id}, progress: ${JSON.stringify(progress)}`);
-  if(!props.id){
-    return
+  if (!props || props.id == undefined) {
+    return;
   }
   booksstore.updateProgress(props.id, progress);
 };

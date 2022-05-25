@@ -3,7 +3,7 @@ import BookForm from "@/components/BookForm.vue";
 import { useBooksState } from "@/stores/books";
 // import { storeToRefs } from "pinia";
 
-  const props = defineProps({
+const props = defineProps({
   id: String,
 });
 
@@ -27,7 +27,12 @@ const initbooks = () => {
       isFinished: false,
     },
     history: [
-      { type: "%", progress: 13, date: new Date(2022, 4, 3).getTime(), isFinished: false },
+      {
+        type: "%",
+        progress: 13,
+        date: new Date(2022, 4, 3).getTime(),
+        isFinished: false,
+      },
     ],
   });
   booksstore.addBook({
@@ -44,7 +49,12 @@ const initbooks = () => {
       isFinished: false,
     },
     history: [
-      { type: "%", progress: 13, date: new Date(2022, 4, 3).getTime(), isFinished: false },
+      {
+        type: "%",
+        progress: 13,
+        date: new Date(2022, 4, 3).getTime(),
+        isFinished: false,
+      },
     ],
   });
 };

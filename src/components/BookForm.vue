@@ -2,17 +2,17 @@
 import router from "@/router";
 import { useBooksState, type Book } from "@/stores/books";
 
-  const props = defineProps({
+const props = defineProps({
   id: String,
 });
 
 const booksstore = useBooksState();
 console.log(`BF: picked id: ${props.id}`);
-  if (typeof props.id !== "undefined") {
-console.log(
-  `BF: picked book: ${JSON.stringify(booksstore.getBookById(props.id))}`
-);
-  }
+if (typeof props.id !== "undefined") {
+  console.log(
+    `BF: picked book: ${JSON.stringify(booksstore.getBookById(props.id))}`
+  );
+}
 console.log(`typeof id: ${typeof props.id}`);
 
 const book: Book = {
@@ -28,8 +28,11 @@ const book: Book = {
 
 if (typeof props.id !== "undefined") {
   const bookref = booksstore.getBookById(props.id);
-  if (bookref){
-    Object.keys(bookref).map((key) => ((book as {[index: string]:any})[key] = bookref[key]));
+  if (bookref) {
+    Object.keys(bookref).map(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (key) => ((book as { [index: string]: any })[key] = bookref[key])
+    );
   }
 }
 const keys = ["authors", "publisher", "pages"];

@@ -16,7 +16,9 @@ export default {
     >
       {{ book.progress.progress }}{{ book.progress.type }}
     </progress>
-    {{ book.progress.progress }}p / {{ book.pages }}p
+    {{ book.progress.progress }}p / {{ book.pages }}p({{
+      Math.round((100 * book.progress.progress) / book.pages)
+    }}%)
   </template>
 
   <template v-else>
