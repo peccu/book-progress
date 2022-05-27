@@ -2,7 +2,7 @@
 import { ref } from "vue";
 import { useBooksState, type Book } from "@/stores/books";
 const booksstore = useBooksState();
-const booksExport: string = ref(
+const booksExport: Ref<string> = ref(
   JSON.stringify(JSON.parse(localStorage.books), null, 2)
 );
 const importBooks = (importString: string) => {
