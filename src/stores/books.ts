@@ -23,16 +23,6 @@ export interface Book {
 export const useBooksState = defineStore({
   id: "books",
   state: () => ({
-    /** @type {{
-          title: string,
-          authors: string[],
-          id: number,
-          publisher: string,
-          pages: number,
-          progress: { type: string, progress: number, date: number, isFinished: boolean },
-          history: { type: string, progress: number, date: number, isFinished: boolean }[],
-          isFinished: boolean
-        }} */
     books: useStorage("books", []),
     /** @type {'all' | 'finished' | 'unfinished'} */
     filter: "all" as "all" | "finished" | "unfinished",
@@ -113,14 +103,12 @@ export const useBooksState = defineStore({
       const pg = Object.assign({}, progress);
       pg.date = new Date().getTime();
       book.history.push(pg);
-      book.progress = progress;
-      book.isFinished = progress.isFinished;
+      book.progress = pg;
+      book.isFinished = pg.isFinished;
     },
     overwriteBooks(books: Book[]) {
-      // (this.books as Book[]).splice(0, this.books.length, books);
       (this.books as Book[]).splice(0);
       (this.books as Book[]).push(...books);
-      // (this.books as Book[]) = books;
     },
   },
 });

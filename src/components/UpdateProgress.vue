@@ -28,6 +28,10 @@ const updateProgress = () => {
   }
   booksstore.updateProgress(props.id, progress);
 };
+const clearnumber = () => {
+  console.log("focus", progress.progress);
+  progress.progress = 0;
+};
 </script>
 <template>
   <form>
@@ -35,6 +39,7 @@ const updateProgress = () => {
       <input
         type="number"
         placeholder="Pos."
+        @focus="clearnumber"
         v-model="progress.progress"
         length="4"
     /></span>
