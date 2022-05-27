@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, type Ref } from "vue";
 import { useBooksState, type Book } from "@/stores/books";
 const booksstore = useBooksState();
 const booksExport: Ref<string> = ref(
@@ -12,7 +12,7 @@ const importBooks = (importString: string) => {
     booksstore.overwriteBooks(books);
     alert("Done.");
   } catch (e) {
-    alert(e.message);
+      alert(e);
     console.error(e);
   }
 };
