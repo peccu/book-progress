@@ -4,7 +4,6 @@ export default {
 };
 </script>
 <template>
-  {{ book.progress.type }}
   <template v-if="book.progress === null">
     <progress max="100" value="0">0%</progress>
     0%

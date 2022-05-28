@@ -7,7 +7,8 @@ import { RouterLink } from "vue-router";
 import { useBooksState, type Book } from "@/stores/books";
 import { storeToRefs } from "pinia";
 const booksstore = useBooksState();
-const { books } = storeToRefs(booksstore);
+// const { books } = storeToRefs(booksstore);
+  const books = booksstore.sortedBooks;
 const deleteBook = (id: number) => {
   var result = confirm("Want to delete?");
   if (!result) {

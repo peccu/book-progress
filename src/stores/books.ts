@@ -9,6 +9,7 @@ export interface Progress {
 }
 
 export interface Book {
+  isbn: number;
   title: string;
   authors: string[];
   id: number;
@@ -19,6 +20,17 @@ export interface Book {
   isFinished: boolean;
 }
 // interface Filter {'all' | 'finished' | 'unfinished'}
+
+const sorter = (a: Book, b: Book) => {
+  const diff: number = a.progress.date - b.progress.date;
+  if (diff > 0) {
+    return 1;
+  }
+  if (diff < 0) {
+    return -1;
+  }
+  return 0;
+};
 
 export const useBooksState = defineStore({
   id: "books",
@@ -57,6 +69,9 @@ export const useBooksState = defineStore({
         return this.unfinishedbooks;
       }
       return this.books;
+    },
+    sortedBooks(): Book[] {
+      return this.books.sort(sorter);
     },
   },
   actions: {

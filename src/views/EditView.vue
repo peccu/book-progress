@@ -14,6 +14,7 @@ console.log(`picked id: ${props.id}`);
 
 const initbooks = () => {
   booksstore.addBook({
+    isbn: 9782233445566,
     id: 0,
     isFinished: false,
     title: "The Book 1",
@@ -36,6 +37,7 @@ const initbooks = () => {
     ],
   });
   booksstore.addBook({
+    isbn: 9782233445566,
     id: 0,
     isFinished: false,
     title: "The Book 2",

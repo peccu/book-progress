@@ -16,6 +16,7 @@ if (typeof props.id !== "undefined") {
 console.log(`typeof id: ${typeof props.id}`);
 
 const book: Book = {
+  isbn: 9871122334455,
   id: 0,
   isFinished: false,
   title: "",
