@@ -64,6 +64,7 @@ const clearnumber = () => {
       <label :for="`pgtype-%-${id}`">%</label></span
     >
     <button @click.stop.prevent="updateProgress()">UpdateProgress</button>
+    <div>{{ new Date(progress.date) }}</div>
   </form>
 </template>
 

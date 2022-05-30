@@ -12,7 +12,7 @@ const importBooks = (importString: string) => {
     booksstore.overwriteBooks(books);
     alert("Done.");
   } catch (e) {
-      alert(e);
+    alert(e);
     console.error(e);
   }
 };

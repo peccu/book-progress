@@ -23,10 +23,10 @@ export interface Book {
 
 const sorter = (a: Book, b: Book) => {
   const diff: number = a.progress.date - b.progress.date;
-  if (diff > 0) {
+  if (diff < 0) {
     return 1;
   }
-  if (diff < 0) {
+  if (diff > 0) {
     return -1;
   }
   return 0;

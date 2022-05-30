@@ -6,14 +6,6 @@ export default {
       keys: ["authors", "publisher", "pages"],
     };
   },
-  book: {
-    title: "The Book 1",
-    authors: ["john"],
-    publisher: "AB Books",
-    pages: 339,
-    progress: { type: "page", progress: 24, date: new Date(2022, 4, 18) },
-    history: [{ type: "%", progress: 13, date: new Date(2022, 4, 3) }],
-  },
 };
 </script>
 <template>
@@ -30,6 +22,10 @@ export default {
     <dt>Pages:</dt>
     <dd>
       {{ book.pages === null ? "" : book.pages }}
+    </dd>
+    <dt>ISBN:</dt>
+    <dd>
+      {{ book.isbn === null ? "" : book.isbn }}
     </dd>
   </dl>
 </template>
