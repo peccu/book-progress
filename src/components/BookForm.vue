@@ -51,10 +51,13 @@ const saveBook = () => {
 const cancel = () => {
   router.push("/");
 };
-const result: OpenBd[] = [];
-const search = () => {
-  alert(`foo ${book.isbn}`);
-  result.push({
+// const result: OpenBd[] = [];
+  const result: Ref<string> =ref("...");
+const search = async (isbn: string) => {
+  // alert(`foo ${isbn}`);
+  await fetch('https://api.openbd.jp/v1/get?isbn='+isbn)
+  .then(result => alert(typeof result))
+  const a = {
     onix: {
       RecordReference: "9784560070512",
       NotificationType: "03",
@@ -260,7 +263,10 @@ const search = () => {
       cover: "https://cover.openbd.jp/9784560070512.jpg",
       author: "Salinger,J.D.／著 Salinger,JeromeDavid／著 野崎孝／翻訳 ほか",
     },
-  });
+  };
+  //alert(result.value)
+  result.value = JSON.stringify(a, null, 2)
+  // alert(result.value)
 };
 </script>
 <template>
@@ -278,8 +284,8 @@ const search = () => {
     <button @click="cancel()">Cancel</button>
   </div>
   <div>
-    <button @click="search()">Search</button>
-    <pre>{{ JSON.stringify(result, null, 2) }}</pre>
+    <button @click="search(book.isbn)">Search</button>
+    <pre>{{result}}</pre>
   </div>
 </template>
 
