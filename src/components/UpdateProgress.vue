@@ -33,10 +33,18 @@ const clearnumber = () => {
   progress.progress = 0;
 };
 </script>
+<script lang="ts">
+// export default {
+//   mounted() {
+//     this.$refs.input.focus();
+//   },
+// };
+</script>
 <template>
   <form>
     <span class="field">
       <input
+        ref="input"
         type="number"
         placeholder="Pos."
         @focus="clearnumber"
