@@ -25,6 +25,10 @@ const props = defineProps({
     <dd>
       {{ book.isbn === null ? "" : book.isbn }}
     </dd>
+    <dt>Notes:</dt>
+    <dd>
+      {{ book.notes === null ? "" : book.notes }}
+    </dd>
   </dl>
   <BkCover :cover="book.cover" />
 </template>

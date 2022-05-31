@@ -79,11 +79,8 @@ const search = async (isbn: string) => {
   book.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
   book.cover = summary.cover;
   book.notes = json[0].onix?.CollateralDetail?.TextContent.map(
-    (e: {
-        Text?: string;
-        TextType?: string;
-        ContentAudience?: string;
-      }) => e.Text
+    (e: { Text?: string; TextType?: string; ContentAudience?: string }) =>
+      e.Text
   ).join("\n\n");
   //alert(result.value.length);
   const a = {
