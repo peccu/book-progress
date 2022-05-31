@@ -19,7 +19,7 @@ if (typeof props.id !== "undefined") {
 console.log(`typeof id: ${typeof props.id}`);
 
 const book: Book = {
-  isbn: 9784560070512,
+  isbn: 0, // 9784560070512,
   id: 0,
   isFinished: false,
   title: "",
