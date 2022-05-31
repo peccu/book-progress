@@ -65,8 +65,8 @@ const initbooks = () => {
 
 <template>
   <main>
-    <button @click="initbooks()">init book</button>
     <BookForm :id="id" />
+    <button @click="initbooks()">add sample books</button>
   </main>
 </template>
 

@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { ref, type Ref } from "vue";
 import router from "@/router";
 import { useBooksState, type Book } from "@/stores/books";
-import { ref, type Ref } from "vue";
 import type { OpenBd } from "@/stores/openbd";
+import BkCover from "@/components/BkCover.vue";
 
 const props = defineProps({
   id: String,
@@ -38,7 +39,7 @@ if (typeof props.id !== "undefined") {
     );
   }
 }
-const keys = ["isbn", "authors", "publisher", "pages"];
+const keys = ["authors", "publisher", "pages", "cover"];
 const saveBook = () => {
   console.log(`book: ${JSON.stringify(book)}`);
   if (typeof props.id !== "undefined") {
@@ -52,11 +53,39 @@ const cancel = () => {
   router.push("/");
 };
 // const result: OpenBd[] = [];
-  const result: Ref<string> =ref("...");
+const picked: Ref<string> = ref("...");
+const result: Ref<string> = ref("...");
 const search = async (isbn: string) => {
   // alert(`foo ${isbn}`);
-  await fetch('https://api.openbd.jp/v1/get?isbn='+isbn)
-  .then(result => alert(typeof result))
+  const response = await fetch("https://api.openbd.jp/v1/get?isbn=" + isbn);
+  const json = await response.json();
+  const onix = json[0] && json[0];
+  result.value = JSON.stringify(onix, null, 2);
+  let b = {
+    isbn: "9784560070512",
+    title: "ライ麦畑でつかまえて",
+    volume: "",
+    series: "",
+    publisher: "白水社",
+    pubdate: "1984-05",
+    cover: "https://cover.openbd.jp/9784560070512.jpg",
+    author: "Salinger,J.D.／著 Salinger,JeromeDavid／著 野崎孝／翻訳 ほか",
+  };
+  const summary = json[0] && json[0].summary;
+  picked.value = summary;
+  book.title = summary.title;
+  book.publisher = summary.publisher;
+  book.authors = summary.author.split(" ");
+  book.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
+  book.cover = summary.cover;
+  book.notes = json[0].onix?.CollateralDetail?.TextContent.map(
+    (e: {
+        Text?: string;
+        TextType?: string;
+        ContentAudience?: string;
+      }) => e.Text
+  ).join("\n\n");
+  //alert(result.value.length);
   const a = {
     onix: {
       RecordReference: "9784560070512",
@@ -68,13 +97,7 @@ const search = async (isbn: string) => {
       DescriptiveDetail: {
         ProductComposition: "00",
         ProductForm: "BZ",
-        Measure: [
-          {
-            MeasureType: "01",
-            Measurement: "180",
-            MeasureUnitCode: "mm",
-          },
-        ],
+        Measure: [],
         Collection: {
           CollectionType: "10",
           TitleDetail: {
@@ -159,47 +182,9 @@ const search = async (isbn: string) => {
             Text: "発表から半世紀、いまなお世界中の若者たちの心をとらえつづける名作の名訳。永遠の青春小説。",
           },
         ],
-        SupportingResource: [
-          {
-            ResourceContentType: "01",
-            ContentAudience: "01",
-            ResourceMode: "03",
-            ResourceVersion: [
-              {
-                ResourceForm: "02",
-                ResourceVersionFeature: [
-                  {
-                    ResourceVersionFeatureType: "01",
-                    FeatureValue: "D502",
-                  },
-                  {
-                    ResourceVersionFeatureType: "04",
-                    FeatureValue: "9784560070512.jpg",
-                  },
-                ],
-                ResourceLink: "https://cover.openbd.jp/9784560070512.jpg",
-              },
-            ],
-          },
-        ],
+        SupportingResource: [],
       },
-      PublishingDetail: {
-        Imprint: {
-          ImprintIdentifier: [
-            {
-              ImprintIDType: "19",
-              IDValue: "560",
-            },
-          ],
-          ImprintName: "白水社",
-        },
-        PublishingDate: [
-          {
-            PublishingDateRole: "01",
-            Date: "",
-          },
-        ],
-      },
+      PublishingDetail: {},
       ProductSupply: {
         MarketPublishingDetail: {
           MarketPublishingStatus: "00",
@@ -210,49 +195,7 @@ const search = async (isbn: string) => {
         },
       },
     },
-    hanmoto: {
-      datecreated: "2016-08-23 22:58:23",
-      reviews: [
-        {
-          post_user: "genkina",
-          reviewer: "日暮雅通（翻訳家）",
-          source_id: 29,
-          kubun_id: 1,
-          source: "毎日新聞",
-          choyukan: "朝刊",
-          han: "",
-          link: "",
-          appearance: "2018-02-11",
-          gou: "",
-        },
-        {
-          post_user: "genkina",
-          reviewer: "北上次郎（書評家）",
-          source_id: 7,
-          kubun_id: 1,
-          source: "産經新聞",
-          choyukan: "朝刊",
-          han: "",
-          link: "",
-          appearance: "2018-09-09",
-          gou: "",
-        },
-        {
-          post_user: "genkina",
-          reviewer: "沼野充義（スラブ文学者）",
-          source_id: 20,
-          kubun_id: 1,
-          source: "読売新聞",
-          choyukan: "朝刊",
-          han: "",
-          link: "",
-          appearance: "2020-10-11",
-          gou: "",
-        },
-      ],
-      dateshuppan: "1984-05",
-      datemodified: "2016-08-23 22:58:23",
-    },
+    hanmoto: {},
     summary: {
       isbn: "9784560070512",
       title: "ライ麦畑でつかまえて",
@@ -264,12 +207,15 @@ const search = async (isbn: string) => {
       author: "Salinger,J.D.／著 Salinger,JeromeDavid／著 野崎孝／翻訳 ほか",
     },
   };
-  //alert(result.value)
-  result.value = JSON.stringify(a, null, 2)
-  // alert(result.value)
 };
 </script>
 <template>
+  <div>
+    <form @submit.prevent="search(book.isbn)">
+      <input v-model="book.isbn" />
+      <button @click="search(book.isbn)">ISBN Search</button>
+    </form>
+  </div>
   <p>Title <input placeholder="Book Title" v-model="book.title" /></p>
   <dl>
     <template v-for="(info, i) in keys" :key="i">
@@ -278,14 +224,19 @@ const search = async (isbn: string) => {
         <input v-model="book[info]" />
       </dd>
     </template>
+    <dt>notes:</dt>
+    <dd>
+      <textarea v-model="book.notes" rows="10" cols="50"></textarea>
+    </dd>
   </dl>
   <div>
     <button @click="saveBook()">Save</button>
     <button @click="cancel()">Cancel</button>
   </div>
+  <BkCover :cover="book.cover" />
   <div>
-    <button @click="search(book.isbn)">Search</button>
-    <pre>{{result}}</pre>
+    <pre>{{ picked }}</pre>
+    <pre>{{ result }}</pre>
   </div>
 </template>
 

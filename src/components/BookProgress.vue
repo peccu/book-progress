@@ -30,7 +30,7 @@ export default {
     <progress :id="'book' + book.id" max="100" :value="book.progress.progress">
       {{ book.progress.progress }}{{ book.progress.type }}
     </progress>
-    {{ book.progress.progress }}{{ book.progress.type }}_
+    {{ book.progress.progress }}{{ book.progress.type }}
   </template>
 </template>
 

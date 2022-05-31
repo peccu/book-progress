@@ -1,12 +1,10 @@
-<script lang="ts">
-export default {
-  props: ["book"],
-  data() {
-    return {
-      keys: ["authors", "publisher", "pages"],
-    };
-  },
-};
+<script setup lang="ts">
+import { type Book } from "@/stores/books";
+import BkCover from "@/components/BkCover.vue";
+const props = defineProps({
+  book: Object,
+  cover: String,
+});
 </script>
 <template>
   <p>{{ book.title }}</p>
@@ -28,6 +26,7 @@ export default {
       {{ book.isbn === null ? "" : book.isbn }}
     </dd>
   </dl>
+  <BkCover :cover="book.cover" />
 </template>
 
 <style scoped>

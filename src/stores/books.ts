@@ -18,6 +18,8 @@ export interface Book {
   progress: Progress;
   history: Progress[];
   isFinished: boolean;
+  cover?: string;
+  notes?: string;
 }
 // interface Filter {'all' | 'finished' | 'unfinished'}
 
