@@ -23,6 +23,21 @@ export interface Book {
 }
 // interface Filter {'all' | 'finished' | 'unfinished'}
 
+export const validateIsbn = (code: string) => {
+  // multiply by 3 for even numbers and sum them up and mod 10
+  // it should be 0
+  // ref. https://mathsuke.jp/isbncode/
+  return (
+    code.slice(0, 3) === "978" &&
+    code
+      .split("")
+      .map((e: string, i) => parseInt(e, 10) * [1, 3][i % 2])
+      .reduce((a, b) => a + b) %
+      10 ===
+      0
+  );
+};
+
 const sorter = (a: Book, b: Book) => {
   const diff: number = a.progress.date - b.progress.date;
   if (diff < 0) {

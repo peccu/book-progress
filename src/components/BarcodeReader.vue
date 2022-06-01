@@ -21,10 +21,12 @@
 <script setup lang="ts">
 // TODO style and script for bounding box https://codepen.io/peccu/pen/rNJdrxe
 // based on https://codesandbox.io/s/00yov51r2w?file=/components/Hello.vue
-  // @ts-ignore
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-ignore
 import Quagga from "quagga";
-
 import { onMounted, ref, nextTick } from "vue";
+import { validateIsbn } from "@/stores/books";
+
 const emit = defineEmits<{
   (e: "setIsbn", isbn: string): void;
 }>();
@@ -34,26 +36,10 @@ const available =
   navigator.mediaDevices &&
   typeof navigator.mediaDevices.getUserMedia === "function";
 
-const validate = (code: string) => {
-  // multiply by 3 for even numbers and sum them up and mod 10
-  // it should be 0
-  // ref. https://mathsuke.jp/isbncode/
-  return (
-    code.slice(0, 3) === "978" &&
-    code
-      .split("")
-      .map((e: string, i) => parseInt(e, 10) * [1, 3][i % 2])
-      .reduce((a, b) => a + b) %
-      10 ===
-      0
-  );
-};
-
 const data = ref(null);
 const resultcode = ref("-");
 const resultCodeInfo = ref("-");
 const foundCodes = ref(new Map());
-
 
 const restart = () => {
   Quagga.init(
@@ -106,29 +92,15 @@ const restart = () => {
     () => start()
   );
 };
+
 onMounted(() => {
   nextTick(() => restart());
 });
-
 
 const start = () => {
   Quagga.onDetected(onDetected);
   Quagga.start();
   console.log("Quagga started!");
-};
-
-const onDetected = (data: { codeResult: { code: string } }) => {
-  if (!validate(data.codeResult.code)) {
-    return;
-  }
-  // this.data = data;
-  if (foundCodes.value.has(data.codeResult.code)) {
-    const val = foundCodes.value.get(data.codeResult.code);
-    foundCodes.value.set(data.codeResult.code, val + 1);
-  } else {
-    foundCodes.value.set(data.codeResult.code, 1);
-  }
-  getCodeInfo(data.codeResult.code);
 };
 
 const stop = () => {
@@ -138,21 +110,40 @@ const stop = () => {
   quagga.value?.querySelector("canvas")?.remove();
 };
 
-const getCodeInfo = (code: string) => {
-  var getinfoflag = false;
-  for (let [key, value] of foundCodes.value) {
-    // get data sorted
-    if (value > 0) {
-      getinfoflag = true;
-    }
+const onDetected = (data: { codeResult: { code: string } }) => {
+  if (!validateIsbn(data.codeResult.code)) {
+    console.log('code '+data.codeResult.code + 'is not valid');
+    return;
   }
+  if (foundCodes.value.has(data.codeResult.code)) {
+    const val = foundCodes.value.get(data.codeResult.code);
+    val.count += 1;
+    foundCodes.value.set(data.codeResult.code, val);
+  } else {
+    foundCodes.value.set(data.codeResult.code, { count: 1, fetched: false });
+  }
+  getCodeInfo(data.codeResult.code);
+};
 
-  //console.log('getinfoflag='+ getinfoflag + 'resultCodeInfo=' + this.resultCodeInfo);
-  if (getinfoflag && resultCodeInfo.value == "-") {
-    console.log("get info...");
-    resultCodeInfo.value = "Поиск: " + code;
-    emit("setIsbn", code);
+const getCodeInfo = (code: string) => {
+  const val = foundCodes.value.get(code);
+  const getinfoflag = val.fetched;
+  // var getinfoflag = false;
+  // for (let [key, value] of foundCodes.value) {
+  //   // get data sorted
+  //   if (value.count > 0) {
+  //     getinfoflag = true;
+  //   }
+  // }
+  if (getinfoflag) {
+    // already fetched
+    return;
   }
+  console.log("get info...");
+  resultCodeInfo.value = "Поиск: " + code;
+  val.fetched = true;
+  foundCodes.value.set(code, val);
+  emit("setIsbn", code);
 };
 </script>
 
