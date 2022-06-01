@@ -112,7 +112,7 @@ const stop = () => {
 
 const onDetected = (data: { codeResult: { code: string } }) => {
   if (!validateIsbn(data.codeResult.code)) {
-    console.log('code '+data.codeResult.code + 'is not valid');
+    console.log("code " + data.codeResult.code + "is not valid");
     return;
   }
   if (foundCodes.value.has(data.codeResult.code)) {

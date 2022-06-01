@@ -12,35 +12,65 @@ import SupportIcon from "./icons/IconSupport.vue";
     <template #icon>
       <DocumentationIcon />
     </template>
-    <template #heading>Documentation</template>
+    <template #heading>Release notes</template>
 
-    Vue’s
-    <a target="_blank" href="https://vuejs.org/">official documentation</a>
-    provides you with all information you need to get started.
+    <ul>
+      <li>2022/6/1 : リリースノート追加</li>
+      <li>
+        2022/5/29ごろ :
+        ISBNで検索、最近進捗更新したものが上に来るようにソート、バーコードリーダー追加
+      </li>
+      <li>
+        2022/5/25ごろ :
+        本の登録、進捗の登録、インポートエクスポートができるようになる。
+      </li>
+      <li>
+        2022/5中旬 : localStorageでいいやん。と気づき開発開始。ちょうどvue
+        3とviteの組み合わせも整っててタイミングよかった。
+      </li>
+    </ul>
+  </WelcomeItem>
+
+  <WelcomeItem>
+    <template #icon>
+      <DocumentationIcon />
+    </template>
+    <template #heading>特徴</template>
+
+    <ul>
+      <li>
+        バーコードを読み取ってデータが見つかれば本の登録を省力化できます(New
+        Book)
+      </li>
+      <li>読書の進捗を日々記録できます(Home)</li>
+      <li>
+        データはブラウザ内(localStorage)に保存され、どこにも送信されません(インポートエクスポート画面で内容の確認、上書きが可能です)
+      </li>
+      <li>Google Analyticsでアクセス数は記録しています</li>
+      <li>
+        将来的に…
+        <ul>
+          <li>完了ステータスの記録</li>
+          <li>進捗グラフ</li>
+          <li>まとめて登録</li>
+          <li>一覧のフィルタ機能</li>
+        </ul>
+      </li>
+    </ul>
   </WelcomeItem>
 
   <WelcomeItem>
     <template #icon>
       <ToolingIcon />
     </template>
-    <template #heading>Tooling</template>
-
-    This project is served and bundled with
-    <a href="https://vitejs.dev/guide/features.html" target="_blank">Vite</a>.
-    The recommended IDE setup is
-    <a href="https://code.visualstudio.com/" target="_blank">VSCode</a> +
-    <a href="https://github.com/johnsoncodehk/volar" target="_blank">Volar</a>.
-    If you need to test your components and web pages, check out
-    <a href="https://www.cypress.io/" target="_blank">Cypress</a> and
-    <a
-      href="https://docs.cypress.io/guides/component-testing/introduction"
-      target="_blank"
-      >Cypress Component Testing</a
-    >.
-
-    <br />
-
-    More instructions are available in <code>README.md</code>.
+    <template #heading>Special Thanks</template>
+    <ul>
+      <li>Vue 3</li>
+      <li>glitch.com</li>
+      <li>netlify</li>
+      <li>Quagga</li>
+      <li>OpenBD</li>
+    </ul>
   </WelcomeItem>
 
   <WelcomeItem>
