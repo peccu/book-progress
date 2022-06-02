@@ -7,7 +7,7 @@ const props = defineProps({
 });
 </script>
 <template>
-  <p>{{ book.title }}</p>
+  <h3>{{ book.title }}</h3>
   <dl>
     <dt>Authors:</dt>
     <dd>
@@ -26,7 +26,7 @@ const props = defineProps({
       {{ book.isbn === null ? "" : book.isbn }}
     </dd>
     <dt>Notes:</dt>
-    <dd>
+    <dd style="white-space: pre-wrap">
       {{ book.notes === null ? "" : book.notes }}
     </dd>
   </dl>
@@ -34,7 +34,13 @@ const props = defineProps({
 </template>
 
 <style scoped>
-p,
+h3 {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 0.4rem;
+  color: var(--color-heading);
+}
+
 dt {
   font-weight: bold;
 }

@@ -28,10 +28,6 @@ const updateProgress = () => {
   }
   booksstore.updateProgress(props.id, progress);
 };
-const clearnumber = () => {
-  console.log("focus", progress.progress);
-  progress.progress = 0;
-};
 </script>
 <script lang="ts">
 // export default {
@@ -45,11 +41,13 @@ const clearnumber = () => {
     <span class="field">
       <input
         ref="input"
-        type="number"
+        inputmode="numeric"
+        pattern="[0-9]*"
+        type="text"
         placeholder="Pos."
-        @focus="clearnumber"
         v-model="progress.progress"
         length="4"
+        @focus="($event?.target as HTMLInputElement).select()"
     /></span>
     <span class="field"
       ><input
@@ -81,7 +79,7 @@ form {
   margin: 0;
   padding: 0;
 }
-input[type="number"] {
+input[type="text"] {
   width: 5em;
 }
 .field {

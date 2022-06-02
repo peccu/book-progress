@@ -84,7 +84,10 @@ const search = async (isbn: number) => {
 </script>
 <template>
   <div style="max-width: 100%">
-    <BarcodeReader @set-isbn="setIsbn"></BarcodeReader>
+    <BarcodeReader
+      v-if="typeof props.id === 'undefined'"
+      @set-isbn="setIsbn"
+    ></BarcodeReader>
     <form @submit.prevent="search(book.isbn)">
       <input v-model="book.isbn" />
       <button @click="search(book.isbn)">ISBN Search</button>

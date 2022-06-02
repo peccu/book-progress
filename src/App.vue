@@ -95,6 +95,13 @@ button {
   border-radius: 0.3em;
 }
 
+dt {
+  text-decoration: underline;
+}
+dd {
+  margin-left: 2em;
+}
+
 @media (min-width: 1024px) {
   body {
     display: flex;

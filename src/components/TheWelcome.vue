@@ -9,8 +9,6 @@ import SupportIcon from "./icons/IconSupport.vue";
 </script>
 
 <template>
-  <ReleaseNote></ReleaseNote>
-
   <WelcomeItem>
     <template #icon>
       <DocumentationIcon />
@@ -38,6 +36,8 @@ import SupportIcon from "./icons/IconSupport.vue";
       </li>
     </ul>
   </WelcomeItem>
+
+  <ReleaseNote></ReleaseNote>
 
   <WelcomeItem>
     <template #icon>
@@ -104,6 +104,6 @@ import SupportIcon from "./icons/IconSupport.vue";
 
 <style scoped>
 ul {
-  padding: 1em;
+  padding: 1.5em;
 }
 </style>

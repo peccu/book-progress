@@ -22,8 +22,8 @@ const deleteBook = (id: number) => {
   <div v-for="book in (books as Book[])" :key="book && book.id">
     <details>
       <summary>
-        {{ book.id }}: <span class="title">{{ book.title }}</span>
-        <BookProgress :book="book"></BookProgress>
+        {{ book.id }}: <BookProgress :book="book"></BookProgress><br />
+        <span class="title">{{ book.title }}</span>
       </summary>
       <BookDetail :book="book"></BookDetail>
       <div>

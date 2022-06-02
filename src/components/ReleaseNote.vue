@@ -4,7 +4,16 @@ import DocumentationIcon from "./icons/IconDocumentation.vue";
 const notes = [
   {
     when: "2022/6/2",
-    note: "新規登録した本がリストの上位に並ぶように変更。<br/>Aboutページスタイル調整",
+    note: [
+      "新規登録した本がリストの上位に並ぶように変更",
+      "Aboutページスタイル調整",
+      "ページの進捗をパーセント表記を前にしてパーセントの進捗と表記を似せた",
+      "本の紹介文などの改行がつぶれたのを修正",
+      "進捗入力フォームのキーボードを数字のみに変更",
+      "プログレスバーの位置を変更",
+      "本の情報編集時はカメラを起動しないようにした",
+      "進捗入力時に既存の数字を全選択するようにした",
+    ],
   },
   { when: "2022/6/1", note: "リリースノート追加" },
   {
@@ -20,6 +29,12 @@ const notes = [
     note: "localStorageでいいやん。と気づき開発開始。ちょうどvue3とviteの組み合わせも整っててタイミングよかった。",
   },
 ];
+const formatNote = (note: string | string[]): string => {
+  if (typeof note === "string") {
+    return note;
+  }
+  return note.join("<br/>");
+};
 </script>
 
 <template>
@@ -29,19 +44,11 @@ const notes = [
     </template>
     <template #heading>Release Notes</template>
 
-    <ul>
-      <li v-for="(note, i) in notes" :key="i">
-        <span class="when">{{ note.when }}</span> :
-        <span class="note" v-html="note.note"></span>
-      </li>
-    </ul>
+    <dl>
+      <template v-for="(note, i) in notes" :key="i">
+        <dt class="when">{{ note.when }}</dt>
+        <dd class="note" v-html="formatNote(note.note)"></dd>
+      </template>
+    </dl>
   </WelcomeItem>
 </template>
-<style scoped>
-ul {
-  padding: 1em;
-}
-li {
-  list-style-type: none;
-}
-</style>

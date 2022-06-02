@@ -1,37 +1,27 @@
-<script lang="ts">
-export default {
-  props: ["book"],
+<script setup lang="ts">
+import type { Book } from "@/stores/books";
+const props = defineProps({
+  book: Object,
+});
+const max = (book: Book) => {
+  const isPage = book.progress.type == "page";
+  return isPage ? book.pages : 100;
+};
+const progress = (book: Book) => {
+  const isPage = book.progress.type == "page";
+  const p = book.progress.progress;
+  const percent = isPage ? Math.round((100 * p) / book.pages) : p;
+  return percent + "%" + (isPage ? " (" + p + "p/" + book.pages + "p)" : "");
 };
 </script>
+
 <template>
-  <template v-if="book.progress === null">
-    <progress max="100" value="0">0%</progress>
-    0%
-  </template>
-  <template v-else-if="book.progress.type == 'page'">
-    <progress
-      :id="'book' + book.id"
-      :max="book.pages"
-      :value="book.progress.progress"
-    >
-      {{ book.progress.progress }}{{ book.progress.type }}
-    </progress>
-    {{ book.progress.progress }}p / {{ book.pages }}p({{
-      Math.round((100 * book.progress.progress) / book.pages)
-    }}%)
-  </template>
-  <template v-else-if="book.progress.type == '%'">
-    <progress :id="'book' + book.id" max="100" :value="book.progress.progress">
-      {{ book.progress.progress }}{{ book.progress.type }}
-    </progress>
-    {{ book.progress.progress }}{{ book.progress.type }}
-  </template>
-  <template v-else>
-    <progress :id="'book' + book.id" max="100" :value="book.progress.progress">
-      {{ book.progress.progress }}{{ book.progress.type }}
-    </progress>
-    {{ book.progress.progress }}{{ book.progress.type }}
-  </template>
+  <progress
+    :id="'book' + book.id"
+    :max="max(book)"
+    :value="book.progress.progress"
+  ></progress>
+  {{ progress(book) }}
 </template>
 
 <style scoped>
