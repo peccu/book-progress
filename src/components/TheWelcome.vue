@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import WelcomeItem from "./WelcomeItem.vue";
+import ReleaseNote from "./ReleaseNote.vue";
 import DocumentationIcon from "./icons/IconDocumentation.vue";
 import ToolingIcon from "./icons/IconTooling.vue";
 import EcosystemIcon from "./icons/IconEcosystem.vue";
@@ -8,28 +9,7 @@ import SupportIcon from "./icons/IconSupport.vue";
 </script>
 
 <template>
-  <WelcomeItem>
-    <template #icon>
-      <DocumentationIcon />
-    </template>
-    <template #heading>Release notes</template>
-
-    <ul>
-      <li>2022/6/1 : リリースノート追加</li>
-      <li>
-        2022/5/29ごろ :
-        ISBNで検索、最近進捗更新したものが上に来るようにソート、バーコードリーダー追加
-      </li>
-      <li>
-        2022/5/25ごろ :
-        本の登録、進捗の登録、インポートエクスポートができるようになる。
-      </li>
-      <li>
-        2022/5中旬 : localStorageでいいやん。と気づき開発開始。ちょうどvue
-        3とviteの組み合わせも整っててタイミングよかった。
-      </li>
-    </ul>
-  </WelcomeItem>
+  <ReleaseNote></ReleaseNote>
 
   <WelcomeItem>
     <template #icon>
@@ -121,3 +101,9 @@ import SupportIcon from "./icons/IconSupport.vue";
     <a target="_blank" href="https://vuejs.org/sponsor/">becoming a sponsor</a>.
   </WelcomeItem>
 </template>
+
+<style scoped>
+ul {
+  padding: 1em;
+}
+</style>

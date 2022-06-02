@@ -46,6 +46,7 @@ const saveBook = () => {
   if (typeof props.id !== "undefined") {
     booksstore.updateBook(book);
   } else {
+    book.progress.date = new Date().getTime();
     booksstore.addBook(book);
   }
   router.push("/");
