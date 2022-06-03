@@ -4,11 +4,6 @@ import HomeView from "../views/HomeView.vue";
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    { 
-      path: "/*",
-      name: "404",
-      component: () => import("../views/NotFound.vue"),
-    },
     {
       path: "/",
       name: "home",
@@ -24,6 +19,13 @@ const router = createRouter({
       name: "edit",
       component: () => import("../views/EditView.vue"),
       props: true,
+      /*beforeEnter: (to, from, next) => {
+        alert(to.params.slug)
+        next();
+        if("notfound"){
+next({name: "notFound"})
+        }
+      }*/
     },
     {
       path: "/about",
@@ -37,6 +39,11 @@ const router = createRouter({
       path: "/importexport",
       name: "importexport",
       component: () => import("../views/ImportExportView.vue"),
+    },
+        { 
+      path: "/:pathMatch(.*)",
+      name: "notFound",
+      component: () => import("../views/NotFound.vue"),
     },
   ],
 });
