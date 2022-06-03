@@ -80,7 +80,7 @@ form {
   padding: 0;
 }
 input[type="text"] {
-  width: 5em;
+  width: 3em;
 }
 .field {
   margin: 0 0.3em;

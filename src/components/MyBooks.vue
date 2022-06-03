@@ -22,16 +22,21 @@ const deleteBook = (id: number) => {
   <div v-for="book in (books as Book[])" :key="book && book.id">
     <details>
       <summary>
-        {{ book.id }}: <BookProgress :book="book"></BookProgress><br />
-        <span class="title">{{ book.title }}</span>
+        {{ book.id }}: <span class="title"><BookProgress :book="book"></BookProgress><br />
+        {{ book.title }}</span>
+        <UpdateProgress
+                        class="progress"
+          :id="book.id"
+          :progress="book.progress"
+        ></UpdateProgress>
       </summary>
-      <BookDetail :book="book"></BookDetail>
-      <div>
+      <div style="display: none;">
         <UpdateProgress
           :id="book.id"
           :progress="book.progress"
         ></UpdateProgress>
       </div>
+      <BookDetail :book="book"></BookDetail>
       <div>
         <RouterLink :to="'/edit/' + book.id"><button>Edit</button></RouterLink>
         <button @click="deleteBook(book.id)">Delete</button>
@@ -54,6 +59,13 @@ summary {
   padding: 0.5em;
 }
 details[open] summary .title {
+  display: none;
+}
+
+details[open] summary .progress {
+  display: inherit;
+}
+details summary .progress {
   display: none;
 }
 

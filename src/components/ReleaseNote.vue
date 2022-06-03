@@ -2,6 +2,12 @@
 import WelcomeItem from "./WelcomeItem.vue";
 import DocumentationIcon from "./icons/IconDocumentation.vue";
 const notes = [
+  // {when: "", note: []},
+  {when: "2022/6/3", note: [
+    "Add to Home Screen対応",
+    "Import/Exportのテキストエリアのサイズ変更、コピーボタン追加",
+    "進捗入力欄を上に移動"
+  ]},
   {
     when: "2022/6/2",
     note: [
