@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, type Ref } from "vue";
 import { useBooksState, type Book } from "@/stores/books";
-  import copy from "@/stores/copy";
+import copy from "@/stores/copy";
 const booksstore = useBooksState();
 const booksExport: Ref<string> = ref(
   JSON.stringify(JSON.parse(localStorage.books), null, 2)
@@ -25,7 +25,7 @@ const importBooks = (importString: string) => {
     <div>
       <button @click="copy(booksExport)">Copy</button>
       <button @click="importBooks(booksExport)">Import</button>
-  </div>
+    </div>
     <div><textarea v-model="booksExport" rows="30" cols="50"></textarea></div>
   </main>
 </template>
