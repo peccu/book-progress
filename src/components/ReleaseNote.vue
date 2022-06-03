@@ -9,6 +9,7 @@ const notes = [
       "Add to Home Screen対応",
       "Import/Exportのテキストエリアのサイズ変更、コピーボタン追加",
       "進捗入力欄を上に移動",
+      "detals summaryのアイコンをデフォルトから本の絵文字に変更",
     ],
   },
   {

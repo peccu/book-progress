@@ -22,13 +22,15 @@ const deleteBook = (id: number) => {
   <div v-for="book in (books as Book[])" :key="book && book.id">
     <details>
       <summary>
+        <span class="hideonopen">&#128216;</span>
+        <span class="showonopen">&#128214;</span>
         {{ book.id }}:
-        <span class="title"
+        <span class="hideonopen"
           ><BookProgress :book="book"></BookProgress><br />
           {{ book.title }}</span
         >
         <UpdateProgress
-          class="progress"
+          class="showonopen"
           :id="book.id"
           :progress="book.progress"
         ></UpdateProgress>
@@ -61,14 +63,14 @@ summary {
   margin: -0.5em -0.5em 0;
   padding: 0.5em;
 }
-details[open] summary .title {
+details[open] .hideonopen {
   display: none;
 }
 
-details[open] summary .progress {
+details[open] .showonopen {
   display: inherit;
 }
-details summary .progress {
+details .showonopen {
   display: none;
 }
 
@@ -79,5 +81,9 @@ details[open] {
 details[open] summary {
   border-bottom: 1px solid #aaa;
   margin-bottom: 0.5em;
+}
+
+summary::-webkit-details-marker {
+  display: none;
 }
 </style>
