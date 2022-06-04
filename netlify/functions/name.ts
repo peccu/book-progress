@@ -1,10 +1,11 @@
 import { Handler } from "@netlify/functions";
 
 const fetch = require("node-fetch");
-/*
+
 const API_ENDPOINT = "https://icanhazdadjoke.com/";
 
-exports.handler = async (event, context) => {
+// exports.handler = async (event, context) => {
+const f = () => {
   return fetch(API_ENDPOINT, { headers: { Accept: "application/json" } })
     .then((response) => response.json())
     .then((data) => ({
@@ -12,7 +13,7 @@ exports.handler = async (event, context) => {
       body: data.joke,
     }))
     .catch((error) => ({ statusCode: 422, body: String(error) }));
-};*/
+};
 
 const html = (data) => `
 <html>
@@ -59,12 +60,13 @@ const search = async (isbn: number) => {
 
 const handler: Handler = async (event, context) => {
   const isbn = event.queryStringParameters.isbn || "9784478109373";
+return f();/*
   const data = await search(isbn);
   return {
     statusCode: 200,
     body: html(data),
     body2: JSON.stringify({ message: `Hello, ${name}!` }),
-  };
+  };*/
 };
 
 export { handler };
