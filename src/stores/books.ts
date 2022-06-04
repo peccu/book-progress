@@ -38,6 +38,38 @@ export const validateIsbn = (code: string) => {
   );
 };
 
+// export const isbnSearch = async (isbn: number) => {
+//   const book: Book = {
+//   isbn: 0, // 9784560070512,
+//   id: 0,
+//   isFinished: false,
+//   title: "",
+//   authors: [],
+//   publisher: "",
+//   pages: 0,
+//   progress: { type: "", progress: 0, date: 0, isFinished: false },
+//   history: [],
+// };
+//   const response = await fetch(
+//     "https://api.openbd.jp/v1/get?isbn=" + isbn.toString()
+//   );
+//   const json = await response.json();
+//   const onix = json[0] && json[0];
+//   // result.value = JSON.stringify(onix, null, 2);
+//   const summary = json[0] && json[0].summary;
+//   // picked.value = summary;
+//   book.title = summary.title;
+//   book.publisher = summary.publisher;
+//   book.authors = summary.author.split(" ");
+//   book.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
+//   book.cover = summary.cover;
+//   book.notes = json[0].onix?.CollateralDetail?.TextContent.map(
+//     (e: { Text?: string; TextType?: string; ContentAudience?: string }) =>
+//       e.Text
+//   ).join("\n\n");
+//   return book;
+// };
+
 const sorter = (a: Book, b: Book) => {
   const diff: number = a.progress.date - b.progress.date;
   if (diff < 0) {

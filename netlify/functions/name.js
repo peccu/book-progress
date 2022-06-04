@@ -31,15 +31,14 @@ const html = (data) => `
 Shared content ${data.title}
 </body>
 </html>
-`
+`;
 
 const search = async (isbn) => {
   const book = {};
   // alert(`foo ${isbn}`);
   const response = await fetch(
     "https://api.openbd.jp/v1/get?isbn=" + isbn.toString()
-  )
-  .then((response) => response.json());
+  ).then((response) => response.json());
   const json = response;
   const onix = json[0] && json[0];
   // result.value = JSON.stringify(onix, null, 2);
@@ -56,10 +55,9 @@ const search = async (isbn) => {
   return book;
 };
 
-
-exports.handler = async (event, context) => {
+export const handler = async (event, context) => {
   const isbn = event.queryStringParameters.isbn || "9784478109373";
-return f();/*
+  return f(); /*
   const data = await search(isbn);
   return {
     statusCode: 200,
