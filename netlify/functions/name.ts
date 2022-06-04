@@ -37,8 +37,9 @@ const search = async (isbn: number) => {
   // alert(`foo ${isbn}`);
   const response = await fetch(
     "https://api.openbd.jp/v1/get?isbn=" + isbn.toString()
-  );
-  const json = await response.json();
+  )
+  .then((response) => response.json());
+  const json = response;
   const onix = json[0] && json[0];
   // result.value = JSON.stringify(onix, null, 2);
   const summary = json[0] && json[0].summary;
