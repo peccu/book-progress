@@ -57,7 +57,7 @@ const search = async (isbn) => {
 };
 
 
-const handler = async (event, context) => {
+exports.handler = async (event, context) => {
   const isbn = event.queryStringParameters.isbn || "9784478109373";
 return f();/*
   const data = await search(isbn);
@@ -68,4 +68,4 @@ return f();/*
   };*/
 };
 
-export { handler };
+// export { handler };
