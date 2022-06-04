@@ -5,7 +5,8 @@ const handler: Handler = async (event, context) => {
 
   return {
     statusCode: 200,
-    body: JSON.stringify({ message: `Hello, ${name}!` }),
+    body: `<h1>Hello ${name}</h1>`,
+    body2: JSON.stringify({ message: `Hello, ${name}!` }),
   };
 };
 
