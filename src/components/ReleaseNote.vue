@@ -3,6 +3,7 @@ import WelcomeItem from "./WelcomeItem.vue";
 import DocumentationIcon from "./icons/IconDocumentation.vue";
 const notes = [
   // {when: "", note: []},
+  {when: "2022/6/4", note: "faviconなどアイコンを設定"},
   {
     when: "2022/6/3",
     note: [
