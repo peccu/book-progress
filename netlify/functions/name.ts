@@ -1,5 +1,5 @@
 import { Handler } from "@netlify/functions";
-
+/*
 const fetch = require("node-fetch");
 
 const API_ENDPOINT = "https://icanhazdadjoke.com/";
@@ -12,7 +12,7 @@ exports.handler = async (event, context) => {
       body: data.joke,
     }))
     .catch((error) => ({ statusCode: 422, body: String(error) }));
-};
+};*/
 
 const html = (data) => `
 <html>
@@ -27,15 +27,38 @@ const html = (data) => `
 <script>// jump to original app page or, decode and display content
 </script>
 <body>
-Shared content ${data.name}
+Shared content ${data.title}
 </body>
 </html>
 `
 
+const search = async (isbn: number) => {
+  const book = {};
+  // alert(`foo ${isbn}`);
+  const response = await fetch(
+    "https://api.openbd.jp/v1/get?isbn=" + isbn.toString()
+  );
+  const json = await response.json();
+  const onix = json[0] && json[0];
+  // result.value = JSON.stringify(onix, null, 2);
+  const summary = json[0] && json[0].summary;
+  //  picked.value = summary;
+  book.title = summary.title;
+  book.publisher = summary.publisher;
+  book.authors = summary.author.split(" ");
+  book.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
+  book.cover = summary.cover;
+  book.notes = json[0].onix?.CollateralDetail?.TextContent.map(
+    (e: { Text?: string; TextType?: string; ContentAudience?: string }) =>
+      e.Text
+  ).join("\n\n");
+  return book;
+};
+
 
 const handler: Handler = async (event, context) => {
-  const name = event.queryStringParameters.name || "World";
-  const data = {name};
+  const isbn = event.queryStringParameters.isbn || "9784478109373";
+  const data = await search(isbn);
   return {
     statusCode: 200,
     body: html(data),
