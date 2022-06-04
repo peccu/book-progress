@@ -16,7 +16,6 @@
     "vue-router": "^4.0.14",
     "@vueuse/core": "^8.6.0",
     "quagga": "^0.12.1",
-    "@netlify/functions": "^1.0.0",
     "node-fetch": "^3.2.4",
     "chart.js": "^3.8.0"
   },

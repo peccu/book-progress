@@ -1,4 +1,4 @@
-import { Handler } from "@netlify/functions";
+// import { Handler } from "@netlify/functions";
 
 const fetch = require("node-fetch");
 
@@ -33,7 +33,7 @@ Shared content ${data.title}
 </html>
 `
 
-const search = async (isbn: number) => {
+const search = async (isbn) => {
   const book = {};
   // alert(`foo ${isbn}`);
   const response = await fetch(
@@ -51,14 +51,13 @@ const search = async (isbn: number) => {
   book.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
   book.cover = summary.cover;
   book.notes = json[0].onix?.CollateralDetail?.TextContent.map(
-    (e: { Text?: string; TextType?: string; ContentAudience?: string }) =>
-      e.Text
+    (e) => e.Text
   ).join("\n\n");
   return book;
 };
 
 
-const handler: Handler = async (event, context) => {
+const handler = async (event, context) => {
   const isbn = event.queryStringParameters.isbn || "9784478109373";
 return f();/*
   const data = await search(isbn);
