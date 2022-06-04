@@ -40,7 +40,7 @@ next({name: "notFound"})
       name: "importexport",
       component: () => import("../views/ImportExportView.vue"),
     },
-        { 
+    {
       path: "/:pathMatch(.*)",
       name: "notFound",
       component: () => import("../views/NotFound.vue"),
