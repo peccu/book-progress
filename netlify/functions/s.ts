@@ -1,12 +1,17 @@
-// import fetch from 'node-fetch'
+import fetch from 'node-fetch'
 
-const API_ENDPOINT = 'https://cat-fact.herokuapp.com/facts'
+// const API_ENDPOINT = 'https://cat-fact.herokuapp.com/facts'
+const API_ENDPOINT = 'https://api.github.com/users/github'
 
 export const handler = async (event, context) => {
   let response
   try {
+// const response = await fetch();
+// const data = await response.json();
+    
+    
     response = await fetch(API_ENDPOINT)
-    console.log(JSON.stringify(response))
+    console.log(JSON.stringify(response.json()))
     // handle response
   } catch (err) {
     return {
@@ -20,7 +25,7 @@ export const handler = async (event, context) => {
   return {
     statusCode: 200,
     body: JSON.stringify({
-      data: response
+      data: response.json()
     })
   }
 }
