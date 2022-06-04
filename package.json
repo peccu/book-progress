@@ -15,7 +15,8 @@
     "vue": "^3.2.35",
     "vue-router": "^4.0.14",
     "@vueuse/core": "^8.6.0",
-    "quagga": "^0.12.1"
+    "quagga": "^0.12.1",
+    "@netlify/functions": "^1.0.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.0",
