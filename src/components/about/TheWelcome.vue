@@ -45,11 +45,12 @@ import SupportIcon from "./icons/IconSupport.vue";
     </template>
     <template #heading>Special Thanks</template>
     <ul>
-      <li>Vue 3</li>
-      <li>glitch.com</li>
-      <li>netlify</li>
-      <li>Quagga</li>
-      <li>OpenBD</li>
+      <li>Vue 3 : framework</li>
+      <li>Glitch : development</li>
+      <li>Netlify : hosting</li>
+      <li>QuaggaJS : Barcode reader</li>
+      <li>OpenBD : ISBN search</li>
+      <li>Flaticon : <a href="https://www.flaticon.com/free-icons/book" title="book icons" target="_blank">Book icons created by mikan933</a></li>
     </ul>
   </WelcomeItem>
 

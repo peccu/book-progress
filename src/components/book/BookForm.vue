@@ -4,8 +4,8 @@ import { ref, type Ref } from "vue";
 import router from "@/router";
 import { useBooksState, type Book } from "@/stores/books";
 import type { OpenBd } from "@/stores/openbd";
-import BkCover from "@/components/BkCover.vue";
-import BarcodeReader from "@/components/BarcodeReader.vue";
+import BkCover from "./BkCover.vue";
+import BarcodeReader from "./BarcodeReader.vue";
 
 const props = defineProps({
   id: String,

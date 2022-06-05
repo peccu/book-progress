@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { type Book } from "@/stores/books";
-import BkCover from "@/components/BkCover.vue";
+import BkCover from "./BkCover.vue";
 const props = defineProps({
   book: Object,
   cover: String,

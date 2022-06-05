@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BookForm from "@/components/BookForm.vue";
+import BookForm from "@/components/book/BookForm.vue";
 import { useBooksState } from "@/stores/books";
 // import { storeToRefs } from "pinia";
 

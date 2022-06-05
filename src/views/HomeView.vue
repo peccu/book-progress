@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MyBooks from "@/components/MyBooks.vue";
+import MyBooks from "@/components/book/MyBooks.vue";
 </script>
 
 <template>

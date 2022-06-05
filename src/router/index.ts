@@ -41,6 +41,11 @@ next({name: "notFound"})
       component: () => import("../views/ImportExportView.vue"),
     },
     {
+      path: "/stats",
+      name: "stats",
+      component: () => import("../views/StatsView.vue"),
+    },
+    {
       path: "/:pathMatch(.*)",
       name: "notFound",
       component: () => import("../views/NotFound.vue"),

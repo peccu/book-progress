@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import BookProgress from "@/components/BookProgress.vue";
-import BookDetail from "@/components/BookDetail.vue";
-import UpdateProgress from "@/components/UpdateProgress.vue";
+import BookProgress from "./BookProgress.vue";
+import BookDetail from "./BookDetail.vue";
+import UpdateProgress from "./UpdateProgress.vue";
 import { RouterLink } from "vue-router";
 
 import { useBooksState, type Book } from "@/stores/books";
