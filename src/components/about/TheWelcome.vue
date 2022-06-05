@@ -50,7 +50,15 @@ import SupportIcon from "./icons/IconSupport.vue";
       <li>Netlify : hosting</li>
       <li>QuaggaJS : Barcode reader</li>
       <li>OpenBD : ISBN search</li>
-      <li>Flaticon : <a href="https://www.flaticon.com/free-icons/book" title="book icons" target="_blank">Book icons created by mikan933</a></li>
+      <li>
+        Flaticon :
+        <a
+          href="https://www.flaticon.com/free-icons/book"
+          title="book icons"
+          target="_blank"
+          >Book icons created by mikan933</a
+        >
+      </li>
     </ul>
   </WelcomeItem>
 

@@ -164,7 +164,7 @@ export const useBooksState = defineStore({
       if (!book) {
         return;
       }
-      if (book.progress.progress === progress.progress){
+      if (book.progress.progress === progress.progress) {
         return;
       }
       const pg = Object.assign({}, progress);
