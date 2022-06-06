@@ -4,6 +4,12 @@ import DocumentationIcon from "./icons/IconDocumentation.vue";
 const notes = [
   // {when: "", note: []},
   {
+    when: "2022/6/6",
+    note: [
+      "編集画面からカメラ機能を落として新規登録画面だけにカメラ機能を入れ、軽量化した",
+    ],
+  },
+  {
     when: "2022/6/4",
     note: [
       "faviconなどアイコンを設定",

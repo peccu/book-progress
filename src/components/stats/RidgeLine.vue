@@ -62,7 +62,7 @@ onMounted(() => {
       .data(allDensity)
       .join("path")
       .attr("transform", function (d) {
-        return `translate(0, ${(yName(d?.key)||0) - height})`;
+        return `translate(0, ${(yName(d?.key) || 0) - height})`;
       })
       .datum(function (d) {
         return d.density;
@@ -70,9 +70,7 @@ onMounted(() => {
       .attr("fill", "#69b3a2")
       .attr("stroke", "#000")
       .attr("stroke-width", 1)
-      .attr(
-        "d",
-      "M10,60L40,90L60,10L190,10");/*
+      .attr("d", "M10,60L40,90L60,10L190,10"); /*
         d3
           .line()
           .curve(d3.curveBasis)
@@ -98,12 +96,12 @@ onMounted(() => {
         ];
       });
     };
-  }
+  };
   const kernelEpanechnikov = (k: number) => {
     return (v: number) => {
       return Math.abs((v /= k)) <= 1 ? (0.75 * (1 - v * v)) / k : 0;
     };
-  }
+  };
 });
 </script>
 
