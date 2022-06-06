@@ -5,8 +5,8 @@ import * as d3 from "d3";
 onMounted(() => {
   // set the dimensions and margins of the graph
   const margin = { top: 60, right: 30, bottom: 20, left: 110 },
-    width = 460 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+    width = 360 - margin.left - margin.right,
+    height = 600 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
   const svg = d3
@@ -50,7 +50,7 @@ onMounted(() => {
       const key = categories[i];
       const density = kde(
         data.map(function (d) {
-          return d[key];
+          return parseInt(d[key] || "0", 10);
         })
       );
       allDensity.push({ key: key, density: density });
@@ -62,7 +62,7 @@ onMounted(() => {
       .data(allDensity)
       .join("path")
       .attr("transform", function (d) {
-        return `translate(0, ${yName(d?.key) - height})`;
+        return `translate(0, ${(yName(d?.key)||0) - height})`;
       })
       .datum(function (d) {
         return d.density;
@@ -72,6 +72,7 @@ onMounted(() => {
       .attr("stroke-width", 1)
       .attr(
         "d",
+      "M10,60L40,90L60,10L190,10");/*
         d3
           .line()
           .curve(d3.curveBasis)
@@ -81,24 +82,25 @@ onMounted(() => {
           .y(function (d) {
             return y(d[1]);
           })
-      );
+      );*/
   });
 
+  type Kernel = (n: number) => number;
   // This is what I need to compute kernel density estimation
-  function kernelDensityEstimator(kernel, X) {
-    return function (V) {
-      return X.map(function (x) {
+  const kernelDensityEstimator = (kernel: Kernel, X: number[]) => {
+    return (V: number[]) => {
+      return X.map((x: number) => {
         return [
           x,
-          d3.mean(V, function (v) {
+          d3.mean(V, (v: number) => {
             return kernel(x - v);
           }),
         ];
       });
     };
   }
-  function kernelEpanechnikov(k: number) {
-    return function (v: number) {
+  const kernelEpanechnikov = (k: number) => {
+    return (v: number) => {
       return Math.abs((v /= k)) <= 1 ? (0.75 * (1 - v * v)) / k : 0;
     };
   }
