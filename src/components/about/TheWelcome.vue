@@ -59,6 +59,7 @@ import SupportIcon from "./icons/IconSupport.vue";
           >Book icons created by mikan933</a
         >
       </li>
+      <li>Ridge Line : <a href="https://d3-graph-gallery.com/graph/ridgeline_basic.html">Basic ridgeline plot in d3.js</a></li>
     </ul>
   </WelcomeItem>
 

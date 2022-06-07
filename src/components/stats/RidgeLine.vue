@@ -56,6 +56,17 @@ onMounted(() => {
       allDensity.push({ key: key, density: density });
     }
 
+    const lineFn = d3
+          .line()
+          .curve(d3.curveBasis)
+          .x(function (d) {
+            return x(d[0]);
+          })
+          .y(function (d) {
+            return y(d[1]);
+          })
+    console.log(lineFn);
+    
     // Add areas
     svg
       .selectAll("areas")
@@ -71,16 +82,8 @@ onMounted(() => {
       .attr("stroke", "#000")
       .attr("stroke-width", 1)
       .attr("d", "M10,60L40,90L60,10L190,10"); /*
-        d3
-          .line()
-          .curve(d3.curveBasis)
-          .x(function (d) {
-            return x(d[0]);
-          })
-          .y(function (d) {
-            return y(d[1]);
-          })
-      );*/
+        
+    //  );*/
   });
 
   type Kernel = (n: number) => number;
