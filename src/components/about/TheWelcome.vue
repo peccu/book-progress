@@ -11,6 +11,18 @@ import SupportIcon from "./icons/IconSupport.vue";
 <template>
   <WelcomeItem>
     <template #icon>
+      <CommunityIcon />
+    </template>
+    <template #heading>コンセプト、背景、モチベーション</template>
+    読書習慣を身につけるために毎日15秒読むようにすれば、15秒以上読んでしまって継続しやすい。と何かで読んでからそれを気にしながら読書している。
+    毎日の習慣が実践できていることを可視化してモチベーションを維持したい。
+    既存のツールでは「読み始めた」「読み終わった」「読みたい」くらいのステータスしか保持できなかったり、いちいち画面遷移がありわずらわしい。
+    またページ単位で保持できるものは和書に対応してないなど少しずつ好みに合わなかった。
+    この辺りを動機に自分好みのツールを作り始めた。
+  </WelcomeItem>
+
+  <WelcomeItem>
+    <template #icon>
       <DocumentationIcon />
     </template>
     <template #heading>特徴</template>
@@ -24,7 +36,10 @@ import SupportIcon from "./icons/IconSupport.vue";
       <li>
         データはブラウザ内(localStorage)に保存され、どこにも送信されません(インポートエクスポート画面で内容の確認、上書きが可能です)
       </li>
-      <li>Google Analyticsでアクセス数は記録しています</li>
+      <li>
+        Google Analyticsでアクセス数を、New
+        Relicでエラーやスループットなをは記録しています
+      </li>
       <li>
         将来的に…
         <ul>
@@ -59,7 +74,12 @@ import SupportIcon from "./icons/IconSupport.vue";
           >Book icons created by mikan933</a
         >
       </li>
-      <li>Ridge Line : <a href="https://d3-graph-gallery.com/graph/ridgeline_basic.html">Basic ridgeline plot in d3.js</a></li>
+      <li>
+        Ridge Line :
+        <a href="https://d3-graph-gallery.com/graph/ridgeline_basic.html"
+          >Basic ridgeline plot in d3.js</a
+        >
+      </li>
     </ul>
   </WelcomeItem>
 

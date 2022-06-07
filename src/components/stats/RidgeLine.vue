@@ -57,16 +57,22 @@ onMounted(() => {
     }
 
     const lineFn = d3
-          .line()
-          .curve(d3.curveBasis)
-          .x(function (d) {
-            return x(d[0]);
-          })
-          .y(function (d) {
-            return y(d[1]);
-          })
-    console.log(lineFn([[1,3],[2,5],[6,2]]));
-    
+      .line()
+      .curve(d3.curveBasis)
+      .x(function (d) {
+        return x(d[0]);
+      })
+      .y(function (d) {
+        return y(d[1]);
+      });
+    console.log(
+      lineFn([
+        [1, 3],
+        [2, 5],
+        [6, 2],
+      ])
+    );
+
     // Add areas
     svg
       .selectAll("areas")
@@ -81,11 +87,12 @@ onMounted(() => {
       .attr("fill", "#69b3a2")
       .attr("stroke", "#000")
       .attr("stroke-width", 1)
-      .attr("d", 
-            // @ts-ignore
-            lineFn);// "M10,60L40,90L60,10L190,10"); /*
-        
-    //  );*/
+      .attr(
+        "d",
+        /* eslint-disable @typescript-eslint/ban-ts-comment */
+        // @ts-ignore
+        lineFn
+      );
   });
 
   type Kernel = (n: number) => number;

@@ -4,6 +4,13 @@ import DocumentationIcon from "./icons/IconDocumentation.vue";
 const notes = [
   // {when: "", note: []},
   {
+    when: "2022/6/7",
+    note: [
+      "統計情報表示用にサンプルグラフを追加",
+      "aboutページに作った背景のようなものを記載",
+    ],
+  },
+  {
     when: "2022/6/6",
     note: [
       "編集画面からカメラ機能を落として新規登録画面だけにカメラ機能を入れ、軽量化した",
