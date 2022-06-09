@@ -43,16 +43,15 @@ onMounted(() => {
       .paddingInner(1);
     svg.append("g").call(d3.axisLeft(yName));
 
-
     // Compute kernel density estimation for each column:
     const kde: Kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(40)); // increase this 40 for more accurate density.
     const allDensity: DensityWithKey[] = [];
     for (let i = 0; i < n; i++) {
       const key = categories[i];
       const categoryData = data.map(function (d) {
-          return parseInt(d[key] || "0", 10);
-        });
-      const density:Density = kde(categoryData);
+        return parseInt(d[key] || "0", 10);
+      });
+      const density: Density = kde(categoryData);
       console.log(density);
       allDensity.push({ key: key, density: density });
     }
@@ -82,20 +81,17 @@ onMounted(() => {
       .attr("transform", function (d) {
         return `translate(0, ${(yName(d?.key) || 0) - height})`;
       })
-      .datum(function (d: DensityWithKey):Density {
+      .datum(function (d: DensityWithKey): Density {
         return d.density;
       })
       .attr("fill", "#69b3a2")
       .attr("stroke", "#000")
       .attr("stroke-width", 1)
-      .attr(
-        "d",
-        lineFn
-      );
+      .attr("d", lineFn);
   });
-    type Density = [number, number][];
-    type Kde = (V: number[]) => Density;
-    type DensityWithKey = {key: string, density: Density};
+  type Density = [number, number][];
+  type Kde = (V: number[]) => Density;
+  type DensityWithKey = { key: string; density: Density };
   type Kernel = (n: number) => number;
   type KdeGenerator = (kernel: Kernel, X: number[]) => Kde;
   // This is what I need to compute kernel density estimation
