@@ -1,6 +1,13 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import * as d3 from "d3";
+import { storeToRefs } from "pinia";
+
+import { useBooksState, type Book } from "@/stores/books";
+import history from "./history";
+
+const booksstore = useBooksState();
+const books = booksstore.sortedBooks;
 
 onMounted(() => {
   // set the dimensions and margins of the graph
@@ -17,83 +24,22 @@ onMounted(() => {
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
-  //read data
-  d3.csv(
-    "https://raw.githubusercontent.com/zonination/perceptions/master/probly.csv"
-  ).then(function (data) {
-    // Get the different categories and count them
-    const categories = data.columns;
-    const n = categories.length;
+  // Add X axis
+  const x = d3.scaleLinear().domain([-10, 140]).range([0, width]);
+  svg
+    .append("g")
+    .attr("transform", `translate(0, ${height})`)
+    .call(d3.axisBottom(x));
 
-    // Add X axis
-    const x = d3.scaleLinear().domain([-10, 140]).range([0, width]);
-    svg
-      .append("g")
-      .attr("transform", `translate(0, ${height})`)
-      .call(d3.axisBottom(x));
+  // Create a Y scale for densities
+  const y = d3.scaleLinear().domain([0, 0.4]).range([height, 0]);
 
-    // Create a Y scale for densities
-    const y = d3.scaleLinear().domain([0, 0.4]).range([height, 0]);
-
-    // Create the Y axis for names
-    const yName = d3
-      .scaleBand()
-      .domain(categories)
-      .range([0, height])
-      .paddingInner(1);
-    svg.append("g").call(d3.axisLeft(yName));
-
-    // Compute kernel density estimation for each column:
-    const kde: Kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(40)); // increase this 40 for more accurate density.
-    const allDensity: DensityWithKey[] = [];
-    for (let i = 0; i < n; i++) {
-      const key = categories[i];
-      const categoryData = data.map(function (d) {
-        return parseInt(d[key] || "0", 10);
-      });
-      const density: Density = kde(categoryData);
-      console.log(density);
-      allDensity.push({ key: key, density: density });
-    }
-
-    const lineFn = d3
-      .line<[number, number]>()
-      .curve(d3.curveBasis)
-      .x(function (d: [number, number]) {
-        return x(d[0]);
-      })
-      .y(function (d: [number, number]) {
-        return y(d[1]);
-      });
-    console.log(
-      lineFn([
-        [1, 3],
-        [2, 5],
-        [6, 2],
-      ])
-    );
-
-    // Add areas
-    svg
-      .selectAll("areas")
-      .data(allDensity)
-      .join("path")
-      .attr("transform", function (d) {
-        return `translate(0, ${(yName(d?.key) || 0) - height})`;
-      })
-      .datum(function (d: DensityWithKey): Density {
-        return d.density;
-      })
-      .attr("fill", "#69b3a2")
-      .attr("stroke", "#000")
-      .attr("stroke-width", 1)
-      .attr("d", lineFn);
-  });
   type Density = [number, number][];
   type Kde = (V: number[]) => Density;
   type DensityWithKey = { key: string; density: Density };
   type Kernel = (n: number) => number;
   type KdeGenerator = (kernel: Kernel, X: number[]) => Kde;
+
   // This is what I need to compute kernel density estimation
   const kernelDensityEstimator: KdeGenerator = (kernel, X) => {
     return (V: number[]) => {
@@ -112,6 +58,122 @@ onMounted(() => {
       return Math.abs((v /= k)) <= 1 ? (0.75 * (1 - v * v)) / k : 0;
     };
   };
+
+  // Compute kernel density estimation for each column
+  const kde: Kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(40)); // increase this 40 for more accurate density.
+
+  type HistoryPoint = { date: Date; val: number; bin: number };
+  type Histories = { key: string; d: HistoryPoint[] };
+  const render = function (data: Histories[]) {
+    // Get the different categories and count them
+    const categories = data.map((e) => e.key);
+    const n = categories.length;
+
+    const minDate = d3.min(data, function (d) {
+      return d3.min(d.d, function (e) {
+        return e.date;
+      });
+    });
+    // minDate.setDate(minDate.getDate() - 1);
+    var maxDate = d3.max(data, function (d) {
+      return d3.max(d.d, function (e) {
+        return e.date;
+      });
+    });
+
+    // Create the Y axis for names
+    const yName = d3
+      .scaleBand()
+      .domain(categories)
+      .range([0, height])
+      .paddingInner(1);
+
+    svg.append("g").call(d3.axisLeft(yName));
+
+    const allDensity: DensityWithKey[] = [];
+    for (let i = 0; i < n; i++) {
+      const key = data[i].key;
+      // const categoryData = data.map((d) => parseInt(d[key] || "0", 10));
+      const categoryData = data[i].d.map((e) => e.val);
+      const density: Density = kde(categoryData);
+      allDensity.push({ key: key, density: density });
+    }
+
+    const lineFn = d3
+      .line<[number, number]>()
+      .curve(d3.curveBasis)
+      .x(function (d: [number, number]) {
+        return x(d[0]);
+      })
+      .y(function (d: [number, number]) {
+        return y(d[1]);
+      });
+
+    // Add areas
+    svg
+      .selectAll("areas")
+      .data(allDensity)
+      .join("path")
+      .attr(
+        "transform",
+        (d) => `translate(0, ${(yName(d?.key) || 0) - height})`
+      )
+      .datum((d: DensityWithKey): Density => d.density)
+      .attr("fill", "#69b3a2")
+      .attr("stroke", "#000")
+      .attr("stroke-width", 1)
+      .attr("d", lineFn);
+  };
+  render(history.data(books));
+
+  // d3.csv(
+  //   "https://raw.githubusercontent.com/zonination/perceptions/master/probly.csv"
+  // ).then(function (data) {
+  //   // Get the different categories and count them
+  //   const categories = data.columns;
+  //   const n = categories.length;
+  //
+  //   // Create the Y axis for names
+  //   const yName = d3
+  //   .scaleBand()
+  //   .domain(categories)
+  //   .range([0, height])
+  //   .paddingInner(1);
+  //   svg.append("g").call(d3.axisLeft(yName));
+  //
+  //   const allDensity: DensityWithKey[] = [];
+  //   for (let i = 0; i < n; i++) {
+  //     const key = categories[i];
+  //     const categoryData = data.map((d) => parseInt(d[key] || "0", 10));
+  //     const density: Density = kde(categoryData);
+  //     allDensity.push({ key: key, density: density });
+  //   }
+  //
+  //   const lineFn = d3
+  //   .line<[number, number]>()
+  //   .curve(d3.curveBasis)
+  //   .x(function (d: [number, number]) {
+  //     return x(d[0]);
+  //   })
+  //   .y(function (d: [number, number]) {
+  //     return y(d[1]);
+  //   });
+  //
+  //   // Add areas
+  //   svg
+  //   .selectAll("areas")
+  //   .data(allDensity)
+  //   .join("path")
+  //   .attr(
+  //     "transform",
+  //     (d) => `translate(0, ${(yName(d?.key) || 0) - height})`
+  //   )
+  //   .datum((d: DensityWithKey): Density => d.density)
+  //   .attr("fill", "#69b3a2")
+  //   .attr("stroke", "#000")
+  //   .attr("stroke-width", 1)
+  //   .attr("d", lineFn);
+  // });
 });
 </script>
 
