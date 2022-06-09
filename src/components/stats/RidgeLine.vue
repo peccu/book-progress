@@ -43,26 +43,27 @@ onMounted(() => {
       .paddingInner(1);
     svg.append("g").call(d3.axisLeft(yName));
 
+
     // Compute kernel density estimation for each column:
-    const kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(40)); // increase this 40 for more accurate density.
-    const allDensity = [];
+    const kde: Kde = kernelDensityEstimator(kernelEpanechnikov(7), x.ticks(40)); // increase this 40 for more accurate density.
+    const allDensity: DensityWithKey[] = [];
     for (let i = 0; i < n; i++) {
       const key = categories[i];
-      const density = kde(
-        data.map(function (d) {
+      const categoryData = data.map(function (d) {
           return parseInt(d[key] || "0", 10);
-        })
-      );
+        });
+      const density:Density = kde(categoryData);
+      console.log(density);
       allDensity.push({ key: key, density: density });
     }
 
     const lineFn = d3
-      .line()
+      .line<[number, number]>()
       .curve(d3.curveBasis)
-      .x(function (d) {
+      .x(function (d: [number, number]) {
         return x(d[0]);
       })
-      .y(function (d) {
+      .y(function (d: [number, number]) {
         return y(d[1]);
       });
     console.log(
@@ -81,7 +82,7 @@ onMounted(() => {
       .attr("transform", function (d) {
         return `translate(0, ${(yName(d?.key) || 0) - height})`;
       })
-      .datum(function (d) {
+      .datum(function (d: DensityWithKey):Density {
         return d.density;
       })
       .attr("fill", "#69b3a2")
@@ -89,15 +90,16 @@ onMounted(() => {
       .attr("stroke-width", 1)
       .attr(
         "d",
-        /* eslint-disable @typescript-eslint/ban-ts-comment */
-        // @ts-ignore
         lineFn
       );
   });
-
+    type Density = [number, number][];
+    type Kde = (V: number[]) => Density;
+    type DensityWithKey = {key: string, density: Density};
   type Kernel = (n: number) => number;
+  type KdeGenerator = (kernel: Kernel, X: number[]) => Kde;
   // This is what I need to compute kernel density estimation
-  const kernelDensityEstimator = (kernel: Kernel, X: number[]) => {
+  const kernelDensityEstimator: KdeGenerator = (kernel, X) => {
     return (V: number[]) => {
       return X.map((x: number) => {
         return [
@@ -105,11 +107,11 @@ onMounted(() => {
           d3.mean(V, (v: number) => {
             return kernel(x - v);
           }),
-        ];
-      });
+        ] as [number, number];
+      }) as [number, number][];
     };
   };
-  const kernelEpanechnikov = (k: number) => {
+  const kernelEpanechnikov: (k: number) => Kernel = (k) => {
     return (v: number) => {
       return Math.abs((v /= k)) <= 1 ? (0.75 * (1 - v * v)) / k : 0;
     };
