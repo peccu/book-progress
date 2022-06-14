@@ -38,7 +38,7 @@ onMounted(() => {
 
   // set the dimensions and margins of the graph
   const margin = { top: 60, right: 30, bottom: 20, left: 90 };
-  const width = 600 - margin.left - margin.right;
+  const width = 360 - margin.left - margin.right;
   // height = 600 - margin.top - margin.bottom;
 
   const x = d3
@@ -46,10 +46,14 @@ onMounted(() => {
     .domain(d3.extent(data.dates) as [Date, Date])
     .range([margin.left, width - margin.right]);
 
+  const trim = (name) => {
+    return name.slice(0, 14) + (name.length > 14 ? "..." : "");
+  };
+
   const y = d3
     .scalePoint()
-    .domain(data.series.map((d) => d.name))
-    // .domain(data.series.map((d) => d.name.slice(0,16)+(d.name.length>16?'...':'')))
+    // .domain(data.series.map((d) => d.name))
+    .domain(data.series.map((d) => trim(d.name)))
     .range([margin.top, height - margin.bottom]);
 
   const z = d3
@@ -96,13 +100,15 @@ onMounted(() => {
     .attr("transform", `translate(${margin.left},1)`)
     .call(d3.axisLeft(y).tickSize(0).tickPadding(4))
     .call((g) => g.select(".domain").remove());
+  // .selectAll(".tick text")
+  // .call(wrap, margin.left);
 
   const group = svg
     .append("g")
     .selectAll("g")
     .data(data.series)
     .join("g")
-    .attr("transform", (d) => `translate(0,${(y(d.name) || 0) + 1})`);
+    .attr("transform", (d) => `translate(0,${(y(trim(d.name)) || 0) + 1})`);
 
   group
     .append("path")
@@ -115,8 +121,46 @@ onMounted(() => {
     .attr("stroke", "black")
     .attr("d", (d: Series) => line(d.values as any));
 });
+
+function wrap(text, width) {
+  text.each(function () {
+    // debugger
+    var text = d3.select(this),
+      words = text.text().split("").reverse(),
+      word,
+      line = [],
+      lineNumber = 0,
+      lineHeight = 1.0, // ems
+      y = text.attr("y"),
+      dy = parseFloat(text.attr("dy")),
+      tspan = text
+        .text(null)
+        .append("tspan")
+        .attr("x", 0)
+        .attr("y", y)
+        .attr("dy", dy + "em");
+    while ((word = words.pop())) {
+      line.push(word);
+      tspan.text(line.join(""));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(""));
+        line = [word];
+        if (lineNumber > 4) {
+          continue;
+        }
+        tspan = text
+          .append("tspan")
+          .attr("x", 0)
+          .attr("y", y)
+          .attr("dy", `${++lineNumber * lineHeight + dy}em`)
+          .text(word);
+      }
+    }
+  });
+}
 </script>
 
 <template>
-  <div id="my_timeviz">Time line</div>
+  <div id="my_timeviz"></div>
 </template>
