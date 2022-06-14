@@ -55,9 +55,10 @@ const updateProgress = () => {
         :id="`pgtype-page-${id}`"
         name="progresstype"
         v-model="progress.type"
+        @click.stop
         value="page"
       />
-      <label :for="`pgtype-page-${id}`">page #</label></span
+      <label :for="`pgtype-page-${id}`" @click.stop>page #</label></span
     >
     <span class="field">
       <input
@@ -65,9 +66,10 @@ const updateProgress = () => {
         :id="`pgtype-%-${id}`"
         name="progresstype"
         v-model="progress.type"
+        @click.stop
         value="%"
       />
-      <label :for="`pgtype-%-${id}`">%</label></span
+      <label :for="`pgtype-%-${id}`" @click.stop>%</label></span
     >
     <button @click.stop.prevent="updateProgress()">UpdateProgress</button>
     <div>{{ new Date(progress.date) }}</div>

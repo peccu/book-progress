@@ -2,7 +2,6 @@
 import { onMounted } from "vue";
 import * as d3 from "d3";
 import { storeToRefs } from "pinia";
-
 import { useBooksState, type Book } from "@/stores/books";
 import history from "./history";
 
@@ -125,55 +124,6 @@ onMounted(() => {
       .attr("d", lineFn);
   };
   render(history.data(books));
-
-  // d3.csv(
-  //   "https://raw.githubusercontent.com/zonination/perceptions/master/probly.csv"
-  // ).then(function (data) {
-  //   // Get the different categories and count them
-  //   const categories = data.columns;
-  //   const n = categories.length;
-  //
-  //   // Create the Y axis for names
-  //   const yName = d3
-  //   .scaleBand()
-  //   .domain(categories)
-  //   .range([0, height])
-  //   .paddingInner(1);
-  //   svg.append("g").call(d3.axisLeft(yName));
-  //
-  //   const allDensity: DensityWithKey[] = [];
-  //   for (let i = 0; i < n; i++) {
-  //     const key = categories[i];
-  //     const categoryData = data.map((d) => parseInt(d[key] || "0", 10));
-  //     const density: Density = kde(categoryData);
-  //     allDensity.push({ key: key, density: density });
-  //   }
-  //
-  //   const lineFn = d3
-  //   .line<[number, number]>()
-  //   .curve(d3.curveBasis)
-  //   .x(function (d: [number, number]) {
-  //     return x(d[0]);
-  //   })
-  //   .y(function (d: [number, number]) {
-  //     return y(d[1]);
-  //   });
-  //
-  //   // Add areas
-  //   svg
-  //   .selectAll("areas")
-  //   .data(allDensity)
-  //   .join("path")
-  //   .attr(
-  //     "transform",
-  //     (d) => `translate(0, ${(yName(d?.key) || 0) - height})`
-  //   )
-  //   .datum((d: DensityWithKey): Density => d.density)
-  //   .attr("fill", "#69b3a2")
-  //   .attr("stroke", "#000")
-  //   .attr("stroke-width", 1)
-  //   .attr("d", lineFn);
-  // });
 });
 </script>
 

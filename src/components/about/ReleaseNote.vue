@@ -3,7 +3,10 @@ import WelcomeItem from "./WelcomeItem.vue";
 import DocumentationIcon from "./icons/IconDocumentation.vue";
 const notes = [
   // {when: "", note: []},
-  {when: "2022/6/9", note: ["グラフをサンプルから実際のデータを使うように変更"]},
+  {
+    when: "2022/6/9",
+    note: ["グラフをサンプルから実際のデータを使うように変更"],
+  },
   {
     when: "2022/6/7",
     note: [

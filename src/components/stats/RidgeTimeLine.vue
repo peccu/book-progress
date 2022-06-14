@@ -1,0 +1,122 @@
+<script setup lang="ts">
+// https://observablehq.com/@d3/ridgeline-plot
+
+import { onMounted } from "vue";
+import * as d3 from "d3";
+import { storeToRefs } from "pinia";
+
+import { useBooksState, type Book } from "@/stores/books";
+import history from "./history";
+import type { DateNSeries, Series } from "./history";
+
+const booksstore = useBooksState();
+const books = booksstore.sortedBooks;
+
+onMounted(() => {
+  const data2 = history.data2(d3, books);
+  const data0 = {
+    dates: [
+      new Date("Tue May 24 2022 08:59:59 GMT+0900"),
+      new Date("Tue May 25 2022 08:59:59 GMT+0900"),
+      new Date("Tue May 28 2022 08:59:59 GMT+0900"),
+      new Date("Tue May 30 2022 08:59:59 GMT+0900"),
+      new Date("Tue Jun 3 2022 08:59:59 GMT+0900"),
+    ],
+    series: [
+      { name: "最高の脳で働く方法", values: [0, 1, 4, 0, 5] },
+      { name: "ライ麦畑でつかまえて", values: [140, 143, 150, 0, 0] },
+    ],
+  };
+  console.log("data2 hand", data0);
+  console.log("data2", data2);
+
+  const data: DateNSeries = history.data3(d3, books);
+  console.log("data3", data);
+
+  const overlap = 1;
+  const height = data.series.length * 40;
+
+  // set the dimensions and margins of the graph
+  const margin = { top: 60, right: 30, bottom: 20, left: 90 };
+  const width = 600 - margin.left - margin.right;
+  // height = 600 - margin.top - margin.bottom;
+
+  const x = d3
+    .scaleTime()
+    .domain(d3.extent(data.dates) as [Date, Date])
+    .range([margin.left, width - margin.right]);
+
+  const y = d3
+    .scalePoint()
+    .domain(data.series.map((d) => d.name))
+    // .domain(data.series.map((d) => d.name.slice(0,16)+(d.name.length>16?'...':'')))
+    .range([margin.top, height - margin.bottom]);
+
+  const z = d3
+    .scaleLinear()
+    .domain([0, d3.max(data.series, (d) => d3.max(d.values)) as number])
+    .nice()
+    .range([0, -overlap * y.step()]);
+
+  const area = d3
+    .area()
+    .curve(d3.curveBasis)
+    .defined((d: number | any) => !isNaN(d))
+    .x((d, i) => x(data.dates[i]))
+    .y0(0)
+    .y1((d: any, i: number): number => z(d));
+
+  const line = area.lineY1();
+
+  // append the svg object to the body of the page
+  const svg = d3
+    .select("#my_timeviz")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
+
+  // const svg = d3.select(DOM.svg(width, height));
+
+  // xAxis
+  svg
+    .append("g")
+    .attr("transform", `translate(0,${height - margin.bottom})`)
+    .call(
+      d3
+        .axisBottom(x)
+        .ticks(width / 80)
+        .tickSizeOuter(0)
+    );
+
+  // yAxis
+  svg
+    .append("g")
+    .attr("transform", `translate(${margin.left},1)`)
+    .call(d3.axisLeft(y).tickSize(0).tickPadding(4))
+    .call((g) => g.select(".domain").remove());
+
+  const group = svg
+    .append("g")
+    .selectAll("g")
+    .data(data.series)
+    .join("g")
+    .attr("transform", (d) => `translate(0,${(y(d.name) || 0) + 1})`);
+
+  group
+    .append("path")
+    .attr("fill", "#69b3a2")
+    .attr("d", (d: Series) => area(d.values as any));
+
+  group
+    .append("path")
+    .attr("fill", "none")
+    .attr("stroke", "black")
+    .attr("d", (d: Series) => line(d.values as any));
+});
+</script>
+
+<template>
+  <div id="my_timeviz">Time line</div>
+</template>

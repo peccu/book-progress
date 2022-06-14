@@ -14,10 +14,18 @@ import SupportIcon from "./icons/IconSupport.vue";
       <CommunityIcon />
     </template>
     <template #heading>コンセプト、背景、モチベーション</template>
-    <p>読書習慣を身につけるために毎日15秒読むようにすれば、15秒以上読んでしまって継続しやすい。と何かで読んでからそれを気にしながら読書している。</p>
-    <p>毎日の習慣が実践できていることを可視化してモチベーションを維持したい。</p>
-    <p>既存のツールでは「読み始めた」「読み終わった」「読みたい」くらいのステータスしか保持できなかったり、いちいち画面遷移がありわずらわしい。</p>
-    <p>またページ単位で保持できるものは和書に対応してないなど少しずつ好みに合わなかった。</p>
+    <p>
+      読書習慣を身につけるために毎日15秒読むようにすれば、15秒以上読んでしまって継続しやすい。と何かで読んでからそれを気にしながら読書している。
+    </p>
+    <p>
+      毎日の習慣が実践できていることを可視化してモチベーションを維持したい。
+    </p>
+    <p>
+      既存のツールでは「読み始めた」「読み終わった」「読みたい」くらいのステータスしか保持できなかったり、いちいち画面遷移がありわずらわしい。
+    </p>
+    <p>
+      またページ単位で保持できるものは和書に対応してないなど少しずつ好みに合わなかった。
+    </p>
     <p>この辺りを動機に自分好みのツールを作り始めた。</p>
   </WelcomeItem>
 
@@ -76,15 +84,21 @@ import SupportIcon from "./icons/IconSupport.vue";
       </li>
       <li>
         Ridge Line :
-        <a href="https://d3-graph-gallery.com/graph/ridgeline_basic.html"
-           target="_blank"
+        <a
+          href="https://d3-graph-gallery.com/graph/ridgeline_basic.html"
+          target="_blank"
           >Basic ridgeline plot in d3.js</a
         >
       </li>
-      <li>some tips...:
+      <li>
+        some tips...:
         <ul>
           <li>
-            <a href="https://stackoverflow.com/a/39715278/514411" target="_blank">date floor</a>
+            <a
+              href="https://stackoverflow.com/a/39715278/514411"
+              target="_blank"
+              >date floor</a
+            >
           </li>
         </ul>
       </li>
