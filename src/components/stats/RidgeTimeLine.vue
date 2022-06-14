@@ -34,20 +34,20 @@ onMounted(() => {
   console.log("data3", data);
 
   const overlap = 1;
-  const height = data.series.length * 40;
+  const height = data.series.length * 60;
 
   // set the dimensions and margins of the graph
-  const margin = { top: 60, right: 30, bottom: 20, left: 90 };
+  const margin = { top: 60, right: 0, bottom: 20, left: 50 };
   const width = 360 - margin.left - margin.right;
-  // height = 600 - margin.top - margin.bottom;
+  // const height = 600 - margin.top - margin.bottom;
 
   const x = d3
     .scaleTime()
     .domain(d3.extent(data.dates) as [Date, Date])
     .range([margin.left, width - margin.right]);
 
-  const trim = (name) => {
-    return name.slice(0, 14) + (name.length > 14 ? "..." : "");
+  const trim = (name: string) => {
+    return name.slice(0, 8) + (name.length > 8 ? "..." : "");
   };
 
   const y = d3
@@ -98,8 +98,8 @@ onMounted(() => {
   svg
     .append("g")
     .attr("transform", `translate(${margin.left},1)`)
-    .call(d3.axisLeft(y).tickSize(0).tickPadding(4))
-    .call((g) => g.select(".domain").remove());
+    .call(d3.axisLeft(y).tickSize(0).tickPadding(4));
+  // .call((g) => g.select(".domain").remove());
   // .selectAll(".tick text")
   // .call(wrap, margin.left);
 
@@ -122,43 +122,43 @@ onMounted(() => {
     .attr("d", (d: Series) => line(d.values as any));
 });
 
-function wrap(text, width) {
-  text.each(function () {
-    // debugger
-    var text = d3.select(this),
-      words = text.text().split("").reverse(),
-      word,
-      line = [],
-      lineNumber = 0,
-      lineHeight = 1.0, // ems
-      y = text.attr("y"),
-      dy = parseFloat(text.attr("dy")),
-      tspan = text
-        .text(null)
-        .append("tspan")
-        .attr("x", 0)
-        .attr("y", y)
-        .attr("dy", dy + "em");
-    while ((word = words.pop())) {
-      line.push(word);
-      tspan.text(line.join(""));
-      if (tspan.node().getComputedTextLength() > width) {
-        line.pop();
-        tspan.text(line.join(""));
-        line = [word];
-        if (lineNumber > 4) {
-          continue;
-        }
-        tspan = text
-          .append("tspan")
-          .attr("x", 0)
-          .attr("y", y)
-          .attr("dy", `${++lineNumber * lineHeight + dy}em`)
-          .text(word);
-      }
-    }
-  });
-}
+ // function wrap(text, width) {
+ //   text.each(function () {
+ //     // debugger
+ //     var text = d3.select(this),
+//       words = text.text().split("").reverse(),
+//       word,
+//       line = [],
+//       lineNumber = 0,
+//       lineHeight = 1.0, // ems
+//       y = text.attr("y"),
+//       dy = parseFloat(text.attr("dy")),
+//       tspan = text
+//         .text(null)
+//         .append("tspan")
+//         .attr("x", 0)
+//         .attr("y", y)
+//         .attr("dy", dy + "em");
+//     while ((word = words.pop())) {
+//       line.push(word);
+//       tspan.text(line.join(""));
+//       if (tspan.node().getComputedTextLength() > width) {
+//         line.pop();
+//         tspan.text(line.join(""));
+//         line = [word];
+//         if (lineNumber > 4) {
+//           continue;
+//         }
+//         tspan = text
+//           .append("tspan")
+//           .attr("x", 0)
+//           .attr("y", y)
+//           .attr("dy", `${++lineNumber * lineHeight + dy}em`)
+//           .text(word);
+//       }
+//     }
+//   });
+// }
 </script>
 
 <template>
