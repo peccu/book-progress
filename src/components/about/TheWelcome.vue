@@ -91,6 +91,12 @@ import SupportIcon from "./icons/IconSupport.vue";
         >
       </li>
       <li>
+        Ridge Line with time scale :
+        <a href="https://observablehq.com/@d3/ridgeline-plot" target="_blank"
+          >Ridgeline Plot / D3 / Observable</a
+        >
+      </li>
+      <li>
         some tips...:
         <ul>
           <li>

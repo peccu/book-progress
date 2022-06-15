@@ -122,10 +122,10 @@ onMounted(() => {
     .attr("d", (d: Series) => line(d.values as any));
 });
 
- // function wrap(text, width) {
- //   text.each(function () {
- //     // debugger
- //     var text = d3.select(this),
+// function wrap(text, width) {
+//   text.each(function () {
+//     // debugger
+//     var text = d3.select(this),
 //       words = text.text().split("").reverse(),
 //       word,
 //       line = [],
