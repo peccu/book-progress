@@ -5,7 +5,7 @@ import RidgeTimeLine from "@/components/stats/RidgeTimeLine.vue";
 
 <template>
   <main>
-    <RidgeLine />
     <RidgeTimeLine />
+    <RidgeLine />
   </main>
 </template>
