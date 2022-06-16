@@ -48,6 +48,16 @@
     if(!!window.location.host.match(/glitch/)){
       document.title = '(G)' + document.title
     }
+    let script = document.createElement('script');
+    script.src = 'v.js?' + new Date().getTime();
+    document.head.appendChild(script);
+    setInterval(()=>{
+      console.log('t')
+      document.head.removeChild(script);
+      script = document.createElement('script');
+      script.src = 'v.js?' + new Date().getTime();
+      document.head.appendChild(script);
+    }, 5000)
     </script>
     
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-FLSJ0Z30MD"></script>

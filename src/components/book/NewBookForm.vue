@@ -47,6 +47,7 @@ const saveBook = () => {
     booksstore.updateBook(book);
   } else {
     book.progress.date = new Date().getTime();
+    book.history.push(book.progress);
     booksstore.addBook(book);
   }
   router.push("/");

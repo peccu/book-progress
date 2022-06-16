@@ -72,12 +72,19 @@ onMounted(() => {
 
   const line = area.lineY1();
 
+  const viewbox = {
+    width: width + margin.left + margin.right,
+    height: height + margin.top + margin.bottom,
+  };
+
   // append the svg object to the body of the page
   const svg = d3
     .select("#my_timeviz")
     .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
+    // https://medium.com/@louisemoxy/a-simple-way-to-make-d3-js-charts-svgs-responsive-7afb04bc2e4b
+    // .attr("width", width + margin.left + margin.right)
+    // .attr("height", height + margin.top + margin.bottom)
+    .attr("viewBox", `0 0 ${viewbox.height} ${viewbox.width}`)
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
 

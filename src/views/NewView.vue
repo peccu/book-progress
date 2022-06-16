@@ -25,9 +25,39 @@ const initbooks = () => {
     },
     history: [
       {
+        type: "",
+        progress: 0,
+        date: new Date(2022, 4, 1).getTime(),
+        isFinished: false,
+      },
+      {
+        type: "%",
+        progress: 3,
+        date: new Date(2022, 4, 3).getTime(),
+        isFinished: false,
+      },
+      {
+        type: "%",
+        progress: 8,
+        date: new Date(2022, 4, 7).getTime(),
+        isFinished: false,
+      },
+      {
         type: "%",
         progress: 13,
-        date: new Date(2022, 4, 3).getTime(),
+        date: new Date(2022, 4, 8).getTime(),
+        isFinished: false,
+      },
+      {
+        type: "%",
+        progress: 14,
+        date: new Date(2022, 4, 9).getTime(),
+        isFinished: false,
+      },
+      {
+        type: "%",
+        progress: 15,
+        date: new Date(2022, 4, 15).getTime(),
         isFinished: false,
       },
     ],
@@ -47,6 +77,12 @@ const initbooks = () => {
       isFinished: false,
     },
     history: [
+      {
+        type: "",
+        progress: 0,
+        date: new Date(2022, 4, 3).getTime(),
+        isFinished: false,
+      },
       {
         type: "%",
         progress: 13,
