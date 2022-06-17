@@ -81,6 +81,10 @@ onMounted(() => {
   const svg = d3
     .select("#my_timeviz")
     .append("svg")
+    // https://stackoverflow.com/a/19379852/514411
+    .attr("width", "100%")
+    .attr("height", "100%")
+    .attr("preserveAspectRatio", "xMinYMin")
     // https://medium.com/@louisemoxy/a-simple-way-to-make-d3-js-charts-svgs-responsive-7afb04bc2e4b
     // .attr("width", width + margin.left + margin.right)
     // .attr("height", height + margin.top + margin.bottom)
