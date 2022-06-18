@@ -1,9 +1,9 @@
-console.log('loaded');
+/* eslint-disable no-undef */
 
 // https://michaelheap.com/netlify-function-lambda-return-image/
-/* eslint-disable no-undef */
 const chromium = require("chrome-aws-lambda");
 const puppeteer = require("puppeteer-core");
+
 const axios = require("axios");
 
 const search = async (isbn) => {
@@ -29,28 +29,10 @@ const genBook = (json) => {
 };
 
 exports.handler = async function (event, context) {
-
-  // https://github.com/netlify/zip-it-and-ship-it/issues/525#issuecomment-858580934
-  // https://github.com/spencewood/svg-function/pull/2/files
-  console.log('default fontconfig path: ', process.env.FONTCONFIG_PATH);
-  // require('fs').readFile('/tmp/aws/fonts.config', function(err,buf){ console.log(buf); });
-  // process.env.FONTCONFIG_PATH = "/var/task/functions/bookimage";
-  // process.env.FONTCONFIG_PATH = "/var/task/netlify/functions/image";
-  // process.env.FONTCONFIG_PATH = "/app/netlify/functions/image";
-  // process.env.FONTCONFIG_PATH = "/tmp";
-  // console.log('updated fontconfig path: ', process.env.FONTCONFIG_PATH);
-
-  // const testFolder = process.env.FONTCONFIG_PATH;
-  // const fs = require('fs');
-  // fs.readdir(testFolder, (err, files) => {
-  //   files.forEach(file => {
-  //     console.log(file);
-  //   });
-  // });
-
-  console.log('invoked');
   // https://github.com/alixaxel/chrome-aws-lambda
+  // v over 50MB problem
   // await chromium.font('/var/task/netlify/functions/image/NotoSerifCJKjp-Regular.otf');
+  // 302 moved
   // await chromium.font('https://github.com/ixkaito/NotoSerifJP-subset/raw/master/subset/NotoSerifCJKjp-Regular.otf');
   await chromium.font('https://raw.githubusercontent.com/ixkaito/NotoSerifJP-subset/master/subset/NotoSerifCJKjp-Regular.otf');
   const browser = await puppeteer.launch({
@@ -59,9 +41,7 @@ exports.handler = async function (event, context) {
     executablePath: await chromium.executablePath,
     headless: chromium.headless,
   });
-  console.log('browser');
   const page = await browser.newPage();
-  console.log('page');
 
   const isbn = event.queryStringParameters.isbn || "9784478109373";
   console.log('Searching isbn: ' + isbn);

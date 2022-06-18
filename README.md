@@ -1,6 +1,8 @@
-# vue-project
+# Book Progress
 
-This template should help get you started developing with Vue 3 in Vite.
+Records your book progress into localStorage.
+
+This is built with Vue 3 in Vite, developing on Glitch and hosting on Netlify.
 
 ## Recommended IDE Setup
 
