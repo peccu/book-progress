@@ -34,8 +34,8 @@ exports.handler = async function (event, context) {
 // https://github.com/spencewood/svg-function/pull/2/files
 console.log('default fontconfig path: ', process.env.FONTCONFIG_PATH);
   // require('fs').readFile('/tmp/aws/fonts.config', function(err,buf){ console.log(buf); });
-process.env.FONTCONFIG_PATH = "/var/task/functions/bookimage";
-// process.env.FONTCONFIG_PATH = "/var/task/netlify/functions/image";
+// process.env.FONTCONFIG_PATH = "/var/task/functions/bookimage";
+process.env.FONTCONFIG_PATH = "/var/task/netlify/functions/image";
 // process.env.FONTCONFIG_PATH = "/app/netlify/functions/image";
 // process.env.FONTCONFIG_PATH = "/tmp";
 console.log('updated fontconfig path: ', process.env.FONTCONFIG_PATH);
