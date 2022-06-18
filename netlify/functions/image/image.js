@@ -40,13 +40,13 @@ exports.handler = async function (event, context) {
   // process.env.FONTCONFIG_PATH = "/tmp";
   // console.log('updated fontconfig path: ', process.env.FONTCONFIG_PATH);
 
-  const testFolder = process.env.FONTCONFIG_PATH;
-  const fs = require('fs');
-  fs.readdir(testFolder, (err, files) => {
-    files.forEach(file => {
-      console.log(file);
-    });
-  });
+  // const testFolder = process.env.FONTCONFIG_PATH;
+  // const fs = require('fs');
+  // fs.readdir(testFolder, (err, files) => {
+  //   files.forEach(file => {
+  //     console.log(file);
+  //   });
+  // });
 
   console.log('invoked');
   // https://github.com/alixaxel/chrome-aws-lambda
