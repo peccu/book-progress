@@ -31,23 +31,21 @@ exports.handler = function(event, context, callback) {
                 try {
     callback(null, {
       statusCode: 200,
-      body: JSON.stringify(await search(isbn))
-    })
+      body: JSON.stringify(await search(isbn)),
+      });
 
-                  
-                  // this.setState({data: await this.getData()});
-                } catch (e) {
-                    //...handle the error...
-                }
-            })();
+      // this.setState({data: await this.getData()});
+    } catch (e) {
+      //...handle the error...
+    }
+  })();
   
-//   const url = "https://api.openbd.jp/v1/get?isbn=" + isbn.toString();
+// t url = "https://api.openbd.jp/v1/get?isbn=" + isbn.toString();
 
-  
-//   axios.get(url).then(res => {
-//     callback(null, {
-//       statusCode: 200,
-//       body: JSON.stringify(res.data),
-//     })
-//   })
+  //   axios.get(url).then(res => {
+  //     callback(null, {
+  //       statusCode: 200,
+  //       body: JSON.stringify(res.data),
+  //     })
+  //   })
 }
