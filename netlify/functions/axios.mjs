@@ -23,11 +23,11 @@ const genBook = (json) => {
   return book;
 };
 
-export const handler = async function(event, context, callback) {
+export const handler = async function (event, context, callback) {
   const isbn = event.queryStringParameters.isbn || "9784478109373";
-  console.log('Searching isbn: ' + isbn);
+  console.log("Searching isbn: " + isbn);
   const book = await search(isbn);
-  console.log('found title: ' + book.title);
+  console.log("found title: " + book.title);
   callback(null, {
     statusCode: 200,
     body: JSON.stringify(book),
