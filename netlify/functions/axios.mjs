@@ -1,3 +1,4 @@
+// -*- js2 -*-
 // https://github.com/Chuloo/gatsby-netlify-functions/blob/master/src/lambda/fetch.js
 import axios from "axios";
 

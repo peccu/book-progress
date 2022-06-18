@@ -1,14 +1,19 @@
+// -*- js2 -*-
 // https://github.com/netlify/zip-it-and-ship-it/issues/525#issuecomment-858580934
 // https://github.com/spencewood/svg-function/pull/2/files
 process.env.FONTCONFIG_PATH = "/var/task/functions/bookimage";
+process.env.FONTCONFIG_PATH = "/var/task/netlify/functions/bookimage";
 
 
 // https://michaelheap.com/netlify-function-lambda-return-image/
-/* eslint-disable no-undef */
-const chromium = require("chrome-aws-lambda");
-const puppeteer = require("puppeteer-core");
+import chromium from "chrome-aws-lambda";
+import puppeteer from "puppeteer-core";
+import axios from "axios";
 
-const axios = require("axios");
+// /* eslint-disable no-undef */
+// const chromium = require("chrome-aws-lambda");
+// const puppeteer = require("puppeteer-core");
+// const axios = require("axios");
 
 const search = async (isbn) => {
   const url = "https://api.openbd.jp/v1/get?isbn=" + isbn.toString();
@@ -33,7 +38,8 @@ const genBook = (json) => {
 };
 
 
-exports.handler = async function (event, context) {
+// exports.handler = async function (event, context) {
+export const handler = async function (event, context) {
   const browser = await puppeteer.launch({
     args: chromium.args,
     defaultViewport: { height: 630, width: 1200 },
