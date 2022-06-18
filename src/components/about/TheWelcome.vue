@@ -97,6 +97,9 @@ import SupportIcon from "./icons/IconSupport.vue";
         >
       </li>
       <li>
+      <a href="https://michaelheap.com/netlify-function-lambda-return-image/">Return an image from Netlify functions</a>
+      </li>
+      <li>
         some tips...:
         <ul>
           <li>

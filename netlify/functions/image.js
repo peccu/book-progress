@@ -1,3 +1,4 @@
+// https://michaelheap.com/netlify-function-lambda-return-image/
 /* eslint-disable no-undef */
 const chromium = require("chrome-aws-lambda");
 const puppeteer = require("puppeteer-core");
