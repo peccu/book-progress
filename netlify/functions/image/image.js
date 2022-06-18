@@ -56,7 +56,9 @@ console.log('invoked');
     executablePath: await chromium.executablePath,
     headless: chromium.headless,
   });
+console.log('browser');
   const page = await browser.newPage();
+console.log('page');
 
   const isbn = event.queryStringParameters.isbn || "9784478109373";
   console.log('Searching isbn: ' + isbn);
