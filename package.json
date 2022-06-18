@@ -2,6 +2,7 @@
   "name": "vue-project",
   "version": "0.0.0",
   "scripts": {
+    "fn": "netlify login && netlify functions:serve",
     "dev": "vite --host",
     "fix": "npm run lint --fix && refresh",
     "build": "./v.sh ; vue-tsc --noEmit && vite build",

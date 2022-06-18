@@ -1,5 +1,6 @@
 // https://github.com/spencewood/svg-function/pull/2/files
 process.env.FONTCONFIG_PATH = "/var/task/functions/svg";
+process.env.FONTCONFIG_PATH = "/var/task/netlify/functions/svg";
 
 const sharp = require("sharp");
 
