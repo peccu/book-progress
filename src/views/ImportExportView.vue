@@ -26,6 +26,6 @@ const importBooks = (importString: string) => {
       <button @click="copy(booksExport)">Copy</button>
       <button @click="importBooks(booksExport)">Import</button>
     </div>
-    <div><textarea v-model="booksExport" rows="30" cols="50"></textarea></div>
+    <div><textarea v-model="booksExport" rows="15" cols="50"></textarea></div>
   </main>
 </template>

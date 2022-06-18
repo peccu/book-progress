@@ -176,6 +176,12 @@ export const useBooksState = defineStore({
     overwriteBooks(books: Book[]) {
       (this.books as Book[]).splice(0);
       (this.books as Book[]).push(...books);
+      const max = this.books.reduce(
+        (max, book: Book, i) => Math.max(max, book.id, i),
+        0
+      );
+      // alert('max, nextid: ' + max + ', ' + this.nextId );
+      this.nextId = max + 1;
     },
   },
 });
