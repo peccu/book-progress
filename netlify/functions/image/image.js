@@ -51,7 +51,8 @@ exports.handler = async function (event, context) {
   console.log('invoked');
   // https://github.com/alixaxel/chrome-aws-lambda
   // await chromium.font('/var/task/netlify/functions/image/NotoSerifCJKjp-Regular.otf');
-  await chromium.font('https://github.com/ixkaito/NotoSerifJP-subset/raw/master/subset/NotoSerifCJKjp-Regular.otf');
+  // await chromium.font('https://github.com/ixkaito/NotoSerifJP-subset/raw/master/subset/NotoSerifCJKjp-Regular.otf');
+  await chromium.font('https://raw.githubusercontent.com/ixkaito/NotoSerifJP-subset/master/subset/NotoSerifCJKjp-Regular.otf');
   const browser = await puppeteer.launch({
     args: chromium.args,
     defaultViewport: { height: 630, width: 400 },
