@@ -30,35 +30,36 @@ const genBook = (json) => {
 
 exports.handler = async function (event, context) {
 
-// https://github.com/netlify/zip-it-and-ship-it/issues/525#issuecomment-858580934
-// https://github.com/spencewood/svg-function/pull/2/files
-console.log('default fontconfig path: ', process.env.FONTCONFIG_PATH);
+  // https://github.com/netlify/zip-it-and-ship-it/issues/525#issuecomment-858580934
+  // https://github.com/spencewood/svg-function/pull/2/files
+  console.log('default fontconfig path: ', process.env.FONTCONFIG_PATH);
   // require('fs').readFile('/tmp/aws/fonts.config', function(err,buf){ console.log(buf); });
-// process.env.FONTCONFIG_PATH = "/var/task/functions/bookimage";
-process.env.FONTCONFIG_PATH = "/var/task/netlify/functions/image";
-// process.env.FONTCONFIG_PATH = "/app/netlify/functions/image";
-// process.env.FONTCONFIG_PATH = "/tmp";
-console.log('updated fontconfig path: ', process.env.FONTCONFIG_PATH);
+  // process.env.FONTCONFIG_PATH = "/var/task/functions/bookimage";
+  // process.env.FONTCONFIG_PATH = "/var/task/netlify/functions/image";
+  // process.env.FONTCONFIG_PATH = "/app/netlify/functions/image";
+  // process.env.FONTCONFIG_PATH = "/tmp";
+  // console.log('updated fontconfig path: ', process.env.FONTCONFIG_PATH);
 
-const testFolder = process.env.FONTCONFIG_PATH;
-const fs = require('fs');
-fs.readdir(testFolder, (err, files) => {
-  files.forEach(file => {
-    console.log(file);
+  const testFolder = process.env.FONTCONFIG_PATH;
+  const fs = require('fs');
+  fs.readdir(testFolder, (err, files) => {
+    files.forEach(file => {
+      console.log(file);
+    });
   });
-});
 
-console.log('invoked');
-
+  console.log('invoked');
+  // https://github.com/alixaxel/chrome-aws-lambda
+  await chromium.font('/var/task/netlify/functions/image/NotoSerifCJKjp-Regular.otf');
   const browser = await puppeteer.launch({
     args: chromium.args,
     defaultViewport: { height: 630, width: 400 },
     executablePath: await chromium.executablePath,
     headless: chromium.headless,
   });
-console.log('browser');
+  console.log('browser');
   const page = await browser.newPage();
-console.log('page');
+  console.log('page');
 
   const isbn = event.queryStringParameters.isbn || "9784478109373";
   console.log('Searching isbn: ' + isbn);
