@@ -29,6 +29,14 @@ const genBook = (json) => {
 };
 
 exports.handler = async function (event, context) {
+const testFolder = '/tmp/aws';
+const fs = require('fs');
+fs.readdir(testFolder, (err, files) => {
+  files.forEach(file => {
+    console.log(file);
+  });
+});
+
 // https://github.com/netlify/zip-it-and-ship-it/issues/525#issuecomment-858580934
 // https://github.com/spencewood/svg-function/pull/2/files
 console.log('default fontconfig path: ', process.env.FONTCONFIG_PATH);
