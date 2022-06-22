@@ -5,7 +5,7 @@ import fetch from "node-fetch";
 const API_ENDPOINT = "https://icanhazdadjoke.com/";
 
 // exports.handler = async (event, context) => {
-const f = () => {
+const f = (isbn) => {
   return fetch(API_ENDPOINT, { headers: { Accept: "application/json" } })
     .then((response) => response.json())
     .then((data) => ({
@@ -24,7 +24,7 @@ const html = (data) => `
 <meta property="og:url" content=https://google.com/?q=og>
 <meta property="og:description" content=descriptiondssssddd>
 <meta property="og:type" content=object>
-<meta property="og:image" content=imageurl>
+<meta property="og:image" content=".netlify/functions/image?isbn=${data.isbn}">
 <script>// jump to original app page or, decode and display content
 </script>
 <body>
@@ -57,13 +57,13 @@ const search = async (isbn) => {
 
 export const handler = async (event, context) => {
   const isbn = event.queryStringParameters.isbn || "9784478109373";
-  return f(); /*
-  const data = await search(isbn);
+  //return f(isbn); /*
+  // const data = await search(isbn);
+  const data = {title: "book title", isbn}
   return {
     statusCode: 200,
     body: html(data),
-    body2: JSON.stringify({ message: `Hello, ${name}!` }),
-  };*/
+  };// */
 };
 
 // export { handler };
