@@ -23,20 +23,53 @@ export interface Book {
 }
 // interface Filter {'all' | 'finished' | 'unfinished'}
 
+const validateIsbn13 = (code: string) => {
+  // multiply by 3 for even numbers and sum them up and mod 10
+  // it should be 0
+  // ref. https://mathsuke.jp/isbncode/
+  return (
+    code
+      .split("")
+      .reduce((a, e: string, i) => a + parseInt(e, 10) * [1, 3][i % 2]) %
+      10 ===
+    0
+  );
+};
+
+const validateIsbn10 = (code: string) => {
+  // multiply by 3 for even numbers and sum them up and mod 10
+  // it should be 0
+  // ref. https://mathsuke.jp/isbncode/
+  return (
+    code
+      .split("")
+      .reduce((a, e: string, i) => a + (10 - i) * parseInt(e, 10), 0) %
+      11 ===
+    0
+  );
+};
+
 export const validateIsbn = (code: string) => {
   // multiply by 3 for even numbers and sum them up and mod 10
   // it should be 0
   // ref. https://mathsuke.jp/isbncode/
   return (
-    code.slice(0, 3) === "978" &&
-    code
-      .split("")
-      .map((e: string, i) => parseInt(e, 10) * [1, 3][i % 2])
-      .reduce((a, b) => a + b) %
-      10 ===
-      0
+    (code.length == 13 && code.slice(0, 3) === "978" && validateIsbn13(code)) ||
+    (code.length == 10 && validateIsbn10(code))
   );
 };
+
+// https://isbn-information.com/the-10-digit-isbn.html
+export const isbn13to10 = (isbn13) => {
+  const mid = isbn13.slice(3, -1);
+  return (
+    mid +
+    (11 -
+      (mid.split("").reduce((a, e, i) => a + (10 - i) * parseInt(e, 10), 0) %
+        11))
+  );
+};
+// isbn13to10('9874862761019') // => 4862761011
 
 // export const isbnSearch = async (isbn: number) => {
 //   const book: Book = {
