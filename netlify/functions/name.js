@@ -24,6 +24,8 @@ const html = (data) => `
 <meta property="og:url" content=https://google.com/?q=og>
 <meta property="og:description" content=descriptiondssssddd>
 <meta property="og:type" content=object>
+<meta property="og:image:height" content="630">
+<meta property="og:image:width" content="1200">
 <meta property="og:image" content=".netlify/functions/image?isbn=${data.isbn}">
 <script>// jump to original app page or, decode and display content
 </script>
