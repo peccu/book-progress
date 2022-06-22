@@ -59,11 +59,11 @@ export const handler = async (event, context) => {
   const isbn = event.queryStringParameters.isbn || "9784478109373";
   //return f(isbn); /*
   // const data = await search(isbn);
-  const data = {title: "book title", isbn}
+  const data = { title: "book title", isbn };
   return {
     statusCode: 200,
     body: html(data),
-  };// */
+  }; // */
 };
 
 // export { handler };

@@ -27,26 +27,29 @@ const validateIsbn13 = (code: string) => {
   // multiply by 3 for even numbers and sum them up and mod 10
   // it should be 0
   // ref. https://mathsuke.jp/isbncode/
-  return (
+  const left =
     code
       .split("")
-      .reduce((a, e: string, i) => a + parseInt(e, 10) * [1, 3][i % 2]) %
-      10 ===
-    0
-  );
+      .reduce(
+        (a: number, e: string, i: number) =>
+          a + parseInt(e, 10) * [1, 3][i % 2],
+        0
+      ) % 10;
+  return left === 0;
 };
 
 const validateIsbn10 = (code: string) => {
   // multiply by 3 for even numbers and sum them up and mod 10
   // it should be 0
   // ref. https://mathsuke.jp/isbncode/
-  return (
+  const left =
     code
       .split("")
-      .reduce((a, e: string, i) => a + (10 - i) * parseInt(e, 10), 0) %
-      11 ===
-    0
-  );
+      .reduce(
+        (a: number, e: string, i: number) => a + (10 - i) * parseInt(e, 10),
+        0
+      ) % 11;
+  return left === 0;
 };
 
 export const validateIsbn = (code: string) => {
@@ -60,12 +63,17 @@ export const validateIsbn = (code: string) => {
 };
 
 // https://isbn-information.com/the-10-digit-isbn.html
-export const isbn13to10 = (isbn13) => {
+export const isbn13to10 = (isbn13: string) => {
   const mid = isbn13.slice(3, -1);
   return (
     mid +
     (11 -
-      (mid.split("").reduce((a, e, i) => a + (10 - i) * parseInt(e, 10), 0) %
+      (mid
+        .split("")
+        .reduce(
+          (a: number, e: string, i: number) => a + (10 - i) * parseInt(e, 10),
+          0
+        ) %
         11))
   );
 };

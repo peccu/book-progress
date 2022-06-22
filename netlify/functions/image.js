@@ -34,7 +34,9 @@ exports.handler = async function (event, context) {
   // await chromium.font('/var/task/netlify/functions/image/NotoSerifCJKjp-Regular.otf');
   // 302 moved
   // await chromium.font('https://github.com/ixkaito/NotoSerifJP-subset/raw/master/subset/NotoSerifCJKjp-Regular.otf');
-  await chromium.font('https://raw.githubusercontent.com/ixkaito/NotoSerifJP-subset/master/subset/NotoSerifCJKjp-Regular.otf');
+  await chromium.font(
+    "https://raw.githubusercontent.com/ixkaito/NotoSerifJP-subset/master/subset/NotoSerifCJKjp-Regular.otf"
+  );
   const browser = await puppeteer.launch({
     args: chromium.args,
     defaultViewport: { height: 630, width: 1200 },
@@ -44,9 +46,9 @@ exports.handler = async function (event, context) {
   const page = await browser.newPage();
 
   const isbn = event.queryStringParameters.isbn || "9784478109373";
-  console.log('Searching isbn: ' + isbn);
+  console.log("Searching isbn: " + isbn);
   const book = await search(isbn);
-  console.log('found title: ' + book.title);
+  console.log("found title: " + book.title);
 
   await page.setContent(`<body>The book is <strong>${book.title}</strong>
   <svg height="210" width="500">

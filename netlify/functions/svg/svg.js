@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 // https://github.com/netlify/zip-it-and-ship-it/issues/525#issuecomment-858580934
 // https://github.com/spencewood/svg-function/pull/2/files
 process.env.FONTCONFIG_PATH = "/var/task/functions/svg";
