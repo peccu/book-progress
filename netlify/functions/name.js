@@ -26,7 +26,7 @@ const html = (data) => `
 <meta property="og:type" content=object>
 <meta property="og:image:height" content="630">
 <meta property="og:image:width" content="1200">
-<meta property="og:image" content=".netlify/functions/image?isbn=${data.isbn}">
+<meta property="og:image" content="https://book-progress.netlify.app/.netlify/functions/image?debug&isbn=${data.isbn}">
 <script>// jump to original app page or, decode and display content
 </script>
 <body>
