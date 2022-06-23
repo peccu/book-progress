@@ -61,6 +61,45 @@ ${img}
 </body>`;
 };
 
+const upload = async () => {
+  const cloudinary = require("cloudinary");
+  console.log({
+    cloud_name: process.env.CLOUDNAME,
+    api_key: process.env.APIKEY,
+    api_secret: process.env.APISECRET,
+  });
+
+  // Setup Cloudinary uploader
+  cloudinary.config({
+    cloud_name: process.env.CLOUDNAME,
+    api_key: process.env.APIKEY,
+    api_secret: process.env.APISECRET,
+  });
+
+  cloudinary.v2.uploader.upload(
+    "https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg",
+    { public_id: "olympic_flag" },
+    function(error, result) {
+      console.log('result');
+      console.log(result);
+      console.log('error');
+      console.log(result);
+    });
+
+  // const newImage = await cloudinary.v2.uploader.upload(
+  //   './temp.jpg');// ,
+  // //   function (error, result) {
+  // //     insertLine(`../_posts/${filename.file}`)
+  // //       .content(`ogimage: ${result.secure_url}`) // Create YML variable
+  // //       .at(9) // At line 9 in my case
+  // //       .then(function (err) {
+  // //         log(`${chalk.green(`✔️ Inserted ogimage front matter`)}`)
+  // //       })
+  // //   }
+  // // )
+  // return newImage;
+};
+
 exports.handler = async function (event, context) {
   // https://github.com/alixaxel/chrome-aws-lambda
   // v over 50MB problem
@@ -100,6 +139,10 @@ exports.handler = async function (event, context) {
 
   const buffer = await page.screenshot();
   await browser.close();
+
+  const cloudImage = await upload();
+  // console.log('cloud image: ' + cloudImage.secure_url);
+
   return {
     statusCode: 200,
     headers: {
