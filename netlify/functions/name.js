@@ -20,7 +20,8 @@
 const html = (data) => {
   // const url = process.env.NETLIFY_LOCAL == "true" ? "http://localhost:9999" : process.env.URL;
   // const imageurl = `${url}/.netlify/functions/image?debug=1&isbn=${data.isbn}`;
-  const imageurl = `https://res.cloudinary.com/peccu/image/upload/v1655962966/9784101010038.png`;
+  // const imageurl = `https://res.cloudinary.com/peccu/image/upload/v1655962966/9784101010038.png`;
+  const imageurl = `https://res.cloudinary.com/peccu/image/upload/${data.isbn}.png`;
   return `
 <html>
 <head>
