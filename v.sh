@@ -1,5 +1,6 @@
 #!/bin/bash
 
+echo commit ref: $COMMIT_REF
 cat v.js | sed 's/"VERSION_STR"/'$(date "+%s")'/g' > public/v.js
 # curl -Lo \
 #      netlify/functions/image/NotoSerifCJKjp-Regular.otf \
