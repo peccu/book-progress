@@ -4,6 +4,13 @@ import DocumentationIcon from "./icons/IconDocumentation.vue";
 const notes = [
   // {when: "", note: []},
   {
+    when: "2022/06/23",
+    note: [
+      "インポート用にクリップボードからペーストするボタンを用意",
+      "グラフの幅をウィンドウサイズに合わせるよう変更",
+    ],
+  },
+  {
     when: "2022/6/16",
     note: ["インポートした後に本を追加するとIDが重複する問題を修正"],
   },

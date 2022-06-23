@@ -10,8 +10,8 @@ const books = booksstore.sortedBooks;
 
 onMounted(() => {
   // set the dimensions and margins of the graph
-  const margin = { top: 60, right: 30, bottom: 20, left: 110 },
-    width = 360 - margin.left - margin.right,
+  const margin = { top: 60, right: 10, bottom: 36, left: 10 },
+    width = window.innerWidth - margin.left - margin.right,
     height = 600 - margin.top - margin.bottom;
 
   // append the svg object to the body of the page
@@ -27,7 +27,7 @@ onMounted(() => {
   const x = d3.scaleLinear().domain([-10, 140]).range([0, width]);
   svg
     .append("g")
-    .attr("transform", `translate(0, ${height})`)
+    .attr("transform", `translate(0, ${height + 16})`)
     .call(d3.axisBottom(x));
 
   // Create a Y scale for densities
@@ -65,7 +65,7 @@ onMounted(() => {
   type Histories = { key: string; d: HistoryPoint[] };
   const render = function (data: Histories[]) {
     // Get the different categories and count them
-    const categories = data.map((e) => e.key);
+    const categories: string[] = data.map((e) => e.key);
     const n = categories.length;
 
     // const minDate = d3.min(data, function (d) {
@@ -87,7 +87,10 @@ onMounted(() => {
       .range([0, height])
       .paddingInner(1);
 
-    svg.append("g").call(d3.axisLeft(yName));
+    svg
+      .append("g")
+      .attr("transform", `translate(0, 10)`)
+      .call(d3.axisRight(yName).tickSize(0));
 
     const allDensity: DensityWithKey[] = [];
     for (let i = 0; i < n; i++) {
@@ -128,5 +131,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <div id="my_dataviz">ridge line</div>
+  <div id="my_dataviz"></div>
 </template>

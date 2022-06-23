@@ -37,8 +37,8 @@ onMounted(() => {
   const height = data.series.length * 60;
 
   // set the dimensions and margins of the graph
-  const margin = { top: 60, right: 0, bottom: 20, left: 50 };
-  const width = 360 - margin.left - margin.right;
+  const margin = { top: 60, right: 8, bottom: 20, left: 80 };
+  const width = window.innerWidth - margin.left - margin.right;
   // const height = 600 - margin.top - margin.bottom;
 
   const x = d3
@@ -47,7 +47,7 @@ onMounted(() => {
     .range([margin.left, width - margin.right]);
 
   const trim = (name: string) => {
-    return name.slice(0, 8) + (name.length > 8 ? "..." : "");
+    return name.slice(0, 14) + (name.length > 14 ? "..." : "");
   };
 
   const y = d3
@@ -72,27 +72,14 @@ onMounted(() => {
 
   const line = area.lineY1();
 
-  const viewbox = {
-    width: width + margin.left + margin.right,
-    height: height + margin.top + margin.bottom,
-  };
-
   // append the svg object to the body of the page
   const svg = d3
     .select("#my_timeviz")
     .append("svg")
-    // https://stackoverflow.com/a/19379852/514411
-    .attr("width", "100%")
-    .attr("height", "100%")
-    .attr("preserveAspectRatio", "xMinYMin")
-    // https://medium.com/@louisemoxy/a-simple-way-to-make-d3-js-charts-svgs-responsive-7afb04bc2e4b
-    // .attr("width", width + margin.left + margin.right)
-    // .attr("height", height + margin.top + margin.bottom)
-    .attr("viewBox", `0 0 ${viewbox.height} ${viewbox.width}`)
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);
-
-  // const svg = d3.select(DOM.svg(width, height));
 
   // xAxis
   svg
