@@ -2,7 +2,7 @@
 import WelcomeItem from "./WelcomeItem.vue";
 import ReleaseNote from "./ReleaseNote.vue";
 import DocumentationIcon from "./icons/IconDocumentation.vue";
-import ToolingIcon from "./icons/IconTooling.vue";
+import SpecialThanks from "./SpecialThanks.vue";
 import EcosystemIcon from "./icons/IconEcosystem.vue";
 import CommunityIcon from "./icons/IconCommunity.vue";
 import SupportIcon from "./icons/IconSupport.vue";
@@ -62,59 +62,7 @@ import SupportIcon from "./icons/IconSupport.vue";
 
   <ReleaseNote></ReleaseNote>
 
-  <WelcomeItem>
-    <template #icon>
-      <ToolingIcon />
-    </template>
-    <template #heading>Special Thanks</template>
-    <ul>
-      <li>Vue 3 : framework</li>
-      <li>Glitch : development</li>
-      <li>Netlify : hosting</li>
-      <li>QuaggaJS : Barcode reader</li>
-      <li>OpenBD : ISBN search</li>
-      <li>
-        Flaticon :
-        <a
-          href="https://www.flaticon.com/free-icons/book"
-          title="book icons"
-          target="_blank"
-          >Book icons created by mikan933</a
-        >
-      </li>
-      <li>
-        Ridge Line :
-        <a
-          href="https://d3-graph-gallery.com/graph/ridgeline_basic.html"
-          target="_blank"
-          >Basic ridgeline plot in d3.js</a
-        >
-      </li>
-      <li>
-        Ridge Line with time scale :
-        <a href="https://observablehq.com/@d3/ridgeline-plot" target="_blank"
-          >Ridgeline Plot / D3 / Observable</a
-        >
-      </li>
-      <li>
-        <a href="https://michaelheap.com/netlify-function-lambda-return-image/"
-          >Return an image from Netlify functions</a
-        >
-      </li>
-      <li>
-        some tips...:
-        <ul>
-          <li>
-            <a
-              href="https://stackoverflow.com/a/39715278/514411"
-              target="_blank"
-              >date floor</a
-            >
-          </li>
-        </ul>
-      </li>
-    </ul>
-  </WelcomeItem>
+  <SpecialThanks></SpecialThanks>
 
   <WelcomeItem>
     <template #icon>
