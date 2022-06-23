@@ -58,6 +58,14 @@ const links = [
       title: "ISBN Information - Anatomy of a 10-digit ISBN",
     },
   },
+  {
+    desc: "screen capture resolution via puppeteer",
+    link: {
+      href: "https://github.com/puppeteer/puppeteer/issues/571#issuecomment-325404760",
+      title:
+        "Why is the text blurred after being translated into pictures? · Issue #571 · puppeteer/puppeteer",
+    },
+  },
 ];
 const formatLink = (link: string | { href: string; title: string }): string => {
   if (typeof link === "string") {
