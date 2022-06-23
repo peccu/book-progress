@@ -17,7 +17,10 @@
 //     .catch((error) => ({ statusCode: 422, body: String(error) }));
 // };
 
-const html = (data) => `
+const html = (data) => {
+  const url = process.env.NETLIFY_LOCAL == "true" ? "http://localhost:9999" : process.env.URL;
+  const imageurl = `${url}/.netlify/functions/image?debug=1&isbn=${data.isbn}`;
+  return `
 <html>
 <head>
 <title>book title - Book Progress</title>
@@ -28,22 +31,14 @@ const html = (data) => `
 <meta property="og:type" content=object>
 <meta property="og:image:height" content="630">
 <meta property="og:image:width" content="1200">
-<meta property="og:image" content="https://book-progress.netlify.app/.netlify/functions/image?debug&isbn=${data.isbn}">
+<meta property="og:image" content="${imageurl}">
 
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@nytimes">
-<meta name="twitter:creator" content="@SarahMaslinNir">
-<meta name="twitter:title" content="Parade of Fans for Houston’s Funeral">
-<meta name="twitter:description" content="NEWARK - The guest list and parade of limousines with celebrities emerging from them seemed more suited to a red carpet event in Hollywood or New York than than a gritty stretch of Sussex Avenue near the former site of the James M. Baxter Terrace public housing project here.">
-<meta name="twitter:image" content="https://book-progress.netlify.app/.netlify/functions/image?debug&isbn=${data.isbn}">
-<!--
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:creator" content="@peccul">
 <meta name="twitter:title" content="タイトルの進捗 - Book Progress">
 <meta name="twitter:description" content="タイトル 著書の進捗 : 現在23%">
-<meta name="twitter:image" content="https://book-progress.netlify.app/.netlify/functions/image?debug&isbn=${data.isbn}">
--->
+<meta name="twitter:image" content="${imageurl}">
+
 <script>// jump to original app page or, decode and display content
 </script>
 <body>
@@ -51,6 +46,7 @@ Shared content ${data.title}
 </body>
 </html>
 `;
+};
 
 // const search = async (isbn) => {
 //   const book = {};
