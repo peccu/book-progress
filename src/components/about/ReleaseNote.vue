@@ -3,7 +3,10 @@ import WelcomeItem from "./WelcomeItem.vue";
 import DocumentationIcon from "./icons/IconDocumentation.vue";
 const notes = [
   // {when: "", note: []},
-  {when: "2022/6/16", note: ["インポートした後に本を追加するとIDが重複する問題を修正"]},
+  {
+    when: "2022/6/16",
+    note: ["インポートした後に本を追加するとIDが重複する問題を修正"],
+  },
   { when: "2022/06/14", note: ["グラフのx軸が日付になるように修正"] },
   {
     when: "2022/6/9",

@@ -15,17 +15,50 @@ const search = async (isbn) => {
 
 const genBook = (json) => {
   const book = {};
+  if (json.length == 0 || json[0] === null || !json[0].summary) {
+    return null;
+  }
   const onix = json[0] && json[0];
   const summary = json[0] && json[0].summary;
   book.title = summary.title;
   book.publisher = summary.publisher;
   book.authors = summary.author.split(" ");
-  book.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
   book.cover = summary.cover;
-  book.notes = json[0].onix?.CollateralDetail?.TextContent.map(
-    (e) => e.Text
-  ).join("\n\n");
+
+  if (
+    json[0].onix &&
+    json[0].onix.DescriptiveDetail &&
+    json[0].onix.DescriptiveDetail.Extent &&
+    json[0].onix?.DescriptiveDetail?.Extent &&
+    json[0].onix?.DescriptiveDetail?.Extent[0] &&
+    json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue
+  )
+    book.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
   return book;
+};
+
+const noBookContent = () => `<body>
+<h1>The book info does not found.</h1>
+<div>
+  <svg height="210" width="500">
+  <polygon points="200,10 250,190 160,210" style="fill:lime;stroke:purple;stroke-width:1" />
+  Sorry, your browser does not support inline SVG.
+</svg>
+</div>
+</body>`;
+
+const bookContent = (book) => {
+  const img = book.cover !== "" ? `<img src="${book.cover}"/>` : "";
+  return `<body>
+<h1>The book is <strong>${book.title}</strong></h1>
+<div>
+  <svg height="210" width="500">
+  <polygon points="200,10 250,190 160,210" style="fill:lime;stroke:purple;stroke-width:1" />
+  Sorry, your browser does not support inline SVG.
+</svg>
+</div>
+${img}
+</body>`;
 };
 
 exports.handler = async function (event, context) {
@@ -39,7 +72,11 @@ exports.handler = async function (event, context) {
   );
   const browser = await puppeteer.launch({
     args: chromium.args,
-    defaultViewport: { height: 630, width: 1200 },
+    defaultViewport: {
+      height: 630 * 2,
+      width: 1200 * 2,
+      deviceScaleFactor: 1,
+    },
     executablePath: await chromium.executablePath,
     headless: chromium.headless,
   });
@@ -48,15 +85,21 @@ exports.handler = async function (event, context) {
   const isbn = event.queryStringParameters.isbn || "9784478109373";
   console.log("Searching isbn: " + isbn);
   const book = await search(isbn);
-  console.log("found title: " + book.title);
-
-  await page.setContent(`<body>The book is <strong>${book.title}</strong>
-  <svg height="210" width="500">
-  <polygon points="200,10 250,190 160,210" style="fill:lime;stroke:purple;stroke-width:1" />
-  Sorry, your browser does not support inline SVG.
-</svg></body>`);
+  let content;
+  if (book == null) {
+    console.log("not found for ISBN: " + isbn);
+    content = noBookContent();
+  } else {
+    console.log("found title: " + book.title);
+    content = bookContent(book);
+  }
+  await page.setContent(content);
   await page.waitForTimeout(1000);
+  // or
+  // await page.waitForSelector('img');
+
   const buffer = await page.screenshot();
+  await browser.close();
   return {
     statusCode: 200,
     headers: {

@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 // import { Handler } from "@netlify/functions";
 
 //const fetch = require("node-fetch");
