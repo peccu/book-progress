@@ -51,8 +51,15 @@ const links = [
       title: "date floor",
     },
   },
+  {
+    desc: "ISBN validation",
+    link: {
+      href: "https://isbn-information.com/the-10-digit-isbn.html",
+      title: "ISBN Information - Anatomy of a 10-digit ISBN",
+    },
+  },
 ];
-const formatLink = (link: string | {href: string, title: string}): string => {
+const formatLink = (link: string | { href: string; title: string }): string => {
   if (typeof link === "string") {
     return link;
   }
