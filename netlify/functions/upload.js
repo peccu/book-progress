@@ -23,18 +23,27 @@ exports.handler = async function (event, context) {
   // does not work 'cause of access from cloudinary and not from local
   // const url = process.env.NETLIFY_LOCAL == "true" ? "http://localhost:9999" : process.env.URL;
   // const cloudImage = await upload(isbn, `${url}/.netlify/functions/image?isbn=${isbn}`);
-  const cloudImage = await upload(isbn, `${process.env.URL}/.netlify/functions/image?isbn=${isbn}`);
+  try{
+    const cloudImage = await upload(isbn, `${process.env.URL}/.netlify/functions/image?isbn=${isbn}`);
 
-  console.log(cloudImage);
-  console.log('cloud image: ' + cloudImage.secure_url);
+    console.log(cloudImage);
+    console.log('cloud image: ' + cloudImage.secure_url);
 
-  const result = {
-    version: cloudImage.version,
-    public_id: cloudImage.public_id,
-    format: cloudImage.format,
-  };
-  return {
-    statusCode: 200,
-    body: JSON.stringify(result),
-  };
+    const result = {
+      version: cloudImage.version,
+      public_id: cloudImage.public_id,
+      format: cloudImage.format,
+    };
+    return {
+      statusCode: 200,
+      body: JSON.stringify(result),
+    };
+  }catch(e){
+    console.log('some error');
+    console.log(e);
+    return {
+      statusCode: 500,
+      body: JSON.stringify(e),
+    };
+  }
 };
