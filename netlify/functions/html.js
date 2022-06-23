@@ -46,7 +46,8 @@ const html = (content) => `<!DOCTYPE html>
   <body>${content}</body>
 </html>`;
 
-const noBookContent = () => html(`
+const noBookContent = () =>
+  html(`
 <h1>The book info does not found.</h1>
 <div>
   <svg height="210" width="500">

@@ -1,4 +1,6 @@
 // upload captured sharing image to cloudinary
+// meybe need background function
+// https://docs.netlify.com/functions/build-with-javascript/
 
 /* eslint-disable no-undef */
 
@@ -10,9 +12,10 @@ const upload = async (name, url, force = false) => {
     api_key: process.env.APIKEY,
     api_secret: process.env.APISECRET,
   });
+  const folder = "book-progress";
 
   const current = await cloudinary.v2.api.resources_by_ids(
-    [name],
+    [folder + "/" + name],
     function (error, result) {
       console.log(result, error);
     }
@@ -24,7 +27,7 @@ const upload = async (name, url, force = false) => {
 
   return await cloudinary.v2.uploader.upload(url, {
     public_id: name,
-    folder: "book-progress",
+    folder: folder,
   });
 };
 
