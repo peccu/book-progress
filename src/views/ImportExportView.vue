@@ -18,8 +18,8 @@ const importBooks = (importString: string) => {
     console.error(e);
   }
 };
-const pasteBooks = () => {
-  booksExport.value = paste();
+const pasteBooks = async () => {
+  booksExport.value = await paste() as string;
 };
 </script>
 
