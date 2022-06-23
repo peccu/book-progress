@@ -3,8 +3,8 @@ import fetch from "node-fetch";
 // const API_ENDPOINT = 'https://cat-fact.herokuapp.com/facts'
 const API_ENDPOINT = "https://api.github.com/users/github";
 
-export const handler = async (event, context) => {
-  let response;
+export const handler = async () => {
+  let response: any;
   try {
     // const response = await fetch();
     // const data = await response.json();

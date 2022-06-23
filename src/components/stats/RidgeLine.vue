@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import * as d3 from "d3";
-import { storeToRefs } from "pinia";
+// import { storeToRefs } from "pinia";
 import { useBooksState, type Book } from "@/stores/books";
 import history from "./history";
 
@@ -68,17 +68,17 @@ onMounted(() => {
     const categories = data.map((e) => e.key);
     const n = categories.length;
 
-    const minDate = d3.min(data, function (d) {
-      return d3.min(d.d, function (e) {
-        return e.date;
-      });
-    });
+    // const minDate = d3.min(data, function (d) {
+    //   return d3.min(d.d, function (e) {
+    //     return e.date;
+    //   });
+    // });
     // minDate.setDate(minDate.getDate() - 1);
-    var maxDate = d3.max(data, function (d) {
-      return d3.max(d.d, function (e) {
-        return e.date;
-      });
-    });
+    // var maxDate = d3.max(data, function (d) {
+    //   return d3.max(d.d, function (e) {
+    //     return e.date;
+    //   });
+    // });
 
     // Create the Y axis for names
     const yName = d3

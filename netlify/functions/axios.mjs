@@ -11,16 +11,16 @@ const search = async (isbn) => {
 
 const genBook = (json) => {
   const book = {};
-  const onix = json[0] && json[0];
+  const onix = json[0] && json[0].onix;
   const summary = json[0] && json[0].summary;
   book.title = summary.title;
   book.publisher = summary.publisher;
   book.authors = summary.author.split(" ");
-  book.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
+  book.pages = onix?.DescriptiveDetail?.Extent[0].ExtentValue;
   book.cover = summary.cover;
-  book.notes = json[0].onix?.CollateralDetail?.TextContent.map(
-    (e) => e.Text
-  ).join("\n\n");
+  book.notes = onix?.CollateralDetail?.TextContent.map((e) => e.Text).join(
+    "\n\n"
+  );
   return book;
 };
 

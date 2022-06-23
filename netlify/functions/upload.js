@@ -13,31 +13,38 @@ const upload = async (name, url, force = false) => {
 
   const current = await cloudinary.v2.api.resources_by_ids(
     [name],
-    function(error, result) {console.log(result, error); }
+    function (error, result) {
+      console.log(result, error);
+    }
   );
-  if(!force && current.resources.length > 0){
+  if (!force && current.resources.length > 0) {
     return current.resources[0];
   }
-  console.log('not found or force. fetch and uploading');
+  console.log("not found or force. fetch and uploading");
 
-  return await cloudinary.v2.uploader.upload(
-    url,
-    { public_id: name });
+  return await cloudinary.v2.uploader.upload(url, {
+    public_id: name,
+    folder: "book-progress",
+  });
 };
 
-exports.handler = async function (event, context) {
+exports.handler = async function (event) {
   const isbn = event.queryStringParameters.isbn || "9784478109373";
   const force = event.queryStringParameters.force || false;
 
   console.log("Uploading isbn: " + isbn);
-  try{
+  try {
     // does not work 'cause of access from cloudinary and not from local
     // const url = process.env.NETLIFY_LOCAL == "true" ? "http://localhost:9999" : process.env.URL;
     // const cloudImage = await upload(isbn, `${url}/.netlify/functions/image?isbn=${isbn}`);
-    const cloudImage = await upload(isbn, `${process.env.URL}/.netlify/functions/image?isbn=${isbn}`, force);
+    const cloudImage = await upload(
+      isbn,
+      `${process.env.URL}/.netlify/functions/image?isbn=${isbn}`,
+      force
+    );
 
     console.log(cloudImage);
-    console.log('cloud image: ' + cloudImage.secure_url);
+    console.log("cloud image: " + cloudImage.secure_url);
 
     const result = {
       version: cloudImage.version,
@@ -48,8 +55,8 @@ exports.handler = async function (event, context) {
       statusCode: 200,
       body: JSON.stringify(result),
     };
-  }catch(e){
-    console.log('some error');
+  } catch (e) {
+    console.log("some error");
     console.log(e);
     return {
       statusCode: 500,

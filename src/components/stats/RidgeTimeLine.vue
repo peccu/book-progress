@@ -3,7 +3,7 @@
 
 import { onMounted } from "vue";
 import * as d3 from "d3";
-import { storeToRefs } from "pinia";
+// import { storeToRefs } from "pinia";
 
 import { useBooksState, type Book } from "@/stores/books";
 import history from "./history";

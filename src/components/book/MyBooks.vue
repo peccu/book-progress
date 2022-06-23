@@ -5,7 +5,7 @@ import UpdateProgress from "./UpdateProgress.vue";
 import { RouterLink } from "vue-router";
 
 import { useBooksState, type Book } from "@/stores/books";
-import { storeToRefs } from "pinia";
+// import { storeToRefs } from "pinia";
 const booksstore = useBooksState();
 // const { books } = storeToRefs(booksstore);
 const books = booksstore.sortedBooks;

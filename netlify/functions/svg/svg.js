@@ -7,7 +7,7 @@ process.env.FONTCONFIG_PATH = "/var/task/netlify/functions/svg";
 
 const sharp = require("sharp");
 
-exports.handler = async function (event, context) {
+exports.handler = async function () {
   const svgWithText = Buffer.from(
     `<svg viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
     <text x="20" y="35">My</text>

@@ -19,7 +19,7 @@ const myChart = new Chart(document.getElementById("chart").getContext("2d"), {
 var image = myChart.toBase64Image();
 // console.log(image);
 
-export const handler = function (event, context) {
+export const handler = function () {
   return {
     statusCode: 200,
     headers: {

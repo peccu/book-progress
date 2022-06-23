@@ -34,7 +34,7 @@ const current = (book: Book, history: Progress) => {
 
 // progress by day
 const makeLine = (b: Book) => {
-  return b.history.reduce((a: { [key: string]: number }, h, i) => {
+  return b.history.reduce((a: { [key: string]: number }, h) => {
     const day = dateFloor(new Date(h.date));
     const key = `${day.getTime()}`;
     const c = current(b, h);

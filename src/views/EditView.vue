@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import BookForm from "@/components/book/BookForm.vue";
-import { useBooksState } from "@/stores/books";
+// import { useBooksState } from "@/stores/books";
 
 const props = defineProps({
   id: String,
 });
 
-const booksstore = useBooksState();
+// const booksstore = useBooksState();
 console.log(`picked id: ${props.id}`);
 </script>
 

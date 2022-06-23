@@ -6,7 +6,7 @@
 const chromium = require("chrome-aws-lambda");
 const puppeteer = require("puppeteer-core");
 
-exports.handler = async function (event, context) {
+exports.handler = async function (event) {
   // https://github.com/alixaxel/chrome-aws-lambda
   // v over 50MB problem
   // await chromium.font('/var/task/netlify/functions/image/NotoSerifCJKjp-Regular.otf');
@@ -30,7 +30,10 @@ exports.handler = async function (event, context) {
 
   const isbn = event.queryStringParameters.isbn || "9784478109373";
   // await page.setContent(content);
-  const url = process.env.NETLIFY_LOCAL == "true" ? "http://localhost:9999" : process.env.URL;
+  const url =
+    process.env.NETLIFY_LOCAL == "true"
+      ? "http://localhost:9999"
+      : process.env.URL;
   await page.goto(`${url}/.netlify/functions/html?isbn=${isbn}`);
 
   await page.waitForTimeout(1000);

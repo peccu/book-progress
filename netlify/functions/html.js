@@ -15,7 +15,6 @@ const genBook = (json) => {
   if (json.length == 0 || json[0] === null || !json[0].summary) {
     return null;
   }
-  const onix = json[0] && json[0];
   const summary = json[0] && json[0].summary;
   book.title = summary.title;
   book.publisher = summary.publisher;
@@ -71,7 +70,7 @@ ${img}
 `);
 };
 
-exports.handler = async function (event, context) {
+exports.handler = async function (event) {
   const isbn = event.queryStringParameters.isbn || "9784478109373";
   console.log("Searching isbn: " + isbn);
   const book = await search(isbn);
