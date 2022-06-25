@@ -13,7 +13,7 @@ exports.handler = async function (event) {
   // 302 moved
   // await chromium.font('https://github.com/ixkaito/NotoSerifJP-subset/raw/master/subset/NotoSerifCJKjp-Regular.otf');
   await chromium.font(
-    "https://raw.githubusercontent.com/ixkaito/NotoSerifJP-subset/master/subset/NotoSerifCJKjp-Regular.otf"
+    "https://raw.githubusercontent.com/ixkaito/NotoSerifJP-subset/master/subset/NotoSerifCJKjp-Light.otf"
   );
   const scale = 2;
   const browser = await puppeteer.launch({
