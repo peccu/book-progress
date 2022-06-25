@@ -67,17 +67,26 @@ const noBookContent = () =>
 const bookContent = (book) => {
   // const img = book.cover !== "" ? `<img src="${book.cover}"/>` : "";
   // 200x285 315-285=30
-  const img = book.cover !== "" ? `<image x="200" y="30" href="${book.cover}"/>` : "";
+  const img = book.cover !== "" ? `<image x="0" y="0" height="210" href="${book.cover}"/>` : "";
   return html(`
   <div>
-<svg height="600" width="400">
-  <rect x="0" y="0" width="360" height="400" fill="darkgreen"/>
-  <polygon points="100,110 150,190 60,200" style="fill:lime;stroke:purple;stroke-width:1" />
-  <text x="10" y="10"
-        font-size="10" text-anchor="left" fill="white" dominant-baseline="hanging"
-        font-family="serif"
-        >${book.title}</text>
+  <svg height="210" width="400">
+  <rect x="0" y="0" width="400" height="210" fill="darkgreen" />
+  <polygon points="200,110 250,190 160,200" style="fill:lime;stroke:purple;stroke-width:1" />
   ${img}
+  <switch>
+    <g requiredFeatures="http://www.w3.org/Graphics/SVG/feature/1.2/#TextFlow">
+      <textArea x="150" width="250" height="auto">
+       ! ${book.title}
+      </textArea>
+    </g>
+    <foreignObject x="150" width="250" height="210" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+      <p style="font-size: 20;color: white;font-family: serif;" xmlns="http://www.w3.org/1999/xhtml">
+        ${book.title}
+      </p>
+    </foreignObject>
+    <text x="150" y="10">${book.title}</text>
+  </switch>
 </svg>
 </div>
 `);
