@@ -42,6 +42,7 @@ const html = (content) => `<!DOCTYPE html>
       name="viewport"
       content="width=device-width,initial-scale=1,maximum-scale=1,shrink-to-fit=no"
     />
+    <script type="text/javascript" src="//typesquare.com/3/tsst/script/ja/typesquare.js?6090fc46075c4de7aa491d84ac1e02e5" charset="utf-8"></script>
   </head>
   <body>${content}</body>
 </html>`;
