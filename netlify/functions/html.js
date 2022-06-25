@@ -77,12 +77,12 @@ const bookContent = (book) => {
   <rect x="0" y="0" width="400" height="210" fill="darkgreen" />
   <polygon points="200,110 250,190 160,200" style="fill:lime;stroke:purple;stroke-width:1" />
   ${img}
-  <foreignObject x="150" width="250" height="210" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
+  <foreignObject x="150" y="0" width="250" height="210" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility">
       <p style="font-size: 20;color: white;font-family: serif;" xmlns="http://www.w3.org/1999/xhtml">
         ${book.title}
       </p>
     </foreignObject>
-  <switch>
+  <!-- <switch>
     <g requiredFeatures="http://www.w3.org/Graphics/SVG/feature/1.2/#TextFlow">
       <textArea x="150" width="250" height="auto">
        ! ${book.title}
@@ -95,7 +95,7 @@ const bookContent = (book) => {
     </foreignObject>
     <text x="150" y="10" dominant-baseline="hanging"
     fill="white">${book.title}</text>
-  </switch>
+  </switch>-->
 </svg>
 </div>
 `);
