@@ -66,10 +66,12 @@ const noBookContent = () =>
 
 const bookContent = (book) => {
   // const img = book.cover !== "" ? `<img src="${book.cover}"/>` : "";
-  const img = book.cover !== "" ? `<image x="100" y="60" href="${book.cover}"/>` : "";
+  // 200x285 315-285=30
+  const img = book.cover !== "" ? `<image x="200" y="30" href="${book.cover}"/>` : "";
   return html(`
+  <div>
 <svg height="600" width="400">
-  <rect x="0" y="0" width="400" height="400" fill="darkgreen"/>
+  <rect x="0" y="0" width="360" height="400" fill="darkgreen"/>
   <polygon points="100,110 150,190 60,200" style="fill:lime;stroke:purple;stroke-width:1" />
   <text x="10" y="10"
         font-size="10" text-anchor="left" fill="white" dominant-baseline="hanging"
@@ -77,6 +79,7 @@ const bookContent = (book) => {
         >${book.title}</text>
   ${img}
 </svg>
+</div>
 `);
 };
 
