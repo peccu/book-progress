@@ -59,16 +59,18 @@ const noBookContent = () =>
 `);
 
 const bookContent = (book) => {
-  const img = book.cover !== "" ? `<img src="${book.cover}"/>` : "";
+  // const img = book.cover !== "" ? `<img src="${book.cover}"/>` : "";
+  const img = book.cover !== "" ? `<image x="200" y="60" href="${book.cover}"/>` : "";
   return html(`
-<div>${book.title}</div>
-<div>
-  <svg height="100" width="400">
-  <polygon points="200,10 250,90 160,100" style="fill:lime;stroke:purple;stroke-width:1" />
-  Sorry, your browser does not support inline SVG.
+<svg height="600" width="400">
+  <rect x="0" y="0" width="400" height="400" fill="darkgreen"/>
+  <polygon points="100,110 150,190 60,200" style="fill:lime;stroke:purple;stroke-width:1" />
+  <text x="10" y="10"
+        font-size="40" text-anchor="left" fill="white" dominant-baseline="hanging"
+        font-family="serif"
+        >${book.title}</text>
+  ${img}
 </svg>
-</div>
-${img}
 `);
 };
 
