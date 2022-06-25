@@ -42,7 +42,7 @@ exports.handler = async function (event) {
     // const cloudImage = await upload(isbn, `${url}/.netlify/functions/image?isbn=${isbn}`);
     const cloudImage = await upload(
       isbn,
-      `${process.env.URL}/.netlify/functions/image?isbn=${isbn}`,
+      `${process.env.URL}/.netlify/functions/image?isbn=${isbn}&${(new Date()).getTime()}`,
       force
     );
 
