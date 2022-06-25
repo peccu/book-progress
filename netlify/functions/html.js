@@ -61,10 +61,9 @@ const noBookContent = () =>
 const bookContent = (book) => {
   const img = book.cover !== "" ? `<img src="${book.cover}"/>` : "";
   return html(`
-<h3>The book is <strong>${book.title}</strong></h3>
-<div>地の文。</div>
+<div>${book.title}</div>
 <div>
-  <svg height="100" width="500">
+  <svg height="100" width="400">
   <polygon points="200,10 250,90 160,100" style="fill:lime;stroke:purple;stroke-width:1" />
   Sorry, your browser does not support inline SVG.
 </svg>
