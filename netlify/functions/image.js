@@ -15,7 +15,7 @@ exports.handler = async function (event) {
   await chromium.font(
     "https://raw.githubusercontent.com/ixkaito/NotoSerifJP-subset/master/subset/NotoSerifCJKjp-Light.otf"
   );
-  const scale = 2;
+  const scale = 3;
   const browser = await puppeteer.launch({
     args: chromium.args,
     defaultViewport: {
