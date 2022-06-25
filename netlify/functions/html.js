@@ -42,6 +42,12 @@ const html = (content) => `<!DOCTYPE html>
       name="viewport"
       content="width=device-width,initial-scale=1,maximum-scale=1,shrink-to-fit=no"
     />
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
     <script type="text/javascript" src="//typesquare.com/3/tsst/script/ja/typesquare.js?6090fc46075c4de7aa491d84ac1e02e5" charset="utf-8"></script>
   </head>
   <body>${content}</body>
@@ -60,13 +66,13 @@ const noBookContent = () =>
 
 const bookContent = (book) => {
   // const img = book.cover !== "" ? `<img src="${book.cover}"/>` : "";
-  const img = book.cover !== "" ? `<image x="200" y="60" href="${book.cover}"/>` : "";
+  const img = book.cover !== "" ? `<image x="100" y="60" href="${book.cover}"/>` : "";
   return html(`
 <svg height="600" width="400">
   <rect x="0" y="0" width="400" height="400" fill="darkgreen"/>
   <polygon points="100,110 150,190 60,200" style="fill:lime;stroke:purple;stroke-width:1" />
   <text x="10" y="10"
-        font-size="40" text-anchor="left" fill="white" dominant-baseline="hanging"
+        font-size="10" text-anchor="left" fill="white" dominant-baseline="hanging"
         font-family="serif"
         >${book.title}</text>
   ${img}
