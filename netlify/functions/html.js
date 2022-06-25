@@ -85,7 +85,8 @@ const bookContent = (book) => {
         ${book.title}
       </p>
     </foreignObject>
-    <text x="150" y="10">${book.title}</text>
+    <text x="150" y="10" dominant-baseline="hanging"
+    fill="white">${book.title}</text>
   </switch>
 </svg>
 </div>
