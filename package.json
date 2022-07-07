@@ -13,12 +13,13 @@
   },
   "dependencies": {
     "@types/d3": "^7.4.0",
-    "@vueuse/core": "^8.7.4",
-    "d3": "^7.4.5",
+    "@vueuse/core": "^8.9.0",
+    "d3": "^7.6.1",
     "pinia": "^2.0.14",
     "quagga": "^0.12.1",
     "vue": "^3.2.37",
-    "vue-router": "^4.0.16"
+    "vue-router": "^4.1.1",
+    "vue3-calendar-heatmap": "^2.0.0"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.0",
