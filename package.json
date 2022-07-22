@@ -32,7 +32,7 @@
     "chart.js": "^3.8.0",
     "chrome-aws-lambda": "^10.1.0",
     "cloudinary": "^1.30.0",
-    "eslint": "^8.5.0",
+    "eslint": "^8.18.0",
     "eslint-plugin-vue": "^8.2.0",
     "node-fetch": "^3.2.4",
     "prettier": "^2.5.1",

@@ -13,25 +13,8 @@ const booksstore = useBooksState();
 const books = booksstore.sortedBooks;
 
 onMounted(() => {
-  const data2 = history.data2(d3, books);
-  const data0 = {
-    dates: [
-      new Date("Tue May 24 2022 08:59:59 GMT+0900"),
-      new Date("Tue May 25 2022 08:59:59 GMT+0900"),
-      new Date("Tue May 28 2022 08:59:59 GMT+0900"),
-      new Date("Tue May 30 2022 08:59:59 GMT+0900"),
-      new Date("Tue Jun 3 2022 08:59:59 GMT+0900"),
-    ],
-    series: [
-      { name: "最高の脳で働く方法", values: [0, 1, 4, 0, 5] },
-      { name: "ライ麦畑でつかまえて", values: [140, 143, 150, 0, 0] },
-    ],
-  };
-  console.log("data2 hand", data0);
-  console.log("data2", data2);
-
-  const data: DateNSeries = history.data3(d3, books);
-  console.log("data3", data);
+  const data: DateNSeries = history.dataByTimeline(d3, books);
+  console.log("dataByTimeline", data);
 
   const overlap = 1;
   const height = data.series.length * 60;

@@ -4,6 +4,7 @@ type Histories = { key: string; d: HistoryPoint[] };
 
 export type Series = { name: string; values: number[] };
 export type DateNSeries = { dates: Date[]; series: Series[] };
+export type CountsByDay = { date: Date; count: number };
 
 type Row = { name: string; date: Date; value: number };
 
@@ -43,6 +44,40 @@ const makeLine = (b: Book) => {
   }, {});
 };
 
+// progress by book
+const progressByBook = (d3: any, books: Book[]): Row[] => {
+  return books.reduce((rows: Row[], book) => {
+    const line = makeLine(book);
+    const _dates: Date[] = Array.from(
+      d3
+        .group(book.history, (d: Progress) => dateFloor(new Date(d.date)))
+        .keys()
+    ).sort(d3.ascending) as Date[];
+    const values = _dates.map((date, i, a) => {
+      // console.log([date, i, a]);
+      if (i == 0) {
+        return line[`${date.getTime()}`]; // 過去に読んでたものを登録すると一気に進捗出たことになってしまうので要検討
+      }
+      const prev = a[i - 1];
+      return line[`${date.getTime()}`] - line[`${prev.getTime()}`];
+    });
+    console.log("values", [
+      book.title,
+      book.history.map((e) => current(book, e)),
+      values,
+    ]);
+    return rows.concat(
+      book.history.map((hs: Progress, i: number) => {
+        return {
+          name: book.title,
+          date: dateFloor(new Date(hs.date)),
+          value: values[i],
+        };
+      })
+    );
+  }, []);
+};
+
 export default {
   data: (books: Book[]): Histories[] => {
     console.log(`book count is ${books.length}`);
@@ -72,37 +107,8 @@ export default {
     console.log("lines", lines);
     return lines;
   },
-  data3: (d3: any, books: Book[]): DateNSeries => {
-    const data = books.reduce((rows: Row[], book) => {
-      const line = makeLine(book);
-      const _dates: Date[] = Array.from(
-        d3
-          .group(book.history, (d: Progress) => dateFloor(new Date(d.date)))
-          .keys()
-      ).sort(d3.ascending) as Date[];
-      const values = _dates.map((date, i, a) => {
-        // console.log([date, i, a]);
-        if (i == 0) {
-          return line[`${date.getTime()}`]; // 過去に読んでたものを登録すると一気に進捗出たことになってしまうので要検討
-        }
-        const prev = a[i - 1];
-        return line[`${date.getTime()}`] - line[`${prev.getTime()}`];
-      });
-      console.log("values", [
-        book.title,
-        book.history.map((e) => current(book, e)),
-        values,
-      ]);
-      return rows.concat(
-        book.history.map((hs: Progress, i: number) => {
-          return {
-            name: book.title,
-            date: dateFloor(new Date(hs.date)),
-            value: values[i],
-          };
-        })
-      );
-    }, []);
+  dataByTimeline: (d3: any, books: Book[]): DateNSeries => {
+    const data = progressByBook(d3, books);
     console.log("data", data);
 
     const dates = Array.from(d3.group(data, (d: Row) => d.date).keys()).sort(
@@ -121,6 +127,32 @@ export default {
           return { name: g[0], values: dates.map((d) => value.get(d) || 0) };
         }),
     };
+    console.log("result", result);
+    return result;
+  },
+  dataMerged: (d3: any, books: Book[]): CountsByDay[] => {
+    const data: Row[] = progressByBook(d3, books);
+    console.log("data", data);
+    const mergedCounts = data.reduce(
+      (acc: { [key: string]: number }, row: Row) => {
+        const day = `${row.date.getTime()}`;
+        if (!row.value) {
+          return acc;
+        }
+        if (day in acc) {
+          acc[day] += row.value;
+        } else {
+          acc[day] = row.value;
+        }
+        return acc;
+      },
+      {}
+    );
+    console.log("mergedCounts", mergedCounts);
+    const result = Object.keys(mergedCounts).map((day) => {
+      console.log("day", [day, new Date(parseInt(day, 10))]);
+      return { date: new Date(parseInt(day, 10)), count: mergedCounts[day] };
+    });
     console.log("result", result);
     return result;
   },

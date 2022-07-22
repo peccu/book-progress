@@ -9,6 +9,9 @@ module.exports = {
     "@vue/eslint-config-typescript/recommended",
     "@vue/eslint-config-prettier",
   ],
+  rules: {
+    "vue/no-unused-vars": "error",
+  },
   env: {
     "vue/setup-compiler-macros": true,
   },

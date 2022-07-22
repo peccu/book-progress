@@ -70,8 +70,8 @@ const links = [
     desc: "Text wrapping in SVG",
     link: {
       href: "https://stackoverflow.com/questions/4991171/auto-line-wrapping-in-svg-text",
-      title: "xml - Auto line-wrapping in SVG text - Stack Overflow"
-    }
+      title: "xml - Auto line-wrapping in SVG text - Stack Overflow",
+    },
   },
 ];
 const formatLink = (link: string | { href: string; title: string }): string => {
