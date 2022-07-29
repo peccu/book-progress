@@ -73,6 +73,13 @@ const links = [
       title: "xml - Auto line-wrapping in SVG text - Stack Overflow",
     },
   },
+  {
+    desc: "Calendar heatmap",
+    link: {
+      href: "https://razorness.github.io/vue3-calendar-heatmap/",
+      title: "Calendar Heatmap"
+    }
+  },
 ];
 const formatLink = (link: string | { href: string; title: string }): string => {
   if (typeof link === "string") {
