@@ -150,10 +150,13 @@ export default {
       {}
     );
     console.log("mergedCounts", mergedCounts);
-    const result = Object.keys(mergedCounts).map((day) => {
-      console.log("day", [day, new Date(parseInt(day, 10))]);
-      return { date: new Date(parseInt(day, 10)), count: mergedCounts[day] };
-    });
+    const result = Object.keys(mergedCounts)
+      .sort()
+      .reverse()
+      .map((day) => {
+        console.log("day", [day, new Date(parseInt(day, 10))]);
+        return { date: new Date(parseInt(day, 10)), count: mergedCounts[day] };
+      });
     console.log("result", result);
     return result;
   },
