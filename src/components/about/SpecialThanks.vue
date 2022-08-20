@@ -77,8 +77,8 @@ const links = [
     desc: "Calendar heatmap",
     link: {
       href: "https://razorness.github.io/vue3-calendar-heatmap/",
-      title: "Calendar Heatmap"
-    }
+      title: "Calendar Heatmap",
+    },
   },
 ];
 const formatLink = (link: string | { href: string; title: string }): string => {
