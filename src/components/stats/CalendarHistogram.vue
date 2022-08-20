@@ -18,9 +18,10 @@ const histvalues = history.dataMerged(d3, books);
   <div id="my_calendarheatmap">
     <CalendarHeatmap :values="histvalues" :end-date="new Date()" dark-mode />
   </div>
-<pre>
-{{ histvalues }}
-</pre>
+  <pre
+    >{{ histvalues }}
+</pre
+  >
 </template>
 
 <style>
