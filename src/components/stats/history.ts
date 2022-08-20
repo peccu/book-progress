@@ -16,7 +16,7 @@ const dateFloor = (d: Date) => {
     Math.floor((d.getTime() + offset) / oneDayMs) * oneDayMs - offset
   );
 };
-window.dateFloor = dateFloor;
+// window.dateFloor = dateFloor;
 
 // the progress by page on the history
 const current = (book: Book, history: Progress) => {
