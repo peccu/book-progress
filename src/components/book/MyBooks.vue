@@ -43,7 +43,9 @@ const deleteBook = (id: number) => {
       </div>
       <BookDetail :book="book"></BookDetail>
       <div>
-        <RouterLink :to="'/history/' + book.id"><button>History</button></RouterLink>
+        <RouterLink :to="'/history/' + book.id"
+          ><button>History</button></RouterLink
+        >
         <RouterLink :to="'/edit/' + book.id"><button>Edit</button></RouterLink>
         <button @click="deleteBook(book.id)">Delete</button>
       </div>

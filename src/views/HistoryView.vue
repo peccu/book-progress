@@ -30,16 +30,16 @@ if (typeof props.id !== "undefined") {
     );
   }
 }
-
 </script>
 
 <template>
-this is history view.
-<pre>
-{{ JSON.stringify(book, null, 2) }}
-</pre>
   <main>
+    this is history view.
     <BookDetail :book="book"></BookDetail>
     Book Progress History
+    <pre
+      >{{ JSON.stringify(book, null, 2) }}
+</pre
+    >
   </main>
 </template>
