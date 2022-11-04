@@ -28,6 +28,12 @@ next({name: "notFound"})
       }*/
     },
     {
+      path: "/history/:id",
+      name: "history",
+      component: () => import("../views/HistoryView.vue"),
+      props: true,
+    },
+    {
       path: "/about",
       name: "about",
       // route level code-splitting
