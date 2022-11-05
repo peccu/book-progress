@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type Progress } from "@/stores/books";
+import type { Progress } from "@/stores/books";
 import BkCover from "./BkCover.vue";
 const props = defineProps({
   book: Object,
