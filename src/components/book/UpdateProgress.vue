@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useBooksState, type Progress, type Book } from "@/stores/books";
-import format from "@/stores/date";
+import { format } from "@/stores/date";
 
 const props = defineProps({
   id: Number,

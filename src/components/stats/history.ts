@@ -1,4 +1,5 @@
 import type { Book, Progress } from "@/stores/books";
+import { dateFloor } from "@/stores/date";
 type HistoryPoint = { date: Date; val: number; bin: number };
 type Histories = { key: string; d: HistoryPoint[] };
 
@@ -7,16 +8,6 @@ export type DateNSeries = { dates: Date[]; series: Series[] };
 export type CountsByDay = { date: Date; count: number };
 
 type Row = { name: string; date: Date; value: number };
-
-// round by day
-const oneDayMs = 24 * 60 * 60 * 1000;
-const dateFloor = (d: Date) => {
-  const offset = d.getTimezoneOffset();
-  return new Date(
-    Math.floor((d.getTime() + offset) / oneDayMs) * oneDayMs - offset
-  );
-};
-// window.dateFloor = dateFloor;
 
 // the progress by page on the history
 const current = (book: Book, history: Progress) => {
