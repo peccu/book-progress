@@ -2,6 +2,8 @@
 import { onMounted } from "vue";
 import { CalendarHeatmap } from "vue3-calendar-heatmap";
 import * as d3 from "d3";
+import "tippy.js/dist/tippy.css";
+import "tippy.js/dist/svg-arrow.css";
 
 // import { storeToRefs } from "pinia";
 
@@ -16,7 +18,7 @@ const histvalues = history.dataMerged(d3, books);
 
 <template>
   <div id="my_calendarheatmap">
-    <CalendarHeatmap :values="histvalues" :end-date="new Date()" dark-mode />
+    <CalendarHeatmap :values="histvalues" :end-date="new Date()" />
   </div>
   <pre
     >{{ histvalues }}
@@ -65,11 +67,5 @@ svg.vch__wrapper rect.vch__day__square:hover {
 
 svg.vch__wrapper rect.vch__day__square:focus {
   outline: none;
-}
-
-svg.vch__wrapper.dark-mode text.vch__month__label,
-svg.vch__wrapper.dark-mode text.vch__day__label,
-svg.vch__wrapper.dark-mode .vch__legend__wrapper text {
-  fill: #fff;
 }
 </style>
