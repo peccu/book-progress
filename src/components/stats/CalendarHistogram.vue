@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
 import { CalendarHeatmap } from "vue3-calendar-heatmap";
 import * as d3 from "d3";
 import "tippy.js/dist/tippy.css";
@@ -7,9 +6,8 @@ import "tippy.js/dist/svg-arrow.css";
 
 // import { storeToRefs } from "pinia";
 
-import { useBooksState, type Book } from "@/stores/books";
+import { useBooksState } from "@/stores/books";
 import history from "./history";
-import type { DateNSeries, Series } from "./history";
 
 const booksstore = useBooksState();
 const books = booksstore.sortedBooks;
