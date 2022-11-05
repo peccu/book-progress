@@ -3,7 +3,14 @@ import WelcomeItem from "./WelcomeItem.vue";
 import DocumentationIcon from "./icons/IconDocumentation.vue";
 const notes = [
   // {when: "", note: []},
-  { when: "2022/11/04", note: ["一覧から履歴画面に遷移できるようにした(履歴画面は工事中)"] },
+  {
+    when: "2022/11/05",
+    note: ["履歴画面作成"],
+  },
+  {
+    when: "2022/11/04",
+    note: ["一覧から履歴画面に遷移できるようにした(履歴画面は工事中)"],
+  },
   { when: "2022/07/23", note: ["カレンダーヒストグラムを追加"] },
   {
     when: "2022/06/23",

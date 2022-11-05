@@ -4,7 +4,7 @@
   "scripts": {
     "fn": "netlify login && netlify functions:serve",
     "dev": "vite --host",
-    "fix": "npm run lint --fix && refresh",
+    "fix": "npm run lint --fix && which refresh 2>/dev/null && refresh || echo -n",
     "build": "./v.sh ; vue-tsc --noEmit && vite build",
     "preview": "vite preview --port 5050",
     "start": "vite",

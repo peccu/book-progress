@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import BookDetail from "@/components/book/BookDetail.vue";
+import ProgressHistory from "@/components/book/ProgressHistory.vue";
 import { useBooksState, type Book } from "@/stores/books";
 
 const props = defineProps({
@@ -34,12 +34,6 @@ if (typeof props.id !== "undefined") {
 
 <template>
   <main>
-    this is history view.
-    <BookDetail :book="book"></BookDetail>
-    Book Progress History
-    <pre
-      >{{ JSON.stringify(book, null, 2) }}
-</pre
-    >
+    <ProgressHistory :book="book"></ProgressHistory>
   </main>
 </template>
