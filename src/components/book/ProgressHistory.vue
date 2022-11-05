@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Progress } from "@/stores/books";
 import BkCover from "./BkCover.vue";
-import format from "@/stores/date";
+import { format } from "@/stores/date";
 const props = defineProps({
   book: Object,
 });

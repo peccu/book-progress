@@ -1,6 +1,6 @@
 const zerofill = (s: number) => ("0" + s.toString()).slice(-2);
 
-export default (date: number) => {
+export const format = (date: number) => {
   const d = new Date(date);
   const y = d.getFullYear();
   const m = zerofill(d.getMonth() + 1);
