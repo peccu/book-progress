@@ -34,12 +34,6 @@ if (typeof props.id !== "undefined") {
 
 <template>
   <main>
-    this is history view.
-    Book Progress History
     <ProgressHistory :book="book"></ProgressHistory>
-    <pre
-      >{{ JSON.stringify(book, null, 2) }}
-</pre
-    >
   </main>
 </template>
