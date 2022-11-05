@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Progress } from "@/stores/books";
 import BkCover from "./BkCover.vue";
+import format from "@/stores/date";
 const props = defineProps({
   book: Object,
 });
@@ -14,16 +15,16 @@ const sortReverseHistory = (histories: Progress[]) => {
   <h3>{{ book.title }}</h3>
   <dl>
     <dt>Curent Position:</dt>
-    <dd>{{ new Date(book.progress.date) }}</dd>
+    <dd>{{ format(book.progress.date) }}</dd>
     <dt>Progress History:</dt>
     <dd>
       <ul>
-        <li v-for="history in sortReverseHistory(book.history)">
+        <li v-for="(history, i) in sortReverseHistory(book.history)" :key="i">
           <template v-if="history.type === 'page'">P.</template>
           {{ history.progress }}
           <template v-if="history.type !== 'page'">%</template>
           :
-          {{ new Date(history.date) }}
+          {{ format(history.date) }}
           <template v-if="history.isFinished">Completed</template>
         </li>
       </ul>

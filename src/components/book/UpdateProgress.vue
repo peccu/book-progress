@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useBooksState, type Progress, type Book } from "@/stores/books";
+import format from "@/stores/date";
 
 const props = defineProps({
   id: Number,
@@ -72,7 +73,7 @@ const updateProgress = () => {
       <label :for="`pgtype-%-${id}`" @click.stop>%</label></span
     >
     <button @click.stop.prevent="updateProgress()">UpdateProgress</button>
-    <div>{{ new Date(progress.date) }}</div>
+    <div>{{ format(progress.date) }}</div>
   </form>
 </template>
 

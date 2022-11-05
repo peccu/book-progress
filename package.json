@@ -5,12 +5,14 @@
     "fn": "netlify login && netlify functions:serve",
     "dev": "vite --host",
     "fix": "npm run lint --fix && which refresh 2>/dev/null && refresh || echo -n",
-    "build": "./v.sh ; vue-tsc --noEmit && vite build",
+    "_build": "vue-tsc --noEmit && vite build",
+    "build": "./v.sh ; npm run _build",
     "preview": "vite preview --port 5050",
     "start": "vite",
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
-    "serve": "http-server build"
+    "serve": "http-server build",
+    "test": "npm run _build"
   },
   "dependencies": {
     "@types/d3": "^7.4.0",
