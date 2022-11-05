@@ -1,14 +1,33 @@
 <script setup lang="ts">
-import { type Book } from "@/stores/books";
+import { type Progress } from "@/stores/books";
 import BkCover from "./BkCover.vue";
 const props = defineProps({
   book: Object,
-  cover: String,
 });
+const historySorter = (a: Progress, b: Progress) => b.date - a.date;
+const sortReverseHistory = (histories: Progress[]) => {
+  histories.sort(historySorter);
+  return histories;
+};
 </script>
 <template>
   <h3>{{ book.title }}</h3>
   <dl>
+    <dt>Curent Position:</dt>
+    <dd>{{ new Date(book.progress.date) }}</dd>
+    <dt>Progress History:</dt>
+    <dd>
+      <ul>
+        <li v-for="history in sortReverseHistory(book.history)">
+          <template v-if="history.type === 'page'">P.</template>
+          {{ history.progress }}
+          <template v-if="history.type !== 'page'">%</template>
+          :
+          {{ new Date(history.date) }}
+          <template v-if="history.isFinished">Completed</template>
+        </li>
+      </ul>
+    </dd>
     <dt>Authors:</dt>
     <dd>
       {{ book.authors }}
