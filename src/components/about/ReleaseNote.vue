@@ -4,6 +4,10 @@ import DocumentationIcon from "./icons/IconDocumentation.vue";
 const notes = [
   // {when: "", note: []},
   {
+    when: "2022/11/05",
+    note: ["履歴画面作成"],
+  },
+  {
     when: "2022/11/04",
     note: ["一覧から履歴画面に遷移できるようにした(履歴画面は工事中)"],
   },
