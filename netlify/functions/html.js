@@ -4,7 +4,7 @@
 const axios = require("axios");
 
 const search = async (isbn) => {
-  const url = "https://api.openbd.jp/v1/get?isbn=" + isbn.toString();
+  const url = `https://api.openbd.jp/v1/get?isbn=${isbn.toString()}`;
   const res = await axios.get(url);
   const book = genBook(res.data);
   return book;
@@ -12,24 +12,18 @@ const search = async (isbn) => {
 
 const genBook = (json) => {
   const book = {};
-  if (json.length == 0 || json[0] === null || !json[0].summary) {
+  if (json.length === 0 || json[0] === null || !json[0].summary) {
     return null;
   }
-  const summary = json[0] && json[0].summary;
+  const summary = json[0]?.summary;
   book.title = summary.title;
   book.publisher = summary.publisher;
   book.authors = summary.author.split(" ");
   book.cover = summary.cover;
 
-  if (
-    json[0].onix &&
-    json[0].onix.DescriptiveDetail &&
-    json[0].onix.DescriptiveDetail.Extent &&
-    json[0].onix?.DescriptiveDetail?.Extent &&
-    json[0].onix?.DescriptiveDetail?.Extent[0] &&
-    json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue
-  )
+  if (json[0].onix?.DescriptiveDetail?.Extent?.[0]?.ExtentValue) {
     book.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
+  }
   return book;
 };
 
@@ -103,14 +97,14 @@ const bookContent = (book) => {
 
 exports.handler = async function (event) {
   const isbn = event.queryStringParameters.isbn || "9784478109373";
-  console.log("Searching isbn: " + isbn);
+  console.log(`Searching isbn: ${isbn}`);
   const book = await search(isbn);
   let content;
   if (book == null) {
-    console.log("not found for ISBN: " + isbn);
+    console.log(`not found for ISBN: ${isbn}`);
     content = noBookContent();
   } else {
-    console.log("found title: " + book.title);
+    console.log(`found title: ${book.title}`);
     content = bookContent(book);
   }
   return {

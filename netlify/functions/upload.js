@@ -15,10 +15,10 @@ const upload = async (name, url, force = false) => {
   const folder = "book-progress";
 
   const current = await cloudinary.v2.api.resources_by_ids(
-    [folder + "/" + name],
+    [`${folder}/${name}`],
     function (error, result) {
       console.log(result, error);
-    }
+    },
   );
   if (!force && current.resources.length > 0) {
     return current.resources[0];
@@ -33,9 +33,9 @@ const upload = async (name, url, force = false) => {
 
 exports.handler = async function (event) {
   const isbn = event.queryStringParameters.isbn || "9784478109373";
-  const force = event.queryStringParameters.force || false;
+  const force = event.queryStringParameters.force;
 
-  console.log("Uploading isbn: " + isbn);
+  console.log(`Uploading isbn: ${isbn}`);
   try {
     // does not work 'cause of access from cloudinary and not from local
     // const url = process.env.NETLIFY_LOCAL == "true" ? "http://localhost:9999" : process.env.URL;
@@ -45,11 +45,11 @@ exports.handler = async function (event) {
       `${
         process.env.URL
       }/.netlify/functions/image?isbn=${isbn}&${new Date().getTime()}`,
-      force
+      force,
     );
 
     console.log(cloudImage);
-    console.log("cloud image: " + cloudImage.secure_url);
+    console.log(`cloud image: ${cloudImage.secure_url}`);
 
     const result = {
       version: cloudImage.version,
