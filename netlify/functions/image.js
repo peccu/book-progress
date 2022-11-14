@@ -13,7 +13,7 @@ exports.handler = async function (event) {
   // 302 moved
   // await chromium.font('https://github.com/ixkaito/NotoSerifJP-subset/raw/master/subset/NotoSerifCJKjp-Regular.otf');
   await chromium.font(
-    "https://raw.githubusercontent.com/ixkaito/NotoSerifJP-subset/master/subset/NotoSerifCJKjp-Light.otf"
+    "https://raw.githubusercontent.com/ixkaito/NotoSerifJP-subset/master/subset/NotoSerifCJKjp-Light.otf",
   );
   const scale = 3;
   const browser = await puppeteer.launch({
@@ -31,7 +31,7 @@ exports.handler = async function (event) {
   const isbn = event.queryStringParameters.isbn || "9784478109373";
   // await page.setContent(content);
   const url =
-    process.env.NETLIFY_LOCAL == "true"
+    process.env.NETLIFY_LOCAL === "true"
       ? "http://localhost:9999"
       : process.env.URL;
   await page.goto(`${url}/.netlify/functions/html?isbn=${isbn}`);

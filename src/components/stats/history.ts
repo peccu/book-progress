@@ -12,11 +12,11 @@ type Row = { name: string; date: Date; value: number };
 // the progress by page on the history
 const current = (book: Book, history: Progress) => {
   if (book.pages > 0) {
-    return history.type == "%"
+    return history.type === "%"
       ? (book.pages * history.progress) / 100
       : history.progress;
   }
-  if (history.type == "page") {
+  if (history.type === "page") {
     console.warn("book dont have pages but history has page progress", [
       book,
       history,
@@ -43,11 +43,11 @@ const progressByBook = (d3: any, books: Book[]): Row[] => {
     const _dates: Date[] = Array.from(
       d3
         .group(book.history, (d: Progress) => dateFloor(new Date(d.date)))
-        .keys()
+        .keys(),
     ).sort(d3.ascending) as Date[];
     const values = _dates.map((date, i, a) => {
       // console.log([date, i, a]);
-      if (i == 0) {
+      if (i === 0) {
         return line[`${date.getTime()}`]; // 過去に読んでたものを登録すると一気に進捗出たことになってしまうので要検討
       }
       const prev = a[i - 1];
@@ -65,7 +65,7 @@ const progressByBook = (d3: any, books: Book[]): Row[] => {
           date: dateFloor(new Date(hs.date)),
           value: values[i],
         };
-      })
+      }),
     );
   }, []);
 };
@@ -104,7 +104,7 @@ export default {
     console.log("data", data);
 
     const dates = Array.from(d3.group(data, (d: Row) => d.date).keys()).sort(
-      d3.ascending
+      d3.ascending,
     ) as Date[];
     console.log("dates", dates);
     const result = {
@@ -114,7 +114,7 @@ export default {
         .map((g: [name: string, values: Row[]]) => {
           console.log("g", g);
           const value = new Map<Date, number>(
-            g[1].map((d: Row) => [d.date, d.value])
+            g[1].map((d: Row) => [d.date, d.value]),
           );
           return { name: g[0], values: dates.map((d) => value.get(d) || 0) };
         }),
@@ -138,7 +138,7 @@ export default {
         }
         return acc;
       },
-      {}
+      {},
     );
     console.log("mergedCounts", mergedCounts);
     const result = Object.keys(mergedCounts)
@@ -157,7 +157,7 @@ export default {
       return hs.concat(book.history);
     }, []);
     const dates: Date[] = Array.from(
-      d3.group(histories, (d: Progress) => dateFloor(new Date(d.date))).keys()
+      d3.group(histories, (d: Progress) => dateFloor(new Date(d.date))).keys(),
     ).sort(d3.ascending) as Date[];
 
     return {
@@ -171,7 +171,7 @@ export default {
             if (line[`${date.getTime()}`]) {
               return line[`${date.getTime()}`];
             }
-            if (i == 0) {
+            if (i === 0) {
               return 0;
             }
             const prev = a[i - 1];

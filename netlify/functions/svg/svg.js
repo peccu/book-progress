@@ -14,7 +14,7 @@ exports.handler = async function () {
     <text x="40" y="35">cat</text>
     <text x="55" y="55">is</text>
     <text x="65" y="55">Grumpy!</text>
-  </svg>`
+  </svg>`,
   );
 
   const res = (await sharp(svgWithText).png().toBuffer()).toString("base64");
