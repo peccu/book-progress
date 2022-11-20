@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { needToAddToHomeScreen } from "@/stores/standalone"
 defineProps<{
   msg: string;
 }>();
@@ -7,6 +8,8 @@ defineProps<{
 <template>
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
+    <div v-if="needToAddToHomeScreen()">You need to add to home screen for permanently storing books and progress data.</div>
+    <div v-else>Thank you for adding to home screen.</div>
   </div>
 </template>
 
