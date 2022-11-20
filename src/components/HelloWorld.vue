@@ -1,7 +1,8 @@
 <script setup lang="ts">
+type SafariNavigator = Navigator & {readonly standalone: Boolean};
 const needToAddToHomeScreen = () => {
   return (
-    "standalone" in window.navigator && window.navigator.standalone !== true
+    "standalone" in window.navigator && (window.navigator as SafariNavigator).standalone !== true
   );
 };
 defineProps<{
