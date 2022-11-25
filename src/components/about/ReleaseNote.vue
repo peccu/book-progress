@@ -4,6 +4,14 @@ import DocumentationIcon from "./icons/IconDocumentation.vue";
 const notes = [
   // {when: "", note: []},
   {
+    when: "2022/11/25",
+    note: "履歴画面に遷移したときに一番上にスクロールするように変更"
+  },
+  {
+    when: "2022/11/20",
+    note: "ホーム画面に追加するのを促すメッセージを追加"
+  },
+  {
     when: "2022/11/05",
     note: ["履歴画面作成"],
   },
