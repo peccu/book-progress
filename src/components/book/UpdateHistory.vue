@@ -7,7 +7,10 @@ const props = defineProps({
   date: Number,
 });
 
-const dateObj = new Date(props.date);
+let dateObj = new Date();
+if (typeof props.date !== "undefined") {
+  dateObj = new Date(props.date);
+}
 let date = dateObj.toLocaleDateString("en-CA");
 let time = dateObj.toLocaleTimeString("it-IT");
 
