@@ -1,5 +1,5 @@
 import type { Book, Progress } from "@/stores/books";
-import { dateFloor } from "@/stores/date";
+import { dateFloor } from "./date";
 type HistoryPoint = { date: Date; val: number; bin: number };
 type Histories = { key: string; d: HistoryPoint[] };
 
