@@ -8,6 +8,7 @@ const props = defineProps({
 </script>
 <template>
   <h3>{{ book.title }}</h3>
+  <BkCover :cover="book.cover" />
   <dl>
     <dt>Authors:</dt>
     <dd>
@@ -30,7 +31,6 @@ const props = defineProps({
       {{ book.notes === null ? "" : book.notes }}
     </dd>
   </dl>
-  <BkCover :cover="book.cover" />
 </template>
 
 <style scoped>

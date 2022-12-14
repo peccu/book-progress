@@ -41,7 +41,6 @@ const deleteBook = (id: number) => {
           :progress="book.progress"
         ></UpdateProgress>
       </div>
-      <BookDetail :book="book"></BookDetail>
       <div>
         <RouterLink :to="'/history/' + book.id"
           ><button>History</button></RouterLink
@@ -49,6 +48,7 @@ const deleteBook = (id: number) => {
         <RouterLink :to="'/edit/' + book.id"><button>Edit</button></RouterLink>
         <button @click="deleteBook(book.id)">Delete</button>
       </div>
+      <BookDetail :book="book"></BookDetail>
     </details>
   </div>
 </template>
