@@ -28,6 +28,11 @@ const updateProgress = () => {
     return;
   }
   booksstore.updateProgress(props.id, progress);
+  const updated = booksstore.getBookById(props.id.toString());
+  if (!updated) {
+    return;
+  }
+  progress.date = (updated as Book).progress.date;
 };
 </script>
 <script lang="ts">
