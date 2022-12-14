@@ -191,19 +191,18 @@ export const useBooksState = defineStore({
         return object.id !== itemID;
       });
     },
+    pickBook(idToFind: number) {
+      return (this.books as Book[]).find((obj: Book) => obj.id === idToFind);
+    },
     toggleCompleted(idToFind: number) {
-      const book = (this.books as Book[]).find(
-        (obj: Book) => obj.id === idToFind,
-      );
+      const book = this.pickBook(idToFind);
       if (!book) {
         return;
       }
       book.isFinished = !book.isFinished;
     },
     updateProgress(idToFind: number, progress: Progress) {
-      const book = (this.books as Book[]).find(
-        (obj: Book) => obj.id === idToFind,
-      );
+      const book = this.pickBook(idToFind);
       if (!book) {
         return;
       }
@@ -215,6 +214,17 @@ export const useBooksState = defineStore({
       book.history.push(pg);
       book.progress = pg;
       book.isFinished = pg.isFinished;
+    },
+    updateHistory(idToFind: number, historyid: number, date: number) {
+      const book = this.pickBook(idToFind);
+      if (!book) {
+        return;
+      }
+      const history = book.history[historyid];
+      if (history.date === date) {
+        return;
+      }
+      history.date = date;
     },
     overwriteBooks(books: Book[]) {
       (this.books as Book[]).splice(0);

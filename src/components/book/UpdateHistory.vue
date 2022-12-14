@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useBooksState, type Book } from "@/stores/books";
+import { useBooksState } from "@/stores/books";
 
 const props = defineProps({
   bookid: Number,
@@ -7,15 +7,12 @@ const props = defineProps({
   date: Number,
 });
 
-let date = new Date(props.date).toLocaleDateString("en-CA");
-let time = new Date(props.date).toLocaleTimeString("it-IT");
-let message = "";
+const dateObj = new Date(props.date);
+let date = dateObj.toLocaleDateString("en-CA");
+let time = dateObj.toLocaleTimeString("it-IT");
 
 const booksstore = useBooksState();
-const updateProgress = () => {
-  console.log(
-    `book id: ${props.bookid}, history id: ${props.historyid}, date: ${props.date}`
-  );
+const updateHistory = (_date: string, _time: string) => {
   if (
     !props ||
     props.bookid == undefined ||
@@ -24,45 +21,28 @@ const updateProgress = () => {
   ) {
     return;
   }
-  // TODO impl update history function in book store
-  const newdate = Date.parse(`${date} ${time}`);
-  console.log(`from ${props.date} to ${newdate}`);
-  // booksstore.updateHistory(props.bookid,  props.historyid, newdate);
+  const newdate = Date.parse(`${_date} ${_time}`);
+  console.log(`${date} ${time} -> ${_date} ${_time}`);
+  booksstore.updateHistory(props.bookid, props.historyid, newdate);
   const updated = booksstore.getBookById(props.bookid.toString());
   if (!updated) {
-    message = "update failed";
+    alert("update failed");
     return;
   }
-  message = "update success";
 };
 </script>
-<script lang="ts">
-// export default {
-//   mounted() {
-//     this.$refs.input.focus();
-//   },
-// };
-</script>
+
 <template>
-  <form @submit="updateProgress">
+  <div>
     <input type="date" v-model="date" />
     <input type="time" v-model="time" />
-    <button @click.stop.prevent="updateProgress()">UpdateHistory</button>
-    {{ message }}
-  </form>
+    <button @click.stop.prevent="updateHistory(date, time)">
+      UpdateHistory
+    </button>
+  </div>
 </template>
 
 <style scoped>
-form {
-  margin: 0;
-  padding: 0;
-}
-input[type="text"] {
-  width: 3em;
-}
-.field {
-  margin: 0 0.3em;
-}
 input {
   margin: 0 0.3em;
 }
