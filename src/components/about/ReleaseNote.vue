@@ -4,6 +4,10 @@ import DocumentationIcon from "./icons/IconDocumentation.vue";
 const notes = [
   // {when: "", note: []},
   {
+    when: "2022/12/14",
+    note: ["ボタンと表紙画像を上に移動"]
+  },
+  {
     when: "2022/11/25",
     note: "履歴画面に遷移したときに一番上にスクロールするように変更"
   },
