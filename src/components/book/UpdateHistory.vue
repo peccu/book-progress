@@ -8,7 +8,7 @@ const props = defineProps({
 });
 
 let dateObj = new Date();
-if (typeof props.date !== "undefined"){
+if (typeof props.date !== "undefined") {
   dateObj = new Date(props.date);
 }
 let date = dateObj.toLocaleDateString("en-CA");
