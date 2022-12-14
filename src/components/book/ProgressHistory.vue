@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Progress } from "@/stores/books";
 import BkCover from "./BkCover.vue";
+import UpHist from "./UpdateHistory.vue";
 import { format } from "@/stores/date";
 const props = defineProps({
   book: Object,
@@ -26,6 +27,11 @@ const sortReverseHistory = (histories: Progress[]) => {
           :
           {{ format(history.date) }}
           <template v-if="history.isFinished">Completed</template>
+          <UpHist
+            :bookid="book.id"
+            :historyid="i"
+            :date="history.date"
+          ></UpHist>
         </li>
       </ul>
     </dd>
