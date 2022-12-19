@@ -11,6 +11,8 @@
     "start": "vite",
     "typecheck": "vue-tsc --noEmit",
     "lint": "rome check . ; rome format .",
+    "esfix": "npm run eslint --fix && which refresh 2>/dev/null && refresh || echo -n",
+    "eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "serve": "http-server build",
     "test": "npm run _build"
   },
