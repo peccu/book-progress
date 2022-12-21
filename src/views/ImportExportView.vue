@@ -4,6 +4,7 @@ import { useBooksState, type Book } from "@/stores/books";
 import copy from "@/stores/copy";
 import paste from "@/stores/paste";
 import download from "@/stores/download";
+import readfile from "@/stores/readfile";
 const booksstore = useBooksState();
 const booksExport: Ref<string> = ref(
   JSON.stringify(JSON.parse(localStorage.books), null, 2)
@@ -22,6 +23,19 @@ const importBooks = (importString: string) => {
 const pasteBooks = async () => {
   booksExport.value = (await paste()) as string;
 };
+
+const progress: Ref<number> = ref(0);
+const setResult = (result: string) => {
+  booksExport.value = result;
+};
+const setProgress = (percent: number) => {
+  progress.value = Math.round(percent);
+  console.log(`Progress: ${Math.round(percent)}`);
+};
+const fileSelected = (event: Event) => {
+  progress.value = 0;
+  readfile(event, setResult, setProgress);
+};
 </script>
 
 <template>
@@ -36,5 +50,10 @@ const pasteBooks = async () => {
       <button @click="download(booksExport)">Download</button>
     </div>
     <div><textarea v-model="booksExport" rows="15" cols="50"></textarea></div>
+    <div>Load from file</div>
+    <div>
+      <input type="file" @change="fileSelected" />
+    </div>
+    <div><progress max="100" :value="progress" /></div>
   </main>
 </template>
