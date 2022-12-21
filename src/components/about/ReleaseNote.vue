@@ -4,6 +4,12 @@ import DocumentationIcon from "./icons/IconDocumentation.vue";
 const notes = [
   // {when: "", note: []},
   {
+    when: "2022/12/21",
+    note: [
+      "バックアップとリストアができるようにファイルでのダウンロード、ファイルの読み込みを実装",
+    ],
+  },
+  {
     when: "2022/12/14",
     note: [
       "ボタンと表紙画像を上に移動",
