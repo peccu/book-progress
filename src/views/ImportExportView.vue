@@ -3,6 +3,7 @@ import { ref, type Ref } from "vue";
 import { useBooksState, type Book } from "@/stores/books";
 import copy from "@/stores/copy";
 import paste from "@/stores/paste";
+import download from "@/stores/download";
 const booksstore = useBooksState();
 const booksExport: Ref<string> = ref(
   JSON.stringify(JSON.parse(localStorage.books), null, 2)
@@ -30,6 +31,9 @@ const pasteBooks = async () => {
       <button @click="copy(booksExport)">Copy</button>
       <button @click="importBooks(booksExport)">Import</button>
       <button @click="pasteBooks()">Paste</button>
+    </div>
+    <div>
+      <button @click="download(booksExport)">Download</button>
     </div>
     <div><textarea v-model="booksExport" rows="15" cols="50"></textarea></div>
   </main>
