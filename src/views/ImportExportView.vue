@@ -40,20 +40,23 @@ const fileSelected = (event: Event) => {
 
 <template>
   <main>
-    <div>Export via JSON.parse(localStorage.books)</div>
     <div>
+      <h3>via Clipboard</h3>
       <button @click="copy(booksExport)">Copy</button>
-      <button @click="importBooks(booksExport)">Import</button>
       <button @click="pasteBooks()">Paste</button>
     </div>
     <div>
+      <h3>via File</h3>
       <button @click="download(booksExport)">Download</button>
-    </div>
-    <div><textarea v-model="booksExport" rows="15" cols="50"></textarea></div>
-    <div>Load from file</div>
-    <div>
       <input type="file" @change="fileSelected" />
+      <progress max="100" :value="progress" />
     </div>
-    <div><progress max="100" :value="progress" /></div>
+    <div>
+      <h3>by Hand</h3>
+      <textarea v-model="booksExport" rows="15" cols="50"></textarea>
+    </div>
+    <div>
+      <button @click="importBooks(booksExport)">Import</button>
+    </div>
   </main>
 </template>
