@@ -14,7 +14,8 @@
     "esfix": "npm run eslint --fix && which refresh 2>/dev/null && refresh || echo -n",
     "eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "serve": "http-server build",
-    "test": "npm run _build"
+    "test": "vitest && npm run _build",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@types/d3": "^7.4.0",
