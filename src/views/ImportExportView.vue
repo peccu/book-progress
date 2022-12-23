@@ -1,14 +1,11 @@
 <script setup lang="ts">
-import { ref, type Ref } from "vue";
 import { useBooksState, type Book } from "@/stores/books";
 import copy from "@/stores/copy";
-import paste from "@/stores/paste";
 import download from "@/stores/download";
 import readfile from "@/stores/readfile";
+import { useProgress } from "@/components/ImportExport/readfileProgress";
+import { useBooksExport } from "@/components/ImportExport/booksRepresents";
 const booksstore = useBooksState();
-const booksExport: Ref<string> = ref(
-  JSON.stringify(JSON.parse(localStorage.books), null, 2)
-);
 const importBooks = (importString: string) => {
   try {
     const books: Book[] = JSON.parse(importString);
@@ -20,18 +17,10 @@ const importBooks = (importString: string) => {
     console.error(e);
   }
 };
-const pasteBooks = async () => {
-  booksExport.value = (await paste()) as string;
-};
-
-const progress: Ref<number> = ref(0);
-const setResult = (result: string) => {
-  booksExport.value = result;
-};
-const setProgress = (percent: number) => {
-  progress.value = Math.round(percent);
-  console.log(`Progress: ${Math.round(percent)}`);
-};
+const { booksExport, pasteBooks, setResult } = useBooksExport(
+  localStorage.books
+);
+const { progress, setProgress } = useProgress();
 const fileSelected = (event: Event) => {
   progress.value = 0;
   readfile(event, setResult, setProgress);
