@@ -5,6 +5,7 @@ import copy from "@/stores/copy";
 import paste from "@/stores/paste";
 import download from "@/stores/download";
 import readfile from "@/stores/readfile";
+import { useProgress } from "@/components/ImportExport/readfileProgress";
 const booksstore = useBooksState();
 const booksExport: Ref<string> = ref(
   JSON.stringify(JSON.parse(localStorage.books), null, 2)
@@ -24,14 +25,10 @@ const pasteBooks = async () => {
   booksExport.value = (await paste()) as string;
 };
 
-const progress: Ref<number> = ref(0);
 const setResult = (result: string) => {
   booksExport.value = result;
 };
-const setProgress = (percent: number) => {
-  progress.value = Math.round(percent);
-  console.log(`Progress: ${Math.round(percent)}`);
-};
+const { progress, setProgress } = useProgress();
 const fileSelected = (event: Event) => {
   progress.value = 0;
   readfile(event, setResult, setProgress);
