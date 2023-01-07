@@ -3,13 +3,20 @@
     "enabled": true,
     "indentStyle": "space",
     "indentSize": 2,
-    "ignore": ["./build/*"]
+    "ignore": [
+      "./build/*",
+      "./public/nr.js"
+    ]
   },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true
     },
-    "ignore": ["./build/*","./src/stores/openbd.ts"]  
+    "ignore": [
+      "./build/*",
+      "./src/stores/openbd.ts",
+      "./public/nr.js"
+    ]
   }
 }
