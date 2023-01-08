@@ -9,10 +9,10 @@ defineProps<{
   <div class="greetings">
     <h1 class="green">{{ msg }}</h1>
     <div v-if="needToAddToHomeScreen()">
-      You need to add to home screen for permanently storing books and progress
-      data.
+      デモモード : ホーム画面に追加せずに利用する場合は1週間以内に再度アクセスしてください。
+      1週間アクセスがないとデータが消えます(iOS Safariの仕様)。
+      ぜひ共有メニューからホーム画面に追加してご利用ください。
     </div>
-    <div v-else>Thank you for adding to home screen.</div>
   </div>
 </template>
 
