@@ -14,7 +14,9 @@ const download = (filename: string, type: string, text: string) => {
 const zerofill = (num: number): string => `0${num.toString()}`.slice(-2);
 const now = () => {
   const d = new Date();
-  const date = `${d.getFullYear()}${d.getUTCMonth() + 1}${d.getUTCDate()}`;
+  const date = `${d.getFullYear()}${zerofill(d.getUTCMonth() + 1)}${zerofill(
+    d.getUTCDate(),
+  )}`;
   const time = `${zerofill(d.getHours())}${zerofill(d.getMinutes())}${zerofill(
     d.getSeconds(),
   )}`;
