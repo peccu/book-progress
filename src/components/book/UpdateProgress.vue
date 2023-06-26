@@ -77,7 +77,9 @@ const updateProgress = () => {
       />
       <label :for="`pgtype-%-${id}`" @click.stop>%</label></span
     >
-    <button @click.stop.prevent="updateProgress()">UpdateProgress</button>
+    <div>
+      <button @click.stop.prevent="updateProgress()">UpdateProgress</button>
+    </div>
     <div>{{ format(progress.date) }}</div>
   </form>
 </template>
