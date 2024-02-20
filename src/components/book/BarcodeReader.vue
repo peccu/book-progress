@@ -8,6 +8,7 @@
         {{ opt.name }}
       </option>
     </select>
+    <!--{{ deviceId }}-->
     <div ref="quagga" class="camera" />
     <!--<p>{{ resultCodeInfo }}</p>-->
     <p>{{ resultcode }}</p>
@@ -29,7 +30,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-ignore
 import Quagga from "quagga";
-import { onMounted, ref, nextTick, watch } from "vue";
+import { onMounted, ref, type Ref, nextTick, watch } from "vue";
 import { validateIsbn } from "@/stores/books";
 
 const emit = defineEmits<{
@@ -46,12 +47,12 @@ const resultcode = ref("-");
 const resultCodeInfo = ref("-");
 const foundCodes = ref(new Map());
 
-const devicesOption = ref([]);
+const devicesOption: Ref<{name: string, value: string}[]> = ref([]);
 const deviceId = ref(0);
 
 const listDevices = () => {
   Quagga.CameraAccess.enumerateVideoDevices().then(function (devices: any) {
-    function pruneText(text: string) {
+    function pruneText(text: string): string {
       return text.length > 30 ? text.substr(0, 30) : text;
     }
     devicesOption.value = [];
@@ -71,6 +72,7 @@ watch(deviceId, () => {
 });
 
 const restart = () => {
+  //alert(deviceId.value)
   Quagga.init(
     {
       numOfWorkers: 4,
@@ -82,7 +84,7 @@ const restart = () => {
         constraints: {
           width: 200,
           height: document.querySelector("body")?.clientWidth,
-          deviceId: deviceId,
+          deviceId: deviceId.value,
           facingMode: "environment",
         },
         area: {
