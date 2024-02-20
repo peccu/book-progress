@@ -2,7 +2,12 @@
   <div v-if="available" class="scanner_wrapper">
     <button @click="stop">Stop</button>
     <button @click="restart">Restart</button>
-
+    <select v-model="deviceId">
+      <option disabled value="">Please select one</option>
+      <option v-for="(opt, i) in devicesOption" :key="i" :value="opt.value">
+        {{ opt.name }}
+      </option>
+    </select>
     <div ref="quagga" class="camera" />
     <!--<p>{{ resultCodeInfo }}</p>-->
     <p>{{ resultcode }}</p>
@@ -24,7 +29,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-ignore
 import Quagga from "quagga";
-import { onMounted, ref, nextTick } from "vue";
+import { onMounted, ref, nextTick, watch } from "vue";
 import { validateIsbn } from "@/stores/books";
 
 const emit = defineEmits<{
@@ -41,6 +46,30 @@ const resultcode = ref("-");
 const resultCodeInfo = ref("-");
 const foundCodes = ref(new Map());
 
+const devicesOption = ref([]);
+const deviceId = ref(0);
+
+const listDevices = () => {
+  Quagga.CameraAccess.enumerateVideoDevices().then(function (devices: any) {
+    function pruneText(text: string) {
+      return text.length > 30 ? text.substr(0, 30) : text;
+    }
+    devicesOption.value = [];
+    devices.forEach(function (device: any) {
+      devicesOption.value.push({
+        value: device.deviceId || device.id,
+        name: pruneText(device.label || device.deviceId || device.id),
+      });
+    });
+  });
+};
+listDevices();
+
+watch(deviceId, () => {
+  stop();
+  restart();
+});
+
 const restart = () => {
   Quagga.init(
     {
@@ -53,7 +82,7 @@ const restart = () => {
         constraints: {
           width: 200,
           height: document.querySelector("body")?.clientWidth,
-          deviceId: 0,
+          deviceId: deviceId,
           facingMode: "environment",
         },
         area: {
@@ -98,6 +127,7 @@ onMounted(() => {
 });
 
 const start = () => {
+  listDevices();
   Quagga.onDetected(onDetected);
   Quagga.start();
   console.log("Quagga started!");
