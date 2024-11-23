@@ -21,7 +21,7 @@ if (typeof props.id !== "undefined") {
 }
 console.log(`typeof id: ${typeof props.id}`);
 
-const book: Book = {
+const book = ref<Book>({
   isbn: 0, // 9784560070512,
   id: 0,
   isFinished: false,
@@ -31,7 +31,7 @@ const book: Book = {
   pages: 0,
   progress: { type: "", progress: 0, date: 0, isFinished: false },
   history: [],
-};
+});
 
 if (typeof props.id !== "undefined") {
   const bookref = booksstore.getBookById(props.id);
@@ -44,13 +44,13 @@ if (typeof props.id !== "undefined") {
 }
 const keys = ["authors", "publisher", "pages", "cover"];
 const saveBook = () => {
-  console.log(`book: ${JSON.stringify(book)}`);
+  console.log(`book: ${JSON.stringify(book.value)}`);
   if (typeof props.id !== "undefined") {
-    booksstore.updateBook(book);
+    booksstore.updateBook(book.value);
   } else {
-    book.progress.date = new Date().getTime();
-    book.history.push(book.progress);
-    booksstore.addBook(book);
+    book.value.progress.date = new Date().getTime();
+    book.value.history.push(book.value.progress);
+    booksstore.addBook(book.value);
   }
   router.push("/");
 };
@@ -68,8 +68,8 @@ function onDetect(detectedCodes: DetectedBarcode[]) {
 }
 
 const setIsbn = (code: string) => {
-  book.isbn = parseInt(code, 10);
-  // search(book.isbn);
+  book.value.isbn = parseInt(code, 10);
+  // search(book.value.isbn);
 };
 // const result: OpenBd[] = [];
 const picked: Ref<string> = ref("...");
@@ -84,12 +84,12 @@ const search = async (isbn: number) => {
   result.value = JSON.stringify(onix, null, 2);
   const summary = json[0] && json[0].summary;
   picked.value = summary;
-  book.title = summary.title;
-  book.publisher = summary.publisher;
-  book.authors = summary.author.split(" ");
-  book.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
-  book.cover = summary.cover;
-  book.notes = json[0].onix?.CollateralDetail?.TextContent.map(
+  book.value.title = summary.title;
+  book.value.publisher = summary.publisher;
+  book.value.authors = summary.author.split(" ");
+  book.value.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
+  book.value.cover = summary.cover;
+  book.value.notes = json[0].onix?.CollateralDetail?.TextContent.map(
     (e: { Text?: string; TextType?: string; ContentAudience?: string }) =>
       e.Text
   ).join("\n\n");
