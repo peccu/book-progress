@@ -57,7 +57,7 @@
         :track="trackFunctionSelected.value"
         :formats="selectedBarcodeFormats"
         @error="onError"
-        @detect="onDetectInner"
+        @detect="onDetect"
         @camera-on="onCameraReady"
       />
     </div>
@@ -66,26 +66,26 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { QrcodeStream } from "vue-qrcode-reader";
+import { QrcodeStream, DetectedBarcode } from "vue-qrcode-reader";
 
 /*** detection handling ***/
 interface Props {
-  detect: (detectedCodes: string[]) => void;
+  detect: (detectedCodes: DetectedBarcode[]) => void;
 }
 
 const props = defineProps<Props>();
 
 const result = ref("");
 
-function onDetectInner(detectedCodes) {
+function onDetect(detectedCodes: DetectedBarcode[]) {
   console.log(detectedCodes);
-  result.value = JSON.stringify(detectedCodes.map((code) => code.rawValue));
+  result.value = JSON.stringify(detectedCodes.map((code: DetectedBarcode) => code.rawValue));
   props.detect(detectedCodes);
 }
 
 /*** select camera ***/
 
-const selectedConstraints = ref({ facingMode: "environment" });
+const selectedConstraints = ref<MediaTrackConstraints>({ facingMode: "environment" });
 const defaultConstraintOptions = [
   { label: "rear camera", constraints: { facingMode: "environment" } },
   { label: "front camera", constraints: { facingMode: "user" } },
@@ -113,7 +113,7 @@ async function onCameraReady() {
 
 /*** track functons ***/
 
-function paintOutline(detectedCodes, ctx) {
+function paintOutline(detectedCodes: DetectedBarcode[], ctx: CanvasRenderingContext2D) {
   for (const detectedCode of detectedCodes) {
     const [firstPoint, ...otherPoints] = detectedCode.cornerPoints;
 
@@ -129,7 +129,7 @@ function paintOutline(detectedCodes, ctx) {
     ctx.stroke();
   }
 }
-function paintBoundingBox(detectedCodes, ctx) {
+function paintBoundingBox(detectedCodes: DetectedBarcode[], ctx: CanvasRenderingContext2D) {
   for (const detectedCode of detectedCodes) {
     const {
       boundingBox: { x, y, width, height },
@@ -140,7 +140,7 @@ function paintBoundingBox(detectedCodes, ctx) {
     ctx.strokeRect(x, y, width, height);
   }
 }
-function paintCenterText(detectedCodes, ctx) {
+function paintCenterText(detectedCodes: DetectedBarcode, ctx: CanvasRenderingContext2D) {
   for (const detectedCode of detectedCodes) {
     const { boundingBox, rawValue } = detectedCode;
 
@@ -195,7 +195,7 @@ const barcodeFormats = ref({
 });
 const selectedBarcodeFormats = computed(() => {
   return Object.keys(barcodeFormats.value).filter(
-    (format) => barcodeFormats.value[format]
+    (format) => (barcodeFormats.value as {[key: string]: boolean})[format]
   );
 });
 
@@ -203,7 +203,7 @@ const selectedBarcodeFormats = computed(() => {
 
 const error = ref("");
 
-function onError(err) {
+function onError(err: Error) {
   error.value = `[${err.name}]: `;
 
   if (err.name === "NotAllowedError") {
