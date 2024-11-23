@@ -69,7 +69,7 @@ function onDetect(detectedCodes: DetectedBarcode[]) {
 
 const setIsbn = (code: string) => {
   book.isbn = parseInt(code, 10);
-  search(book.isbn);
+  // search(book.isbn);
 };
 // const result: OpenBd[] = [];
 const picked: Ref<string> = ref("...");
