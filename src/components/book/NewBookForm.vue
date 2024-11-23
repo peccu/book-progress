@@ -6,6 +6,7 @@ import type { OpenBd } from "@/stores/openbd";
 import { validateIsbn } from "@/stores/books";
 import BkCover from "./BkCover.vue";
 import QrCodeReader from "./QrCodeReader.vue";
+import type { DetectedBarcode, BarcodeFormat } from "barcode-detector/pure";
 
 const props = defineProps({
   id: String,
@@ -57,7 +58,7 @@ const cancel = () => {
   router.push("/");
 };
 
-function onDetect(detectedCodes) {
+function onDetect(detectedCodes: DetectedBarcode[]) {
   const isbns = detectedCodes
     .map((code) => code.rawValue)
     .filter((code) => validateIsbn(code));

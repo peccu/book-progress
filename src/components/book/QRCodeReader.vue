@@ -66,7 +66,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { QrcodeStream, DetectedBarcode } from "vue-qrcode-reader";
+import { QrcodeStream } from "vue-qrcode-reader";
+import type { DetectedBarcode, BarcodeFormat } from "barcode-detector/pure";
 
 /*** detection handling ***/
 interface Props {
