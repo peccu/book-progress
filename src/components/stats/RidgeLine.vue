@@ -118,7 +118,7 @@ onMounted(() => {
       .join("path")
       .attr(
         "transform",
-        (d) => `translate(0, ${(yName(d?.key) || 0) - height})`
+        (d) => `translate(0, ${(yName(d?.key) || 0) - height})`,
       )
       .datum((d: DensityWithKey): Density => d.density)
       .attr("fill", "#69b3a2")

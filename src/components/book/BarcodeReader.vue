@@ -47,7 +47,7 @@ const resultcode = ref("-");
 const resultCodeInfo = ref("-");
 const foundCodes = ref(new Map());
 
-const devicesOption: Ref<{name: string, value: string}[]> = ref([]);
+const devicesOption: Ref<{ name: string; value: string }[]> = ref([]);
 const deviceId = ref(0);
 
 const listDevices = () => {
@@ -120,7 +120,7 @@ const restart = () => {
         readers: ["ean_reader"],
       },
     },
-    () => start()
+    () => start(),
   );
 };
 

@@ -26,7 +26,7 @@ if (typeof props.id !== "undefined") {
   if (bookref) {
     Object.keys(bookref).map(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (key) => ((book as { [index: string]: any })[key] = bookref[key])
+      (key) => ((book as { [index: string]: any })[key] = bookref[key]),
     );
   }
 }

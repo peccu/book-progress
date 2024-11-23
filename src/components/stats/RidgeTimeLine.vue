@@ -72,7 +72,7 @@ onMounted(() => {
       d3
         .axisBottom(x)
         .ticks(width / 80)
-        .tickSizeOuter(0)
+        .tickSizeOuter(0),
     );
 
   // yAxis

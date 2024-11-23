@@ -2,7 +2,7 @@
 export default (
   event: Event,
   setResult: (result: string) => void,
-  setProgress: (percent: number) => void,
+  setProgress: (percent: number) => void
 ) => {
   const target = event.target as HTMLInputElement;
   const file = (target.files as FileList)[0];

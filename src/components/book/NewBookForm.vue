@@ -15,7 +15,7 @@ const booksstore = useBooksState();
 console.log(`BF: picked id: ${props.id}`);
 if (typeof props.id !== "undefined") {
   console.log(
-    `BF: picked book: ${JSON.stringify(booksstore.getBookById(props.id))}`
+    `BF: picked book: ${JSON.stringify(booksstore.getBookById(props.id))}`,
   );
 }
 console.log(`typeof id: ${typeof props.id}`);
@@ -37,7 +37,7 @@ if (typeof props.id !== "undefined") {
   if (bookref) {
     Object.keys(bookref).map(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      (key) => ((book as { [index: string]: any })[key] = bookref[key])
+      (key) => ((book as { [index: string]: any })[key] = bookref[key]),
     );
   }
 }
@@ -76,7 +76,7 @@ const result: Ref<string> = ref("...");
 const search = async (isbn: number) => {
   // alert(`foo ${isbn}`);
   const response = await fetch(
-    "https://api.openbd.jp/v1/get?isbn=" + isbn.toString()
+    "https://api.openbd.jp/v1/get?isbn=" + isbn.toString(),
   );
   const json = await response.json();
   const onix = json[0] && json[0];
@@ -90,7 +90,7 @@ const search = async (isbn: number) => {
   book.cover = summary.cover;
   book.notes = json[0].onix?.CollateralDetail?.TextContent.map(
     (e: { Text?: string; TextType?: string; ContentAudience?: string }) =>
-      e.Text
+      e.Text,
   ).join("\n\n");
 };
 </script>

@@ -79,13 +79,17 @@ const result = ref("");
 
 function onDetect(detectedCodes: DetectedBarcode[]) {
   console.log(detectedCodes);
-  result.value = JSON.stringify(detectedCodes.map((code: DetectedBarcode) => code.rawValue));
+  result.value = JSON.stringify(
+    detectedCodes.map((code: DetectedBarcode) => code.rawValue),
+  );
   props.detect(detectedCodes);
 }
 
 /*** select camera ***/
 
-const selectedConstraints = ref<MediaTrackConstraints>({ facingMode: "environment" });
+const selectedConstraints = ref<MediaTrackConstraints>({
+  facingMode: "environment",
+});
 const defaultConstraintOptions = [
   { label: "rear camera", constraints: { facingMode: "environment" } },
   { label: "front camera", constraints: { facingMode: "user" } },
@@ -113,7 +117,10 @@ async function onCameraReady() {
 
 /*** track functons ***/
 
-function paintOutline(detectedCodes: DetectedBarcode[], ctx: CanvasRenderingContext2D) {
+function paintOutline(
+  detectedCodes: DetectedBarcode[],
+  ctx: CanvasRenderingContext2D,
+) {
   for (const detectedCode of detectedCodes) {
     const [firstPoint, ...otherPoints] = detectedCode.cornerPoints;
 
@@ -129,7 +136,10 @@ function paintOutline(detectedCodes: DetectedBarcode[], ctx: CanvasRenderingCont
     ctx.stroke();
   }
 }
-function paintBoundingBox(detectedCodes: DetectedBarcode[], ctx: CanvasRenderingContext2D) {
+function paintBoundingBox(
+  detectedCodes: DetectedBarcode[],
+  ctx: CanvasRenderingContext2D,
+) {
   for (const detectedCode of detectedCodes) {
     const {
       boundingBox: { x, y, width, height },
@@ -140,7 +150,10 @@ function paintBoundingBox(detectedCodes: DetectedBarcode[], ctx: CanvasRendering
     ctx.strokeRect(x, y, width, height);
   }
 }
-function paintCenterText(detectedCodes: DetectedBarcode, ctx: CanvasRenderingContext2D) {
+function paintCenterText(
+  detectedCodes: DetectedBarcode,
+  ctx: CanvasRenderingContext2D,
+) {
   for (const detectedCode of detectedCodes) {
     const { boundingBox, rawValue } = detectedCode;
 
@@ -195,7 +208,7 @@ const barcodeFormats = ref({
 });
 const selectedBarcodeFormats = computed(() => {
   return Object.keys(barcodeFormats.value).filter(
-    (format) => (barcodeFormats.value as {[key: string]: boolean})[format]
+    (format) => (barcodeFormats.value as { [key: string]: boolean })[format],
   );
 });
 

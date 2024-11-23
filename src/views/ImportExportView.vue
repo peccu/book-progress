@@ -18,7 +18,7 @@ const importBooks = (importString: string) => {
   }
 };
 const { booksExport, pasteBooks, setResult } = useBooksExport(
-  localStorage.books
+  localStorage.books,
 );
 const { progress, setProgress } = useProgress();
 const fileSelected = (event: Event) => {

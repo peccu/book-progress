@@ -3,7 +3,7 @@ const download = (filename: string, type: string, text: string) => {
   const element = document.createElement("a");
   element.setAttribute(
     "href",
-    `data:${type};charset=utf-8,${encodeURIComponent(text)}`,
+    `data:${type};charset=utf-8,${encodeURIComponent(text)}`
   );
   element.setAttribute("download", filename);
   element.style.display = "none";
@@ -15,10 +15,10 @@ const zerofill = (num: number): string => `0${num.toString()}`.slice(-2);
 const now = () => {
   const d = new Date();
   const date = `${d.getFullYear()}${zerofill(d.getUTCMonth() + 1)}${zerofill(
-    d.getUTCDate(),
+    d.getUTCDate()
   )}`;
   const time = `${zerofill(d.getHours())}${zerofill(d.getMinutes())}${zerofill(
-    d.getSeconds(),
+    d.getSeconds()
   )}`;
   return `${date}_${time}`;
 };

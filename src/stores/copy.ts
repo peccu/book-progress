@@ -34,6 +34,6 @@ export default (text: string) => {
     },
     function (err) {
       console.error("Async: Could not copy text: ", err);
-    },
+    }
   );
 };
