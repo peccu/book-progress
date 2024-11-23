@@ -43,7 +43,7 @@ const progressByBook = (d3: any, books: Book[]): Row[] => {
     const _dates: Date[] = Array.from(
       d3
         .group(book.history, (d: Progress) => dateFloor(new Date(d.date)))
-        .keys()
+        .keys(),
     ).sort(d3.ascending) as Date[];
     const values = _dates.map((date, i, a) => {
       // console.log([date, i, a]);
@@ -65,7 +65,7 @@ const progressByBook = (d3: any, books: Book[]): Row[] => {
           date: dateFloor(new Date(hs.date)),
           value: values[i],
         };
-      })
+      }),
     );
   }, []);
 };
@@ -104,7 +104,7 @@ export default {
     console.log("data", data);
 
     const dates = Array.from(d3.group(data, (d: Row) => d.date).keys()).sort(
-      d3.ascending
+      d3.ascending,
     ) as Date[];
     console.log("dates", dates);
     const result = {
@@ -114,7 +114,7 @@ export default {
         .map((g: [name: string, values: Row[]]) => {
           console.log("g", g);
           const value = new Map<Date, number>(
-            g[1].map((d: Row) => [d.date, d.value])
+            g[1].map((d: Row) => [d.date, d.value]),
           );
           return { name: g[0], values: dates.map((d) => value.get(d) || 0) };
         }),
@@ -138,7 +138,7 @@ export default {
         }
         return acc;
       },
-      {}
+      {},
     );
     console.log("mergedCounts", mergedCounts);
     const result = Object.keys(mergedCounts)
@@ -157,7 +157,7 @@ export default {
       return hs.concat(book.history);
     }, []);
     const dates: Date[] = Array.from(
-      d3.group(histories, (d: Progress) => dateFloor(new Date(d.date))).keys()
+      d3.group(histories, (d: Progress) => dateFloor(new Date(d.date))).keys(),
     ).sort(d3.ascending) as Date[];
 
     return {

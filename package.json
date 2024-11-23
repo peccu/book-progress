@@ -13,6 +13,7 @@
     "lint": "rome check . ; rome format .",
     "esfix": "npm run eslint && which refresh 2>/dev/null && refresh || echo -n",
     "eslint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore --ignore-pattern public/nr.js",
+    "format": "npm run esfix && npm run fix && prettier -w 'src/**/*.vue'",
     "serve": "http-server build",
     "test": "vitest && npm run _build",
     "coverage": "vitest run --coverage"

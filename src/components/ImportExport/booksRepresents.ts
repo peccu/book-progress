@@ -3,7 +3,7 @@ import paste from "@/stores/paste";
 
 export const useBooksExport = (books: string) => {
   const booksExport: Ref<string> = ref(
-    JSON.stringify(JSON.parse(books), null, 2)
+    JSON.stringify(JSON.parse(books), null, 2),
   );
   const pasteBooks = async () => {
     booksExport.value = (await paste()) as string;

@@ -120,7 +120,7 @@ const restart = () => {
         readers: ["ean_reader"],
       },
     },
-    () => start(),
+    () => start()
   );
 };
 

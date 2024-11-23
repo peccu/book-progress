@@ -33,7 +33,7 @@ const validateIsbn13 = (code: string) => {
       .reduce(
         (a: number, e: string, i: number) =>
           a + parseInt(e, 10) * [1, 3][i % 2],
-        0
+        0,
       ) % 10;
   return left === 0;
 };
@@ -47,7 +47,7 @@ const validateIsbn10 = (code: string) => {
       .split("")
       .reduce(
         (a: number, e: string, i: number) => a + (10 - i) * parseInt(e, 10),
-        0
+        0,
       ) % 11;
   return left === 0;
 };
@@ -74,7 +74,7 @@ export const isbn13to10 = (isbn13: string) => {
         .split("")
         .reduce(
           (a: number, e: string, i: number) => a + (10 - i) * parseInt(e, 10),
-          0
+          0,
         ) %
         11))
   );
@@ -179,7 +179,7 @@ export const useBooksState = defineStore({
     },
     updateBook(newbook: Book) {
       const index: number = (this.books as Book[]).findIndex(
-        (obj: Book) => obj.id === newbook.id
+        (obj: Book) => obj.id === newbook.id,
       );
       if (index < 0) {
         return;
@@ -231,7 +231,7 @@ export const useBooksState = defineStore({
       (this.books as Book[]).push(...books);
       const max = this.books.reduce(
         (max, book: Book, i) => Math.max(max, book.id, i),
-        0
+        0,
       );
       // alert('max, nextid: ' + max + ', ' + this.nextId );
       this.nextId = max + 1;

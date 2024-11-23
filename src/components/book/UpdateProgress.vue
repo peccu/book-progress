@@ -18,7 +18,7 @@ if (typeof props.id !== "undefined" && props.progress !== null) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         ((progress as { [index: string]: any })[key] =
           // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          ((bookref as Book).progress as { [index: string]: any })[key]),
+          ((bookref as Book).progress as { [index: string]: any })[key])
     );
   }
 }

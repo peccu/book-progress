@@ -67,7 +67,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { QrcodeStream } from "vue-qrcode-reader";
-import type { DetectedBarcode, BarcodeFormat } from "barcode-detector/pure";
+import type { DetectedBarcode, BarcodeFormat } from "barcode-detector";
 
 /*** detection handling ***/
 interface Props {
@@ -81,17 +81,21 @@ const result = ref("");
 function onDetect(detectedCodes: DetectedBarcode[]) {
   console.log(detectedCodes);
   result.value = JSON.stringify(
-    detectedCodes.map((code: DetectedBarcode) => code.rawValue),
+    detectedCodes.map((code: DetectedBarcode) => code.rawValue)
   );
   props.detect(detectedCodes);
 }
 
 /*** select camera ***/
+interface Options {
+  label?: string;
+  constraints: MediaTrackConstraints;
+}
 
 const selectedConstraints = ref<MediaTrackConstraints>({
   facingMode: "environment",
-});
-const defaultConstraintOptions = [
+} as MediaTrackConstraints);
+const defaultConstraintOptions: Options[] = [
   { label: "rear camera", constraints: { facingMode: "environment" } },
   { label: "front camera", constraints: { facingMode: "user" } },
 ];
@@ -120,7 +124,7 @@ async function onCameraReady() {
 
 function paintOutline(
   detectedCodes: DetectedBarcode[],
-  ctx: CanvasRenderingContext2D,
+  ctx: CanvasRenderingContext2D
 ) {
   for (const detectedCode of detectedCodes) {
     const [firstPoint, ...otherPoints] = detectedCode.cornerPoints;
@@ -139,7 +143,7 @@ function paintOutline(
 }
 function paintBoundingBox(
   detectedCodes: DetectedBarcode[],
-  ctx: CanvasRenderingContext2D,
+  ctx: CanvasRenderingContext2D
 ) {
   for (const detectedCode of detectedCodes) {
     const {
@@ -152,8 +156,8 @@ function paintBoundingBox(
   }
 }
 function paintCenterText(
-  detectedCodes: DetectedBarcode,
-  ctx: CanvasRenderingContext2D,
+  detectedCodes: DetectedBarcode[],
+  ctx: CanvasRenderingContext2D
 ) {
   for (const detectedCode of detectedCodes) {
     const { boundingBox, rawValue } = detectedCode;
@@ -209,7 +213,7 @@ const barcodeFormats = ref({
 });
 const selectedBarcodeFormats = computed(() => {
   return Object.keys(barcodeFormats.value).filter(
-    (format) => (barcodeFormats.value as { [key: string]: boolean })[format],
+    (format) => (barcodeFormats.value as { [key: string]: boolean })[format]
   );
 });
 
