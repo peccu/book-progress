@@ -3,8 +3,9 @@ import { ref, type Ref } from "vue";
 import router from "@/router";
 import { useBooksState, type Book } from "@/stores/books";
 import type { OpenBd } from "@/stores/openbd";
+import { validateIsbn } from "@/stores/books";
 import BkCover from "./BkCover.vue";
-import BarcodeReader from "./BarcodeReader.vue";
+import QrCodeReader from "./QrCodeReader.vue";
 
 const props = defineProps({
   id: String,
@@ -55,6 +56,16 @@ const saveBook = () => {
 const cancel = () => {
   router.push("/");
 };
+
+function onDetect(detectedCodes) {
+  const isbns = detectedCodes
+    .map((code) => code.rawValue)
+    .filter((code) => validateIsbn(code));
+  if (isbns.length > 0) {
+    setIsbn(isbns[0]);
+  }
+}
+
 const setIsbn = (code: string) => {
   book.isbn = parseInt(code, 10);
   search(book.isbn);
@@ -85,10 +96,8 @@ const search = async (isbn: number) => {
 </script>
 <template>
   <div style="max-width: 100%">
-    <BarcodeReader
-      v-if="typeof props.id === 'undefined'"
-      @set-isbn="setIsbn"
-    ></BarcodeReader>
+    <QrCodeReader :detect="onDetect"></QrCodeReader>
+    <hr />
     <form @submit.prevent="search(book.isbn)">
       <input v-model="book.isbn" />
       <button @click="search(book.isbn)">ISBN Search</button>
