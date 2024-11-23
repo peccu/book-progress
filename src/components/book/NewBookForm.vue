@@ -3,8 +3,10 @@ import { ref, type Ref } from "vue";
 import router from "@/router";
 import { useBooksState, type Book } from "@/stores/books";
 import type { OpenBd } from "@/stores/openbd";
+import { validateIsbn } from "@/stores/books";
 import BkCover from "./BkCover.vue";
-import BarcodeReader from "./BarcodeReader.vue";
+import QRCodeReader from "./QRCodeReader.vue";
+import type { DetectedBarcode, BarcodeFormat } from "barcode-detector";
 
 const props = defineProps({
   id: String,
@@ -19,7 +21,7 @@ if (typeof props.id !== "undefined") {
 }
 console.log(`typeof id: ${typeof props.id}`);
 
-const book: Book = {
+const book = ref<Book>({
   isbn: 0, // 9784560070512,
   id: 0,
   isFinished: false,
@@ -29,7 +31,7 @@ const book: Book = {
   pages: 0,
   progress: { type: "", progress: 0, date: 0, isFinished: false },
   history: [],
-};
+});
 
 if (typeof props.id !== "undefined") {
   const bookref = booksstore.getBookById(props.id);
@@ -42,22 +44,32 @@ if (typeof props.id !== "undefined") {
 }
 const keys = ["authors", "publisher", "pages", "cover"];
 const saveBook = () => {
-  console.log(`book: ${JSON.stringify(book)}`);
+  console.log(`book: ${JSON.stringify(book.value)}`);
   if (typeof props.id !== "undefined") {
-    booksstore.updateBook(book);
+    booksstore.updateBook(book.value);
   } else {
-    book.progress.date = new Date().getTime();
-    book.history.push(book.progress);
-    booksstore.addBook(book);
+    book.value.progress.date = new Date().getTime();
+    book.value.history.push(book.value.progress);
+    booksstore.addBook(book.value);
   }
   router.push("/");
 };
 const cancel = () => {
   router.push("/");
 };
+
+function onDetect(detectedCodes: DetectedBarcode[]) {
+  const isbns = detectedCodes
+    .map((code) => code.rawValue)
+    .filter((code) => validateIsbn(code));
+  if (isbns.length > 0) {
+    setIsbn(isbns[0]);
+  }
+}
+
 const setIsbn = (code: string) => {
-  book.isbn = parseInt(code, 10);
-  search(book.isbn);
+  book.value.isbn = parseInt(code, 10);
+  // search(book.value.isbn);
 };
 // const result: OpenBd[] = [];
 const picked: Ref<string> = ref("...");
@@ -72,12 +84,12 @@ const search = async (isbn: number) => {
   result.value = JSON.stringify(onix, null, 2);
   const summary = json[0] && json[0].summary;
   picked.value = summary;
-  book.title = summary.title;
-  book.publisher = summary.publisher;
-  book.authors = summary.author.split(" ");
-  book.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
-  book.cover = summary.cover;
-  book.notes = json[0].onix?.CollateralDetail?.TextContent.map(
+  book.value.title = summary.title;
+  book.value.publisher = summary.publisher;
+  book.value.authors = summary.author.split(" ");
+  book.value.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
+  book.value.cover = summary.cover;
+  book.value.notes = json[0].onix?.CollateralDetail?.TextContent.map(
     (e: { Text?: string; TextType?: string; ContentAudience?: string }) =>
       e.Text
   ).join("\n\n");
@@ -85,10 +97,8 @@ const search = async (isbn: number) => {
 </script>
 <template>
   <div style="max-width: 100%">
-    <BarcodeReader
-      v-if="typeof props.id === 'undefined'"
-      @set-isbn="setIsbn"
-    ></BarcodeReader>
+    <QRCodeReader :detect="onDetect"></QRCodeReader>
+    <hr />
     <form @submit.prevent="search(book.isbn)">
       <input v-model="book.isbn" />
       <button @click="search(book.isbn)">ISBN Search</button>

@@ -1,0 +1,11 @@
+run = "bun i; bun run dev"
+
+entrypoint = "index.ts"
+modules = ["nodejs-22"]
+
+[nix]
+channel = "stable-22_05"
+
+[[ports]]
+localPort = 3000
+externalPort = 80
