@@ -57,9 +57,6 @@
     "vitest": "^0.26.2",
     "vue-tsc": "^0.34.7"
   },
-  "engines": {
-    "node": "16.x"
-  },
   "glitch": {
     "projectType": "generated_static"
   }
