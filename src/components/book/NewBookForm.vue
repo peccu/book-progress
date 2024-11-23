@@ -5,7 +5,7 @@ import { useBooksState, type Book } from "@/stores/books";
 import type { OpenBd } from "@/stores/openbd";
 import { validateIsbn } from "@/stores/books";
 import BkCover from "./BkCover.vue";
-import QrCodeReader from "./QrCodeReader.vue";
+import QRCodeReader from "./QRCodeReader.vue";
 import type { DetectedBarcode, BarcodeFormat } from "barcode-detector/pure";
 
 const props = defineProps({
@@ -97,7 +97,7 @@ const search = async (isbn: number) => {
 </script>
 <template>
   <div style="max-width: 100%">
-    <QrCodeReader :detect="onDetect"></QrCodeReader>
+    <QRCodeReader :detect="onDetect"></QRCodeReader>
     <hr />
     <form @submit.prevent="search(book.isbn)">
       <input v-model="book.isbn" />
