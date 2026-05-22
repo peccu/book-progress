@@ -91,23 +91,21 @@ form {
 }
 input[type="text"] {
   width: 4.5em;
-  font-size: 1.1rem;
-  padding: 0.4em 0.5em;
-  min-height: 2.4em;
+  padding-bottom: 0.6em;
 }
 input[type="radio"] {
   width: 1.2em;
   height: 1.2em;
   vertical-align: middle;
+  margin-bottom: 0.6em;
 }
 .field {
   display: inline-flex;
   align-items: center;
-  margin: 0.35em 0.4em;
-  min-height: 2.4em;
+  margin: 0 0.4em;
 }
 .field label {
-  padding: 0.4em 0.3em;
+  padding: 0.4em 0.3em 1em;
   cursor: pointer;
 }
 button {
