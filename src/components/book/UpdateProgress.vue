@@ -90,10 +90,30 @@ form {
   padding: 0;
 }
 input[type="text"] {
-  width: 3em;
+  width: 4.5em;
+  font-size: 1.1rem;
+  padding: 0.4em 0.5em;
+  min-height: 2.4em;
+}
+input[type="radio"] {
+  width: 1.2em;
+  height: 1.2em;
+  vertical-align: middle;
 }
 .field {
-  margin: 0 0.3em;
+  display: inline-flex;
+  align-items: center;
+  margin: 0.35em 0.4em;
+  min-height: 2.4em;
+}
+.field label {
+  padding: 0.4em 0.3em;
+  cursor: pointer;
+}
+button {
+  padding: 0.5em 1em;
+  min-height: 2.4em;
+  margin-top: 0.4em;
 }
 input {
   margin: 0 0.3em;
