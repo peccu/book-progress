@@ -1,15 +1,28 @@
 <script setup lang="ts">
-import type { Progress } from "@/stores/books";
+import { useBooksState, type Progress } from "@/stores/books";
 import BkCover from "./BkCover.vue";
 import UpHist from "./UpdateHistory.vue";
 import { format } from "@/stores/date";
 const props = defineProps({
   book: Object,
 });
+const booksstore = useBooksState();
 const historySorter = (a: Progress, b: Progress) => b.date - a.date;
 const sortReverseHistory = (histories: Progress[]) => {
   histories.sort(historySorter);
   return histories;
+};
+const deleteHistory = (historyid: number, history: Progress) => {
+  if (!props.book) {
+    return;
+  }
+  const label = `${history.type === "page" ? "P." : ""}${history.progress}${
+    history.type === "page" ? "" : "%"
+  } @ ${format(history.date)}`;
+  if (!confirm(`Delete this history entry?\n${label}`)) {
+    return;
+  }
+  booksstore.deleteHistory(props.book.id, historyid);
 };
 </script>
 <template>
@@ -32,6 +45,7 @@ const sortReverseHistory = (histories: Progress[]) => {
             :historyid="i"
             :date="history.date"
           ></UpHist>
+          <button @click="deleteHistory(i, history)">Delete</button>
         </li>
       </ul>
     </dd>

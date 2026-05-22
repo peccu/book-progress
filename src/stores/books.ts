@@ -226,6 +226,26 @@ export const useBooksState = defineStore({
       }
       history.date = date;
     },
+    deleteHistory(idToFind: number, historyid: number) {
+      const book = this.pickBook(idToFind);
+      if (!book) {
+        return;
+      }
+      if (historyid < 0 || historyid >= book.history.length) {
+        return;
+      }
+      book.history.splice(historyid, 1);
+      if (book.history.length === 0) {
+        book.progress = { type: "", progress: 0, date: 0, isFinished: false };
+        book.isFinished = false;
+        return;
+      }
+      const latest = [...book.history].sort(
+        (a: Progress, b: Progress) => b.date - a.date,
+      )[0];
+      book.progress = Object.assign({}, latest);
+      book.isFinished = latest.isFinished;
+    },
     overwriteBooks(books: Book[]) {
       (this.books as Book[]).splice(0);
       (this.books as Book[]).push(...books);
