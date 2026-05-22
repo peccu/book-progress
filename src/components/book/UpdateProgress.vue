@@ -91,20 +91,23 @@ form {
 }
 input[type="text"] {
   width: 4.5em;
-}
-input[type="radio"] {
-  width: 1.2em;
-  height: 1.2em;
   vertical-align: middle;
 }
+input[type="radio"] {
+  width: 1em;
+  height: 1em;
+  vertical-align: middle;
+  margin: 0;
+}
 .field {
-  display: inline-flex;
-  align-items: center;
   margin: 0 0.4em;
+  vertical-align: middle;
+  line-height: 1;
 }
 .field label {
-  padding: 0.4em 0.3em;
+  padding: 0.1em 0.3em;
   cursor: pointer;
+  vertical-align: middle;
 }
 .actions {
   display: flex;
