@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ref, onMounted } from "vue";
 import { CalendarHeatmap } from "vue3-calendar-heatmap";
 import * as d3 from "d3";
 import "tippy.js/dist/tippy.css";
@@ -12,16 +13,19 @@ import history from "./history";
 const booksstore = useBooksState();
 const books = booksstore.sortedBooks;
 const histvalues = history.dataMerged(d3, books);
+
+const heatmapWrap = ref<HTMLElement | null>(null);
+onMounted(() => {
+  if (heatmapWrap.value) {
+    heatmapWrap.value.scrollLeft = heatmapWrap.value.scrollWidth;
+  }
+});
 </script>
 
 <template>
-  <div id="my_calendarheatmap">
+  <div id="my_calendarheatmap" class="half-period" ref="heatmapWrap">
     <CalendarHeatmap :values="histvalues" :end-date="new Date()" />
   </div>
-  <pre
-    >{{ histvalues }}
-</pre
-  >
 </template>
 
 <style>
@@ -40,6 +44,13 @@ svg.vch__wrapper {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   line-height: 10px;
   width: 100%;
+}
+
+#my_calendarheatmap.half-period {
+  overflow-x: auto;
+}
+#my_calendarheatmap.half-period svg.vch__wrapper {
+  width: 200%;
 }
 
 svg.vch__wrapper .vch__months__labels__wrapper text.vch__month__label {

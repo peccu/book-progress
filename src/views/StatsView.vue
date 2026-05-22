@@ -6,8 +6,8 @@ import CalendarHistogram from "@/components/stats/CalendarHistogram.vue";
 
 <template>
   <main>
-    <RidgeTimeLine />
     <CalendarHistogram />
+    <RidgeTimeLine />
     <RidgeLine />
   </main>
 </template>
