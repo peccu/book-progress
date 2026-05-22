@@ -42,7 +42,7 @@ if (typeof props.id !== "undefined") {
     );
   }
 }
-const keys = ["authors", "publisher", "pages", "cover"];
+const keys = ["authors", "publisher", "cover"];
 const saveBook = () => {
   console.log(`book: ${JSON.stringify(book.value)}`);
   if (typeof props.id !== "undefined") {
@@ -112,6 +112,16 @@ const search = async (isbn: number) => {
         <input v-model="book[info]" />
       </dd>
     </template>
+    <dt>pages:</dt>
+    <dd>
+      <input
+        inputmode="numeric"
+        pattern="[0-9]*"
+        type="text"
+        v-model="book.pages"
+        @focus="($event?.target as HTMLInputElement).select()"
+      />
+    </dd>
     <dt>notes:</dt>
     <dd>
       <textarea v-model="book.notes" rows="10" cols="50"></textarea>
