@@ -77,10 +77,10 @@ const updateProgress = () => {
       />
       <label :for="`pgtype-%-${id}`" @click.stop>%</label></span
     >
-    <div>
+    <div class="actions">
       <button @click.stop.prevent="updateProgress()">UpdateProgress</button>
+      <span class="lastupdate">{{ format(progress.date) }}</span>
     </div>
-    <div>{{ format(progress.date) }}</div>
   </form>
 </template>
 
@@ -91,13 +91,11 @@ form {
 }
 input[type="text"] {
   width: 4.5em;
-  padding-bottom: 0.6em;
 }
 input[type="radio"] {
   width: 1.2em;
   height: 1.2em;
   vertical-align: middle;
-  margin-bottom: 0.6em;
 }
 .field {
   display: inline-flex;
@@ -105,13 +103,22 @@ input[type="radio"] {
   margin: 0 0.4em;
 }
 .field label {
-  padding: 0.4em 0.3em 1em;
+  padding: 0.4em 0.3em;
   cursor: pointer;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8em;
+  margin-top: 1.5em;
 }
 button {
   padding: 0.5em 1em;
   min-height: 2.4em;
-  margin-top: 0.4em;
+}
+.lastupdate {
+  white-space: nowrap;
 }
 input {
   margin: 0 0.3em;
