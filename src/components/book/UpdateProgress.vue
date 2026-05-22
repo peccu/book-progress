@@ -88,6 +88,7 @@ const updateProgress = () => {
 form {
   margin: 0;
   padding: 0;
+  display: inline;
 }
 input[type="text"] {
   width: 4.5em;

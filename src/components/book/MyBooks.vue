@@ -86,7 +86,13 @@ details[open] summary {
   margin-bottom: 0.5em;
 }
 
+summary {
+  list-style: none;
+}
 summary::-webkit-details-marker {
+  display: none;
+}
+summary::marker {
   display: none;
 }
 </style>
