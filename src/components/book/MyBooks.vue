@@ -71,7 +71,7 @@ details[open] .hideonopen {
 }
 
 details[open] .showonopen {
-  display: inherit;
+  display: inline;
 }
 details .showonopen {
   display: none;
