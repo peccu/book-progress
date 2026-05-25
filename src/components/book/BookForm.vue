@@ -53,7 +53,49 @@ const saveBook = () => {
 const cancel = () => {
   router.push("/");
 };
+interface GoogleBooksItem {
+  id: string;
+  volumeInfo: {
+    title?: string;
+    authors?: string[];
+    publisher?: string;
+    pageCount?: number;
+    publishedDate?: string;
+    imageLinks?: { thumbnail?: string };
+    description?: string;
+    industryIdentifiers?: { type: string; identifier: string }[];
+  };
+}
+
 const result: Ref<string> = ref("");
+const textQuery = ref("");
+const searchResults = ref<GoogleBooksItem[]>([]);
+
+const searchByText = async () => {
+  if (!textQuery.value) return;
+  result.value = "";
+  const response = await fetch(
+    "https://www.googleapis.com/books/v1/volumes?q=" + encodeURIComponent(textQuery.value)
+  );
+  const json = await response.json();
+  searchResults.value = json.items ?? [];
+  if (searchResults.value.length === 0) result.value = "Not found";
+};
+
+const selectResult = (item: GoogleBooksItem) => {
+  const info = item.volumeInfo;
+  book.title = info.title ?? "";
+  book.publisher = info.publisher ?? "";
+  book.authors = info.authors ?? [];
+  book.pages = info.pageCount ?? 0;
+  book.cover = info.imageLinks?.thumbnail ?? "";
+  book.notes = info.description ?? "";
+  const isbn13 = info.industryIdentifiers?.find((id) => id.type === "ISBN_13")?.identifier;
+  const isbn10 = info.industryIdentifiers?.find((id) => id.type === "ISBN_10")?.identifier;
+  const isbnStr = isbn13 ?? isbn10;
+  if (isbnStr) book.isbn = parseInt(isbnStr, 10);
+  searchResults.value = [];
+};
 const searchOpenBd = async (isbn: string): Promise<boolean> => {
   const response = await fetch("https://api.openbd.jp/v1/get?isbn=" + isbn);
   const json = await response.json();
@@ -100,6 +142,20 @@ const search = async (isbn: number) => {
       <input inputmode="numeric" pattern="[0-9]*" type="text" v-model="book.isbn" />
       <button @click="search(book.isbn)">ISBN Search</button>
     </form>
+    <form @submit.prevent="searchByText">
+      <input v-model="textQuery" placeholder="Search by title, author..." />
+      <button type="submit">Text Search</button>
+    </form>
+    <ul v-if="searchResults.length > 0" class="search-results">
+      <li
+        v-for="item in searchResults"
+        :key="item.id"
+        @click="selectResult(item)"
+      >
+        <span class="result-title">{{ item.volumeInfo.title }}</span>
+        <span class="result-meta">{{ item.volumeInfo.authors?.join(", ") }} {{ item.volumeInfo.publishedDate?.slice(0, 4) }}</span>
+      </li>
+    </ul>
   </div>
   <p>Title <input placeholder="Book Title" v-model="book.title" /></p>
   <dl>
@@ -137,5 +193,41 @@ dd {
 
 dd {
   margin-bottom: 1em;
+}
+
+.search-results {
+  list-style: none;
+  padding: 0;
+  margin: 0.5em 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.search-results li {
+  padding: 0.5em;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #eee;
+}
+
+.search-results li:last-child {
+  border-bottom: none;
+}
+
+.search-results li:hover {
+  background: #f0f0f0;
+}
+
+.result-title {
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.result-meta {
+  font-size: 0.8rem;
+  color: #666;
 }
 </style>
