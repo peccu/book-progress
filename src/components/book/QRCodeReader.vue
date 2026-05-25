@@ -52,7 +52,13 @@
     </p>
 
     <div>
+      <div>
+        <button @click="paused = !paused">
+          {{ paused ? "Resume Camera" : "Stop Camera" }}
+        </button>
+      </div>
       <qrcode-stream
+        v-if="!paused"
         :constraints="selectedConstraints"
         :track="trackFunctionSelected.value"
         :formats="selectedBarcodeFormats"
@@ -60,6 +66,7 @@
         @detect="onDetect"
         @camera-on="onCameraReady"
       />
+      <p v-else>Camera stopped</p>
     </div>
   </div>
 </template>
@@ -77,6 +84,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const result = ref("");
+const paused = ref(false);
 
 function onDetect(detectedCodes: DetectedBarcode[]) {
   console.log(detectedCodes);
