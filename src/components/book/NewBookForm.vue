@@ -2,11 +2,10 @@
 import { ref, type Ref } from "vue";
 import router from "@/router";
 import { useBooksState, type Book } from "@/stores/books";
-import type { OpenBd } from "@/stores/openbd";
 import { validateIsbn } from "@/stores/books";
 import BkCover from "./BkCover.vue";
 import QRCodeReader from "./QRCodeReader.vue";
-import type { DetectedBarcode, BarcodeFormat } from "barcode-detector";
+import type { DetectedBarcode } from "barcode-detector";
 
 const props = defineProps({
   id: String,
@@ -71,28 +70,45 @@ const setIsbn = (code: string) => {
   book.value.isbn = parseInt(code, 10);
   // search(book.value.isbn);
 };
-// const result: OpenBd[] = [];
-const picked: Ref<string> = ref("...");
-const result: Ref<string> = ref("...");
-const search = async (isbn: number) => {
-  // alert(`foo ${isbn}`);
-  const response = await fetch(
-    "https://api.openbd.jp/v1/get?isbn=" + isbn.toString()
-  );
+const result: Ref<string> = ref("");
+const searchOpenBd = async (isbn: string): Promise<boolean> => {
+  const response = await fetch("https://api.openbd.jp/v1/get?isbn=" + isbn);
   const json = await response.json();
-  const onix = json[0] && json[0];
-  result.value = JSON.stringify(onix, null, 2);
-  const summary = json[0] && json[0].summary;
-  picked.value = summary;
+  if (!json[0]) return false;
+  const summary = json[0].summary;
   book.value.title = summary.title;
   book.value.publisher = summary.publisher;
   book.value.authors = summary.author.split(" ");
   book.value.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
   book.value.cover = summary.cover;
-  book.value.notes = json[0].onix?.CollateralDetail?.TextContent.map(
+  book.value.notes = json[0].onix?.CollateralDetail?.TextContent?.map(
     (e: { Text?: string; TextType?: string; ContentAudience?: string }) =>
       e.Text
   ).join("\n\n");
+  return true;
+};
+
+const searchGoogleBooks = async (isbn: string): Promise<boolean> => {
+  const response = await fetch(
+    "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn
+  );
+  const json = await response.json();
+  if (!json.items?.[0]) return false;
+  const info = json.items[0].volumeInfo;
+  book.value.title = info.title ?? "";
+  book.value.publisher = info.publisher ?? "";
+  book.value.authors = info.authors ?? [];
+  book.value.pages = info.pageCount;
+  book.value.cover = info.imageLinks?.thumbnail ?? "";
+  book.value.notes = info.description ?? "";
+  return true;
+};
+
+const search = async (isbn: number) => {
+  result.value = "";
+  const isbnStr = isbn.toString();
+  const found = await searchOpenBd(isbnStr) || await searchGoogleBooks(isbnStr);
+  if (!found) result.value = "Not found";
 };
 </script>
 <template>
@@ -133,8 +149,7 @@ const search = async (isbn: number) => {
   </div>
   <BkCover :cover="book.cover" />
   <div>
-    <pre>{{ picked }}</pre>
-    <pre>{{ result }}</pre>
+    <p v-if="result">{{ result }}</p>
   </div>
 </template>
 

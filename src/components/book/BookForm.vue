@@ -2,7 +2,6 @@
 import { ref, type Ref } from "vue";
 import router from "@/router";
 import { useBooksState, type Book } from "@/stores/books";
-import type { OpenBd } from "@/stores/openbd";
 import BkCover from "./BkCover.vue";
 
 const props = defineProps({
@@ -54,28 +53,45 @@ const saveBook = () => {
 const cancel = () => {
   router.push("/");
 };
-// const result: OpenBd[] = [];
-const picked: Ref<string> = ref("...");
-const result: Ref<string> = ref("...");
-const search = async (isbn: number) => {
-  // alert(`foo ${isbn}`);
-  const response = await fetch(
-    "https://api.openbd.jp/v1/get?isbn=" + isbn.toString()
-  );
+const result: Ref<string> = ref("");
+const searchOpenBd = async (isbn: string): Promise<boolean> => {
+  const response = await fetch("https://api.openbd.jp/v1/get?isbn=" + isbn);
   const json = await response.json();
-  const onix = json[0] && json[0];
-  result.value = JSON.stringify(onix, null, 2);
-  const summary = json[0] && json[0].summary;
-  picked.value = summary;
+  if (!json[0]) return false;
+  const summary = json[0].summary;
   book.title = summary.title;
   book.publisher = summary.publisher;
   book.authors = summary.author.split(" ");
   book.pages = json[0].onix?.DescriptiveDetail?.Extent[0].ExtentValue;
   book.cover = summary.cover;
-  book.notes = json[0].onix?.CollateralDetail?.TextContent.map(
+  book.notes = json[0].onix?.CollateralDetail?.TextContent?.map(
     (e: { Text?: string; TextType?: string; ContentAudience?: string }) =>
       e.Text
   ).join("\n\n");
+  return true;
+};
+
+const searchGoogleBooks = async (isbn: string): Promise<boolean> => {
+  const response = await fetch(
+    "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn
+  );
+  const json = await response.json();
+  if (!json.items?.[0]) return false;
+  const info = json.items[0].volumeInfo;
+  book.title = info.title ?? "";
+  book.publisher = info.publisher ?? "";
+  book.authors = info.authors ?? [];
+  book.pages = info.pageCount;
+  book.cover = info.imageLinks?.thumbnail ?? "";
+  book.notes = info.description ?? "";
+  return true;
+};
+
+const search = async (isbn: number) => {
+  result.value = "";
+  const isbnStr = isbn.toString();
+  const found = await searchOpenBd(isbnStr) || await searchGoogleBooks(isbnStr);
+  if (!found) result.value = "Not found";
 };
 </script>
 <template>
@@ -104,8 +120,7 @@ const search = async (isbn: number) => {
   </div>
   <BkCover :cover="book.cover" />
   <div>
-    <pre>{{ picked }}</pre>
-    <pre>{{ result }}</pre>
+    <p v-if="result">{{ result }}</p>
   </div>
 </template>
 
