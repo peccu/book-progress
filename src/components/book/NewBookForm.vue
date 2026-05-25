@@ -100,7 +100,7 @@ const search = async (isbn: number) => {
     <QRCodeReader :detect="onDetect"></QRCodeReader>
     <hr />
     <form @submit.prevent="search(book.isbn)">
-      <input v-model="book.isbn" />
+      <input inputmode="numeric" pattern="[0-9]*" type="text" v-model="book.isbn" />
       <button @click="search(book.isbn)">ISBN Search</button>
     </form>
   </div>
