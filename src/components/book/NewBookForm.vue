@@ -70,49 +70,43 @@ const setIsbn = (code: string) => {
   book.value.isbn = parseInt(code, 10);
   // search(book.value.isbn);
 };
-interface GoogleBooksItem {
-  id: string;
-  volumeInfo: {
-    title?: string;
-    authors?: string[];
-    publisher?: string;
-    pageCount?: number;
-    publishedDate?: string;
-    imageLinks?: { thumbnail?: string };
-    description?: string;
-    industryIdentifiers?: { type: string; identifier: string }[];
-  };
+interface OpenLibrarySearchItem {
+  key: string;
+  title?: string;
+  author_name?: string[];
+  first_publish_year?: number;
+  isbn?: string[];
+  cover_i?: number;
+  publisher?: string[];
 }
 
 const result: Ref<string> = ref("");
 const textQuery = ref("");
-const searchResults = ref<GoogleBooksItem[]>([]);
+const searchResults = ref<OpenLibrarySearchItem[]>([]);
 
 const searchByText = async () => {
   if (!textQuery.value) return;
   result.value = "";
   const response = await fetch(
-    "https://www.googleapis.com/books/v1/volumes?q=" + encodeURIComponent(textQuery.value)
+    "https://openlibrary.org/search.json?q=" + encodeURIComponent(textQuery.value) + "&limit=10"
   );
   const json = await response.json();
-  searchResults.value = json.items ?? [];
+  searchResults.value = json.docs ?? [];
   if (searchResults.value.length === 0) result.value = "Not found";
 };
 
-const selectResult = (item: GoogleBooksItem) => {
-  const info = item.volumeInfo;
-  book.value.title = info.title ?? "";
-  book.value.publisher = info.publisher ?? "";
-  book.value.authors = info.authors ?? [];
-  book.value.pages = info.pageCount ?? 0;
-  book.value.cover = info.imageLinks?.thumbnail ?? "";
-  book.value.notes = info.description ?? "";
-  const isbn13 = info.industryIdentifiers?.find((id) => id.type === "ISBN_13")?.identifier;
-  const isbn10 = info.industryIdentifiers?.find((id) => id.type === "ISBN_10")?.identifier;
-  const isbnStr = isbn13 ?? isbn10;
+const selectResult = (item: OpenLibrarySearchItem) => {
+  book.value.title = item.title ?? "";
+  book.value.authors = item.author_name ?? [];
+  book.value.publisher = item.publisher?.[0] ?? "";
+  book.value.cover = item.cover_i
+    ? `https://covers.openlibrary.org/b/id/${item.cover_i}-M.jpg`
+    : "";
+  const isbnStr = item.isbn?.[0];
   if (isbnStr) book.value.isbn = parseInt(isbnStr, 10);
   searchResults.value = [];
 };
+
 const searchOpenBd = async (isbn: string): Promise<boolean> => {
   const response = await fetch("https://api.openbd.jp/v1/get?isbn=" + isbn);
   const json = await response.json();
@@ -130,26 +124,26 @@ const searchOpenBd = async (isbn: string): Promise<boolean> => {
   return true;
 };
 
-const searchGoogleBooks = async (isbn: string): Promise<boolean> => {
+const searchOpenLibrary = async (isbn: string): Promise<boolean> => {
   const response = await fetch(
-    "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn
+    `https://openlibrary.org/api/books?bibkeys=ISBN:${isbn}&format=json&jscmd=data`
   );
   const json = await response.json();
-  if (!json.items?.[0]) return false;
-  const info = json.items[0].volumeInfo;
-  book.value.title = info.title ?? "";
-  book.value.publisher = info.publisher ?? "";
-  book.value.authors = info.authors ?? [];
-  book.value.pages = info.pageCount;
-  book.value.cover = info.imageLinks?.thumbnail ?? "";
-  book.value.notes = info.description ?? "";
+  const data = json[`ISBN:${isbn}`];
+  if (!data) return false;
+  book.value.title = data.title ?? "";
+  book.value.publisher = data.publishers?.[0]?.name ?? "";
+  book.value.authors = data.authors?.map((a: { name: string }) => a.name) ?? [];
+  book.value.pages = data.number_of_pages ?? 0;
+  book.value.cover = data.cover?.medium ?? data.cover?.large ?? "";
+  book.value.notes = typeof data.notes === "string" ? data.notes : (data.notes?.value ?? "");
   return true;
 };
 
 const search = async (isbn: number) => {
   result.value = "";
   const isbnStr = isbn.toString();
-  const found = await searchOpenBd(isbnStr) || await searchGoogleBooks(isbnStr);
+  const found = await searchOpenBd(isbnStr) || await searchOpenLibrary(isbnStr);
   if (!found) result.value = "Not found";
 };
 </script>
@@ -168,11 +162,11 @@ const search = async (isbn: number) => {
     <ul v-if="searchResults.length > 0" class="search-results">
       <li
         v-for="item in searchResults"
-        :key="item.id"
+        :key="item.key"
         @click="selectResult(item)"
       >
-        <span class="result-title">{{ item.volumeInfo.title }}</span>
-        <span class="result-meta">{{ item.volumeInfo.authors?.join(", ") }} {{ item.volumeInfo.publishedDate?.slice(0, 4) }}</span>
+        <span class="result-title">{{ item.title }}</span>
+        <span class="result-meta">{{ item.author_name?.join(", ") }} {{ item.first_publish_year }}</span>
       </li>
     </ul>
   </div>
