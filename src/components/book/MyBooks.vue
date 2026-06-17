@@ -7,8 +7,6 @@ import { RouterLink } from "vue-router";
 import { useBooksState, type Book } from "@/stores/books";
 // import { storeToRefs } from "pinia";
 const booksstore = useBooksState();
-// const { books } = storeToRefs(booksstore);
-const books = booksstore.sortedBooks;
 const deleteBook = (id: number) => {
   var result = confirm("Want to delete?");
   if (!result) {
@@ -19,7 +17,24 @@ const deleteBook = (id: number) => {
 </script>
 
 <template>
-  <div v-for="book in books as Book[]" :key="book && book.id">
+  <div class="filter">
+    <label>
+      <input type="radio" value="all" v-model="booksstore.filter" />
+      すべて
+    </label>
+    <label>
+      <input type="radio" value="unfinished" v-model="booksstore.filter" />
+      読み終わってない
+    </label>
+    <label>
+      <input type="radio" value="finished" v-model="booksstore.filter" />
+      読み終わった
+    </label>
+  </div>
+  <div
+    v-for="book in booksstore.sortedFilteredBooks as Book[]"
+    :key="book && book.id"
+  >
     <details>
       <summary>
         <span class="hideonopen">&#128216;</span>
@@ -54,6 +69,17 @@ const deleteBook = (id: number) => {
 </template>
 
 <style scoped>
+.filter {
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+  margin-bottom: 0.75em;
+}
+.filter label {
+  cursor: pointer;
+  white-space: nowrap;
+}
+
 details {
   border: 1px solid #aaa;
   border-radius: 4px;

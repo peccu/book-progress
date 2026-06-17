@@ -165,6 +165,9 @@ export const useBooksState = defineStore({
     sortedBooks(): Book[] {
       return this.books.sort(sorter);
     },
+    sortedFilteredBooks(): Book[] {
+      return [...this.filteredbooks].sort(sorter);
+    },
   },
   actions: {
     // any amount of arguments, return a promise or not
