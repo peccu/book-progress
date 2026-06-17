@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { useBooksState, type Progress, type Book } from "@/stores/books";
 import { format } from "@/stores/date";
 
@@ -9,6 +10,20 @@ const props = defineProps({
 
 const booksstore = useBooksState();
 let progress: Progress = { type: "", progress: 0, date: 0, isFinished: false };
+
+const isFinished = computed(() => {
+  if (typeof props.id === "undefined") {
+    return false;
+  }
+  const book = booksstore.getBookById(props.id.toString());
+  return book ? (book as Book).isFinished : false;
+});
+const toggleFinished = () => {
+  if (typeof props.id === "undefined") {
+    return;
+  }
+  booksstore.toggleCompleted(props.id);
+};
 
 if (typeof props.id !== "undefined" && props.progress !== null) {
   const bookref = booksstore.getBookById(props.id.toString());
@@ -77,6 +92,16 @@ const updateProgress = () => {
       />
       <label :for="`pgtype-%-${id}`" @click.stop>%</label></span
     >
+    <span class="field">
+      <input
+        type="checkbox"
+        :id="`finished-${id}`"
+        :checked="isFinished"
+        @change="toggleFinished"
+        @click.stop
+      />
+      <label :for="`finished-${id}`" @click.stop>読み終わった</label></span
+    >
     <div class="actions">
       <button @click.stop.prevent="updateProgress()">UpdateProgress</button>
       <span class="lastupdate">{{ format(progress.date) }}</span>
@@ -93,7 +118,8 @@ input[type="text"] {
   width: 4.5em;
   vertical-align: middle;
 }
-input[type="radio"] {
+input[type="radio"],
+input[type="checkbox"] {
   width: 1em;
   height: 1em;
   vertical-align: middle;

@@ -42,6 +42,7 @@ const deleteBook = (id: number) => {
         {{ book.id }}:
         <span class="hideonopen"
           ><BookProgress :book="book"></BookProgress><br />
+          <span v-if="book.isFinished" title="読み終わった">&#9989;</span>
           {{ book.title }}</span
         >
         <UpdateProgress
